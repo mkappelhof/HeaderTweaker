@@ -34,7 +34,15 @@ headerValueInput?.addEventListener('input', updateButtonState);
 
 const render = async () => {
   const headers = await getHeaders();
-  if (headerList) headerList.innerHTML = '';
+  if (headerList)
+    headerList.innerHTML = headers.length
+      ? `
+      <div class="headers-desc-row">
+        <h3>Header key</h3>
+        <h3>Header value</h3>
+      </div>
+    `
+      : '';
 
   // Append headers to header row container
   headers.forEach((header, index) => {

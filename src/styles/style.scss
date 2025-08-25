@@ -36,6 +36,15 @@ body {
   gap: vars.$spacing-core-6;
 }
 
+.headers-desc-row {
+  display: flex;
+  flex-direction: row;
+  padding-left: 67px;
+  padding-right: 123px;
+
+  h3{ flex-grow: 1 }
+}
+
 .header-row {
   display: flex;
   align-items: center;
@@ -47,6 +56,10 @@ body {
     flex-grow: 1;
     padding: 0 vars.$spacing-core-4;
     display: flex;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     strong,span{ width: 50% }
   }
