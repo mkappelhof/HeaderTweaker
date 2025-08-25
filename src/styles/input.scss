@@ -1,0 +1,128 @@
+@use './variables.scss' as vars;
+@use './typography.scss';
+
+input, button {
+  border-style: solid;
+  border-width: 2px;
+  padding: vars.$spacing-core-2 vars.$spacing-core-4;
+  border-radius: 2rem;
+}
+
+input { 
+  color: vars.$colors-dark;
+  border-color: vars.$colors-main;
+
+  &:hover { border-color: rgba(vars.$colors-accent, .5) }
+  &:focus {
+    outline: none;
+    border-color: vars.$colors-accent;
+    box-shadow: 0 0 8px 0 vars.$colors-accent;
+  }
+}
+
+button {
+  border-color: vars.$colors-main-dark;
+  display: inline-block;
+  color: vars.$colors-white;
+  transition: all .1s;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  cursor: pointer;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: vars.$colors-main;
+    border-radius: 24px;
+    z-index: -2;
+    opacity: .5;
+  }
+
+  &:before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: vars.$colors-main-dark;
+    transition: all .1s;
+    border-radius: 10rem;
+    z-index: -1;
+  }
+
+  &:hover{
+    color: vars.$colors-white;
+    &:before{
+      width: 100%;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 50%;
+
+    &:hover {
+      &:before { width: 0; }
+    }
+  }
+}
+
+.toggle {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  gap: vars.$spacing-core-2;
+
+  span { line-height: initial }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .slider {
+    display: inline-block;
+    width: 48px;
+    height: 28px;
+    background-color: vars.$colors-grey;
+    border-radius: 14px;
+    position: relative;
+    transition: background-color 0.25s ease;
+
+    &:before {
+      content: "";
+      position: absolute;
+      left: 2px;
+      top: 2px;
+      width: 24px;
+      height: 24px;
+      background-color: vars.$colors-white;
+      border-radius: 50%;
+      transition: transform 0.25s ease;
+    }
+  }
+
+  &:checked {
+    & + .slider {
+      background-color: vars.$colors-accent;
+
+      &:before { transform: translateX(20px) }
+    }
+  }
+}
+
+#edit-panel {
+  button,
+  button::before,
+  button::after { transition: all .3s; }
+}

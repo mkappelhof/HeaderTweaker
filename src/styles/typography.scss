@@ -1,0 +1,35 @@
+@use './variables.scss' as vars;
+
+@font-face {
+    font-family: 'Mozilla Text';
+    src: url('../MozillaText-Bold.woff2') format('woff2'),
+        url('../MozillaText-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Mozilla Text';
+    src: url('../MozillaText-Regular.woff2') format('woff2'),
+        url('../MozillaText-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+html, 
+body { 
+  font-family: 'Mozilla Text';
+  font-weight: normal;
+  font-size: 100%;
+  line-height: 1.5;
+  color: rgba(vars.$colors-white, .9);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+

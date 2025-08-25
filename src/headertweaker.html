@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HeaderTweaker</title>
+  <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+  <header class="header">
+    <input type="text" id="header-key" placeholder="Header key" />
+    <input type="text" id="header-value" placeholder="Header value" />
+    <button id="add-header-button" disabled>Add header</button>
+  </header>
+  <div class="content">
+    <div id="header-list"></div>
+  </div>
+  <div id="backdrop" class="backdrop" hidden></div>
+  <aside id="edit-panel" class="panel" role="dialog" aria-modal="true">
+    <h2>Edit header</h2>
+    <input type="hidden" id="header-index-to-edit" />
+    <label for="edit-header-active" class="toggle">
+      <span>
+        <input type="checkbox" id="edit-header-active" class="toggle" />
+        <span class="slider"></span>
+      </span>
+      <span id="edit-header-active-label">Header is active</span>
+    </label>
+    <input type="text" id="edit-header-key" placeholder="Header key" />
+    <input type="text" id="edit-header-value" placeholder="Header value" />
+    <button id="save-header-button">Save</button>
+  </aside>
+  <script src="js/headertweaker.js"></script>
+</body>
+</html>
