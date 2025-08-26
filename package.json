@@ -12,10 +12,10 @@
     "build": "vite build",
     "lint": "biome lint .",
     "format": "biome format .",
+    "clean": "rimraf dist node_modules",
     "web-ext:run": "web-ext run  --source-dir=dist",
     "web-ext:build": "web-ext build --source-dir=dist"
   },
-
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
     "@types/chrome": "^0.1.4",
@@ -25,5 +25,8 @@
     "typescript": "^5.0.0",
     "vite": "^5.0.0",
     "web-ext": "^8.9.0"
+  },
+  "dependencies": {
+    "rimraf": "^6.0.1"
   }
 }

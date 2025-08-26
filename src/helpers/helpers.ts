@@ -1,7 +1,5 @@
+import { isFirefox, storage } from '../constants/constants';
 import type { Header } from '../types';
-
-export const isFirefox = typeof browser !== 'undefined';
-export const storage = isFirefox ? browser.storage : chrome.storage;
 
 export const byId = <T extends HTMLElement>(id: string) => document.querySelector<T>(`#${id}`);
 
@@ -10,10 +8,14 @@ export const getHeaders = async (): Promise<Header[]> => {
   return result.headers || [];
 };
 
-export const setHeaders = async (headers: Header[], callback: () => Promise<void>) => {
+export const setHeaders = async (
+  headers: Header[],
+  callback: () => Promise<void>,
+  timeout: number | undefined = 0
+) => {
   if (isFirefox) {
     await storage.local.set({ headers });
-    await callback();
+    setTimeout(async () => await callback(), timeout);
   } else {
     storage.local.set({ headers }, callback);
   }
@@ -22,7 +24,7 @@ export const setHeaders = async (headers: Header[], callback: () => Promise<void
 export const updateHeader = async (header: Header, pos: number, callback: () => Promise<void>) => {
   const headers = await getHeaders();
   headers[pos] = header;
-  await setHeaders(headers, callback);
+  await setHeaders(headers, callback, 300);
 };
 
 export const isValidHeaderKey = async (key: string) => {
@@ -47,4 +49,5 @@ export const closePanel = () => {
 
   panel?.classList.remove('is-open');
   backdrop?.classList.remove('is-visible');
+  backdrop?.setAttribute('hidden', 'true');
 };
