@@ -20,7 +20,6 @@
     "@biomejs/biome": "2.2.0",
     "@types/chrome": "^0.1.4",
     "@types/firefox-webext-browser": "^120.0.4",
-    "postcss-normalize-unicode": "^7.0.4",
     "sass": "^1.70.0",
     "stylelint": "^16.23.1",
     "typescript": "^5.0.0",

@@ -82,6 +82,18 @@ button {
     padding: 0;
     width: 42px;
     height: 42px;
+
+    &.ghost {
+      color: vars.$colors-main;
+      font-size: 1.2rem;
+      background-color: transparent;
+
+      &:after {
+        background-color: transparent;
+      }
+
+      &:hover { color: white }
+    }
   }
 }
 
