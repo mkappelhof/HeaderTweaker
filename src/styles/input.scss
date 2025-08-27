@@ -71,6 +71,18 @@ button {
       &:before { width: 0; }
     }
   }
+
+  &.icon-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    font-size: .9rem;
+    line-height: normal;
+    padding: 0;
+    width: 42px;
+    height: 42px;
+  }
 }
 
 .toggle {

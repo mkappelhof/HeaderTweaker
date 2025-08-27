@@ -40,7 +40,7 @@ body {
   display: flex;
   flex-direction: row;
   padding-left: 67px;
-  padding-right: 123px;
+  padding-right: 93px;
 
   h3{ flex-grow: 1 }
 }
@@ -50,7 +50,9 @@ body {
   align-items: center;
   gap: vars.$spacing-core-1;
 
-  input[type="checkbox"], button { width: auto; }
+  input[type="checkbox"], .button-wrapper { width: auto; }
+
+  .button-wrapper { display: flex; gap: vars.$spacing-core-1; }
 
   .header-content-wrapper { 
     flex-grow: 1;

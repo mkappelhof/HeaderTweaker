@@ -19,7 +19,7 @@
 }
 
 html, 
-body { 
+body {
   font-family: 'Mozilla Text';
   font-weight: normal;
   font-size: 100%;
@@ -27,6 +27,11 @@ body {
   color: rgba(vars.$colors-white, .9);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-regular {
+  font-family: "Font Awesome 5 Pro";
+  font-style: normal;
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -1,5 +1,4 @@
 import { storage } from '../constants/constants';
-import '../styles/style.scss';
 import type { EditHeaderButtonElement } from '../types';
 import {
   changeHeaderEnabledLabel,
@@ -8,6 +7,8 @@ import {
   toggleEnableHeader,
 } from './event-listeners';
 import { byId, closePanel, getHeaders, setHeaders } from './helpers';
+
+import '../styles/style.scss';
 
 // Elements
 const headerKeyInput = byId<HTMLInputElement>('header-key');
@@ -85,18 +86,29 @@ const render = async () => {
     div.appendChild(headerToggle);
     div.appendChild(headerContentWrapper);
 
+    const buttonWrapper = document.createElement('div');
+    buttonWrapper.setAttribute('class', 'button-wrapper');
+
     const editButton = document.createElement('button');
     editButton.setAttribute('data-index', `${index}`);
-    editButton.setAttribute('class', 'edit-header');
-    editButton.textContent = 'edit';
+    editButton.classList.add('icon-button', 'edit-header');
+
+    const editButtonIcon = document.createElement('i');
+    editButtonIcon.classList.add('fa-regular', 'fa-edit');
+    editButton.appendChild(editButtonIcon);
 
     const removeButton = document.createElement('button');
     removeButton.setAttribute('data-index', `${index}`);
-    removeButton.setAttribute('class', 'remove-header');
-    removeButton.textContent = 'delete';
+    removeButton.classList.add('icon-button', 'remove-header');
 
-    div.appendChild(editButton);
-    div.appendChild(removeButton);
+    const removeButtonIcon = document.createElement('i');
+    removeButtonIcon.classList.add('fa-regular', 'fa-trash-alt');
+    removeButton.appendChild(removeButtonIcon);
+
+    buttonWrapper.appendChild(editButton);
+    buttonWrapper.appendChild(removeButton);
+
+    div.appendChild(buttonWrapper);
 
     headerList?.appendChild(div);
   });
