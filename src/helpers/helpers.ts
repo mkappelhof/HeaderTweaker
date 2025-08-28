@@ -27,6 +27,12 @@ export const updateHeader = async (header: Header, pos: number, callback: () => 
   await setHeaders(headers, callback, 300);
 };
 
+export const removeHeader = async (pos: number, callback: () => Promise<void>) => {
+  const headers = await getHeaders();
+  headers.splice(pos, 1);
+  await setHeaders(headers, callback);
+};
+
 export const isValidHeaderKey = async (key: string) => {
   const headers = await getHeaders();
   return headers.some((header) => header.name !== key);

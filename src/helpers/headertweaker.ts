@@ -1,8 +1,8 @@
 import { storage } from '../constants/constants';
-import type { EditHeaderButtonElement } from '../types';
 import {
   changeHeaderEnabledLabel,
   openEditHeaderPanel,
+  removeSelectedHeader,
   saveEditedHeader,
   toggleEnableHeader,
 } from './event-listeners';
@@ -93,6 +93,9 @@ const render = async () => {
     editButton.setAttribute('data-index', `${index}`);
     editButton.classList.add('icon-button', 'edit-header');
 
+    // Add click event listener for edit button
+    editButton.addEventListener('click', openEditHeaderPanel.bind(null, index));
+
     const editButtonIcon = document.createElement('i');
     editButtonIcon.classList.add('fa-regular', 'fa-edit');
     editButton.appendChild(editButtonIcon);
@@ -100,6 +103,9 @@ const render = async () => {
     const removeButton = document.createElement('button');
     removeButton.setAttribute('data-index', `${index}`);
     removeButton.classList.add('icon-button', 'remove-header');
+
+    // Add click event listener for remove button
+    removeButton.addEventListener('click', async () => await removeSelectedHeader(index, render));
 
     const removeButtonIcon = document.createElement('i');
     removeButtonIcon.classList.add('fa-regular', 'fa-trash-alt');
@@ -111,11 +117,6 @@ const render = async () => {
     div.appendChild(buttonWrapper);
 
     headerList?.appendChild(div);
-  });
-
-  // Listen to edit button clicks to open the edit panel
-  document.querySelectorAll<EditHeaderButtonElement>('.edit-header').forEach((button) => {
-    button.addEventListener('click', openEditHeaderPanel.bind(null, button));
   });
 
   // Save the changed header
