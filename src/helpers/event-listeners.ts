@@ -65,7 +65,7 @@ const handleHeaderImport = (render: RenderFn) => {
 };
 
 // Handles changes in the header key input
-export const handleHeaderKeyChange = (e: Event) => {
+export const handleHeaderKeyChange = () => {
   const headerKey = byId<HTMLInputElement>('header-key');
   if (headerKey) {
     const newKey = replaceSpacesWithDash(headerKey.value);

@@ -1,0 +1,27 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build-and-lint:
+    name: Build, Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies
+        run: yarn install
+      - name: Typecheck
+        run: yarn check-types
+      - name: Build
+        run: yarn build
+      - name: Lint
+        run: yarn lint
+      - name: Format
+        run: yarn format

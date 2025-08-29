@@ -12,7 +12,10 @@
     "build": "vite build",
     "change": "changeset",
     "lint": "biome lint .",
+    "lint:fix": "biome lint . --fix",
     "format": "biome format .",
+    "format:fix": "biome format . --fix",
+    "check-types": "tsc --noEmit",
     "clean": "rimraf dist node_modules",
     "web-ext:run": "web-ext run  --source-dir=dist",
     "web-ext:build": "web-ext build --source-dir=dist"
