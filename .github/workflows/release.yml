@@ -16,12 +16,13 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
-      - name: Check for changeset if code/package files are changed
+      - name: Check for Changeset
         run: |
           set -e
-          # List changed files in the PR
+          # Fetch the base branch
           git fetch origin ${{ github.base_ref }}
-          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...${{ github.head_ref }})
+          # List changed files between base and current commit
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} ${{ github.sha }})
           # Patterns that require a changeset
           RELEVANT_PATTERN='^(src/|package.json|constants/|helpers/|types/|public/|vite.config.ts|tsconfig.json)'
           NEED_CHANGESET=false
