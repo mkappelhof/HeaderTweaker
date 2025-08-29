@@ -1,8 +1,10 @@
 export type Header = { name: string; value: string; enabled: boolean };
 
 export type RenderFn = () => Promise<void>;
-export interface EditHeaderButtonElement extends HTMLElement {
-  dataset: {
-    index: string;
-  };
-}
+
+export type PanelElement = {
+  element: string;
+  content?: string;
+  attributes?: Record<string, string>;
+  listenTo?: Record<string, (event: Event) => void>;
+};

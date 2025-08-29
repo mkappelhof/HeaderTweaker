@@ -1,12 +1,13 @@
 import { storage } from '../constants/constants';
-import type { EditHeaderButtonElement } from '../types';
 import {
-  changeHeaderEnabledLabel,
+  handleHeaderKeyChange,
   openEditHeaderPanel,
-  saveEditedHeader,
+  openSettingsPanel,
+  removeSelectedHeader,
+  showHeaderImportPanel,
   toggleEnableHeader,
 } from './event-listeners';
-import { byId, closePanel, getHeaders, setHeaders } from './helpers';
+import { byId, getHeaders, setHeaders } from './helpers';
 
 import '../styles/style.scss';
 
@@ -14,6 +15,7 @@ import '../styles/style.scss';
 const headerKeyInput = byId<HTMLInputElement>('header-key');
 const headerValueInput = byId<HTMLInputElement>('header-value');
 const addHeaderButton = byId<HTMLButtonElement>('add-header-button');
+const settingsButton = byId<HTMLButtonElement>('settings-button');
 const headerList = byId('header-list');
 
 // New header data
@@ -30,6 +32,7 @@ const updateButtonState = () => {
 };
 
 headerKeyInput?.addEventListener('input', updateButtonState);
+headerKeyInput?.addEventListener('change', handleHeaderKeyChange);
 headerValueInput?.addEventListener('input', updateButtonState);
 
 const render = async () => {
@@ -93,6 +96,9 @@ const render = async () => {
     editButton.setAttribute('data-index', `${index}`);
     editButton.classList.add('icon-button', 'edit-header');
 
+    // Add click event listener for edit button
+    editButton.addEventListener('click', openEditHeaderPanel.bind(null, index, render));
+
     const editButtonIcon = document.createElement('i');
     editButtonIcon.classList.add('fa-regular', 'fa-edit');
     editButton.appendChild(editButtonIcon);
@@ -100,6 +106,9 @@ const render = async () => {
     const removeButton = document.createElement('button');
     removeButton.setAttribute('data-index', `${index}`);
     removeButton.classList.add('icon-button', 'remove-header');
+
+    // Add click event listener for remove button
+    removeButton.addEventListener('click', async () => await removeSelectedHeader(index, render));
 
     const removeButtonIcon = document.createElement('i');
     removeButtonIcon.classList.add('fa-regular', 'fa-trash-alt');
@@ -112,26 +121,6 @@ const render = async () => {
 
     headerList?.appendChild(div);
   });
-
-  // Listen to edit button clicks to open the edit panel
-  document.querySelectorAll<EditHeaderButtonElement>('.edit-header').forEach((button) => {
-    button.addEventListener('click', openEditHeaderPanel.bind(null, button));
-  });
-
-  // Save the changed header
-  byId<HTMLButtonElement>('save-header-button')?.addEventListener(
-    'click',
-    saveEditedHeader.bind(null, render)
-  );
-
-  // Close the panel when clicking outside of it
-  byId('backdrop')?.addEventListener('click', closePanel);
-
-  // Toggle activation label
-  byId<HTMLInputElement>('edit-header-active')?.addEventListener(
-    'change',
-    changeHeaderEnabledLabel
-  );
 };
 
 // Create a new header
@@ -147,5 +136,13 @@ addHeaderButton?.addEventListener('click', async () => {
     if (headerValueInput) headerValueInput.value = '';
   }
 });
+
+// Open settings panel
+settingsButton?.addEventListener('click', openSettingsPanel);
+
+// Show file import in popup
+if (window.location.search.includes('import=true')) {
+  window.addEventListener('DOMContentLoaded', showHeaderImportPanel.bind(null, render));
+}
 
 render();

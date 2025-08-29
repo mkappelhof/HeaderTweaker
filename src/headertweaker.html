@@ -18,24 +18,11 @@
     <div id="header-list"></div>
   </div>
   <div id="backdrop" class="backdrop" hidden></div>
-  <aside id="edit-panel" class="panel" role="dialog" aria-modal="true">
-    <h2>Edit header</h2>
-    <input type="hidden" id="header-index-to-edit" />
-    <label for="edit-header-active" class="toggle">
-      <span>
-        <input type="checkbox" id="edit-header-active" class="toggle" />
-        <span class="slider"></span>
-      </span>
-      <span id="edit-header-active-label">Header is active</span>
-    </label>
-    <input type="text" id="edit-header-key" placeholder="Header key" />
-    <input type="text" id="edit-header-value" placeholder="Header value" />
-    <button id="save-header-button">Save</button>
-  </aside>
+  <aside id="edit-panel" class="panel" role="dialog" aria-modal="true"></aside>
   <footer id="app-footer">
     <img src="icon.png" alt="HeaderTweaker" width="56" />
     <h1><span class="name-header">Header</span><span class="name-tweaker">Tweaker</span></h1>
-    <button class="icon-button ghost"><i class="fa-regular fa-cog"></i></button>
+    <button id="settings-button" class="icon-button ghost"><i class="fa-regular fa-cog"></i></button>
   </footer>
   <script src="js/headertweaker.js"></script>
 </body>
