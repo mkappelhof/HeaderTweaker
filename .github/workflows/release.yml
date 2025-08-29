@@ -16,11 +16,28 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
-      - name: Check for changeset file
+      - name: Check for changeset if code/package files are changed
         run: |
-          if ! git ls-files --error-unmatch .changeset/*.md > /dev/null 2>&1; then
-            echo "No changeset file found. Please add a changeset (run 'yarn changeset')."
-            exit 1
+          set -e
+          # List changed files in the PR
+          git fetch origin ${{ github.base_ref }}
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...${{ github.head_ref }})
+          # Patterns that require a changeset
+          RELEVANT_PATTERN='^(src/|package.json|constants/|helpers/|types/|public/|vite.config.ts|tsconfig.json)'
+          NEED_CHANGESET=false
+          while read -r file; do
+            if [[ $file =~ $RELEVANT_PATTERN ]]; then
+              NEED_CHANGESET=true
+              break
+            fi
+          done <<< "$CHANGED_FILES"
+          if [ "$NEED_CHANGESET" = true ]; then
+            if ! git ls-files --error-unmatch .changeset/*.md > /dev/null 2>&1; then
+              echo "No changeset file found for code/package changes. Please add a changeset (run 'yarn changeset')."
+              exit 1
+            fi
+          else
+            echo "No code/package changes detected, changeset not required."
           fi
         shell: bash
   release:
