@@ -1,0 +1,44 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  gap: vars.$spacing-core-1;
+  background-color: color.scale(vars.$colors-dark, $lightness: -30%);
+  padding: 0 vars.$spacing-core-4;
+  height: 72px;
+
+  input { flex-grow: 1 }
+  button { width: auto }
+}
+
+.content {
+  background-color: vars.$colors-dark;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.footer {
+  background-color: color.scale(vars.$colors-dark, $lightness: -30%);
+  padding: 0 vars.$spacing-core-4;
+  gap: vars.$spacing-core-2;
+  display: flex;
+  align-items: center;
+  height: 72px;
+
+  h1 {
+    font-size: 1.5rem;
+    line-height: normal;
+    flex-grow: 1;
+
+    .headerName { color: vars.$colors-main-light; }
+    .tweakerName { color: vars.$colors-main }
+  }
+
+  p { font-size: .8rem }
+}

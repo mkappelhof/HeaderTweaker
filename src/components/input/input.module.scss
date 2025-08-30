@@ -1,0 +1,11 @@
+.root {
+  color: vars.$colors-dark;
+  border-color: vars.$colors-main;
+
+  &:hover { border-color: rgba(vars.$colors-accent, .5) }
+  &:focus {
+    outline: none;
+    border-color: vars.$colors-accent;
+    box-shadow: 0 0 8px 0 vars.$colors-accent;
+  }
+}

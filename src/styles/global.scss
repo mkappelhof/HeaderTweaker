@@ -1,0 +1,9 @@
+@use './reset.scss';
+@use './typography.scss';
+
+body {
+  background-color: vars.$colors-dark;
+  width: 800px;
+  height: 500px;
+  padding:0;
+}

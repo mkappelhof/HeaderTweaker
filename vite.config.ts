@@ -1,16 +1,30 @@
+import path from 'node:path';
+import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@constants': path.resolve(__dirname, 'src/constants'),
+      '@contexts': path.resolve(__dirname, 'src/contexts'),
+      '@components': path.resolve(__dirname, 'src/components'),
+      '@helpers': path.resolve(__dirname, 'src/helpers'),
+      '@interfaces': path.resolve(__dirname, 'src/interfaces'),
+      '@styles': path.resolve(__dirname, 'src/styles'),
+    },
+    extensions: ['.js', '.ts', '.tsx', '.jsx'],
+  },
   build: {
     outDir: '../dist',
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        popup: 'src/headertweaker.html',
-        headertweaker: 'src/helpers/headertweaker.ts',
-        background: 'src/helpers/background.ts',
+        // popup: 'src/headertweaker.html',
+        headertweaker: 'src/headertweaker.tsx',
+        // background: 'src/helpers/background.ts',
       },
       output: {
         entryFileNames: (chunk) => {
@@ -20,7 +34,7 @@ export default defineConfig({
         },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name?.endsWith('.css')) {
-            return 'styles/style.css';
+            return 'css/styles.css';
           }
           return 'assets/[name][extname]';
         },
@@ -29,7 +43,9 @@ export default defineConfig({
   },
   css: {
     preprocessorOptions: {
-      scss: {},
+      scss: {
+        additionalData: `@use "sass:color";@use "@styles/variables.scss" as vars;`,
+      },
     },
   },
 });

@@ -1,3 +1,5 @@
+@use './variables.scss' as vars;
+
 *,
 *::before,
 *::after {
@@ -17,4 +19,11 @@ input, textarea, select, button {
   line-height: inherit;
   border: none;
   outline: none;
+}
+
+input, button {
+  border-style: solid;
+  border-width: 2px;
+  padding: vars.$spacing-core-2 vars.$spacing-core-4;
+  border-radius: 2rem;
 }

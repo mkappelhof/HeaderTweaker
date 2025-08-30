@@ -3,7 +3,15 @@
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
-    "includes": ["**/*.js", "**/*.ts", "**/*.json", "**/*.html", "!**/.vscode", "!**/dist"]
+    "includes": [
+      "**/*.js",
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.json",
+      "**/*.html",
+      "!**/.vscode",
+      "!**/dist"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -34,6 +42,32 @@
   "html": { "formatter": { "selfCloseVoidElements": "always" } },
   "assist": {
     "enabled": true,
-    "actions": { "source": { "organizeImports": "on" } }
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":NODE:", ":BUN:"],
+              "react",
+              [
+                ":URL:",
+                ":PATH:",
+                ":PACKAGE_WITH_PROTOCOL:",
+                ":PACKAGE:",
+                ":ALIAS:",
+                "!**/*.css",
+                "!**/*.scss",
+                "!**/*.svg"
+              ],
+              ":BLANK_LINE:",
+              ["**/*.css", "**/*.scss"],
+              ":BLANK_LINE:",
+              "**/*.svg"
+            ]
+          }
+        }
+      }
+    }
   }
 }
