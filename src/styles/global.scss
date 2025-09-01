@@ -1,9 +1,20 @@
-@use './reset.scss';
-@use './typography.scss';
+@use './reset';
+@use './typography';
 
 body {
   background-color: vars.$colors-dark;
   width: 800px;
   height: 500px;
   padding:0;
+}
+
+th {
+  text-align: left;
+}
+
+th,td {
+  padding: vars.$spacing-core-2 vars.$spacing-core-4;
+
+  &:first-child { padding-left: 0 }
+  &:last-child { padding-right: 0 }
 }

@@ -3,6 +3,7 @@
   border-color: vars.$colors-main;
 
   &:hover { border-color: rgba(vars.$colors-accent, .5) }
+
   &:focus {
     outline: none;
     border-color: vars.$colors-accent;

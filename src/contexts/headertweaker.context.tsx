@@ -1,25 +1,43 @@
 import {
   createContext,
+  type Dispatch,
   type ReactNode,
+  type SetStateAction,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
-import { getHeaders, saveHeader as saveHeaderInStorage } from '@helpers/header.helper';
+import {
+  activateHeader,
+  addHeader,
+  getHeaders,
+  removeHeader,
+  updateHeader,
+} from '@helpers/header.helper';
 import type { Header } from '@interfaces/index';
+
+type HeaderFn = {
+  header: Header;
+  action: 'add' | 'update' | 'remove' | 'activate';
+  isActive?: boolean;
+};
 
 type HeaderTweakerContextValue = {
   loading: boolean;
   headers: Header[];
-  saveHeader: (header: Header) => Promise<void>;
+  selectedHeader: Header | null;
+  updateHeader: (args: HeaderFn) => Promise<void>;
+  setSelectedHeader: Dispatch<SetStateAction<Header | null>>;
 };
 
 const initialState: HeaderTweakerContextValue = {
   headers: [],
+  selectedHeader: null,
   loading: false,
-  saveHeader: async () => {},
+  updateHeader: async () => {},
+  setSelectedHeader: () => {},
 };
 
 export const HeaderTweakerContext = createContext<HeaderTweakerContextValue>({
@@ -37,6 +55,7 @@ interface HeaderTweakerContextProps {
 export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) => {
   const [loading, setLoading] = useState(true);
   const [headerList, setHeaderList] = useState<Header[]>([]);
+  const [selectedHeader, setSelectedHeader] = useState<Header | null>(null);
 
   const fetchHeaders = useCallback(async () => {
     try {
@@ -48,10 +67,30 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
     }
   }, []);
 
-  const saveHeader = useCallback(
-    async (header: Header) => {
-      await saveHeaderInStorage(header);
+  const updateHeaderFn = useCallback(
+    async ({ header, action, isActive }: HeaderFn) => {
+      let newHeader: Header | undefined;
+
+      switch (action) {
+        case 'add':
+          newHeader = await addHeader(header);
+          break;
+        case 'update':
+          newHeader = await updateHeader(header);
+          break;
+        case 'remove':
+          await removeHeader(header);
+          break;
+        case 'activate':
+          newHeader = await activateHeader(header, isActive ?? false);
+          break;
+      }
+
       await fetchHeaders();
+
+      if (newHeader) {
+        setSelectedHeader(newHeader);
+      }
     },
     [fetchHeaders]
   );
@@ -61,8 +100,14 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
   }, [fetchHeaders]);
 
   const value = useMemo(
-    () => ({ loading, headers: headerList, saveHeader }),
-    [loading, headerList, saveHeader]
+    () => ({
+      loading,
+      headers: headerList,
+      selectedHeader,
+      setSelectedHeader,
+      updateHeader: updateHeaderFn,
+    }),
+    [loading, headerList, updateHeaderFn, selectedHeader]
   );
 
   return <HeaderTweakerContext.Provider value={value}>{children}</HeaderTweakerContext.Provider>;

@@ -1,7 +1,7 @@
 @use './variables.scss' as vars;
 
 @font-face {
-    font-family: 'Mozilla Text';
+    font-family: 'Mozilla Text', serif;
     src: url('../MozillaText-Bold.woff2') format('woff2'),
         url('../MozillaText-Bold.woff') format('woff');
     font-weight: bold;
@@ -10,7 +10,7 @@
 }
 
 @font-face {
-    font-family: 'Mozilla Text';
+    font-family: 'Mozilla Text', serif;
     src: url('../MozillaText-Regular.woff2') format('woff2'),
         url('../MozillaText-Regular.woff') format('woff');
     font-weight: normal;
@@ -20,7 +20,7 @@
 
 html, 
 body {
-  font-family: 'Mozilla Text';
+  font-family: 'Mozilla Text', serif;
   font-weight: normal;
   font-size: 100%;
   line-height: 1.5;
@@ -30,7 +30,7 @@ body {
 }
 
 .fa-regular {
-  font-family: "Font Awesome 5 Pro";
+  font-family: 'Font Awesome 5 Pro', sans-serif;
   font-style: normal;
 }
 

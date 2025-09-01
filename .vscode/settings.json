@@ -43,6 +43,9 @@
     "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
   },
   "[scss]": {
-    "editor.defaultFormatter": "stylelint.vscode-stylelint"
+    "editor.defaultFormatter": "stylelint.vscode-stylelint",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.stylelint": "always"
+    }
   }
 }

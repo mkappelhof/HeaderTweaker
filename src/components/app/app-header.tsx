@@ -10,7 +10,7 @@ import css from './app.module.scss';
 export const AppHeader = () => {
   const [header, setHeader] = useState<Header>();
   const [disabledButton, setDisabledButton] = useState(true);
-  const { saveHeader } = useHeaderTweakerContext();
+  const { updateHeader } = useHeaderTweakerContext();
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -41,7 +41,7 @@ export const AppHeader = () => {
         type="text"
         placeholder="Header key"
         data-type="name"
-        value={header?.name}
+        value={header?.name ?? ''}
         onChange={handleInputChange}
         onBlur={validateHeaderKey}
       />
@@ -49,13 +49,15 @@ export const AppHeader = () => {
         type="text"
         placeholder="Header value"
         data-type="value"
+        value={header?.value ?? ''}
         onChange={handleInputChange}
       />
       <Button
         disabled={disabledButton}
         onClick={async () => {
           if (header) {
-            await saveHeader(header);
+            await updateHeader({ header, action: 'add' });
+            setHeader(undefined);
           }
         }}
       >
