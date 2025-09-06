@@ -1,5 +1,6 @@
 import { isFirefox, storage } from '@constants/index';
 import type { Header } from '@interfaces/index';
+import { v4 as uuidv4 } from 'uuid';
 
 const setHeaders = async (headers: Header[]) => {
   if (isFirefox) {
@@ -11,8 +12,11 @@ const setHeaders = async (headers: Header[]) => {
 
 const getSelectedHeader = async (header: Header) => {
   const headers = await getHeaders();
-  const index = headers.findIndex(({ name }) => name === header.name);
-  return { index, headers, header: headers[index] };
+  return {
+    headers,
+    pos: headers.findIndex(({ id }) => id === header.id),
+    selectedHeader: headers.find(({ id }) => id === header.id),
+  };
 };
 
 export const getHeaders = async (): Promise<Header[]> => {
@@ -21,28 +25,32 @@ export const getHeaders = async (): Promise<Header[]> => {
 };
 
 export const addHeader = async (header: Header) => {
+  const id = uuidv4();
+  const newHeader = { ...header, id, enabled: true };
   const headers = await getHeaders();
-  headers.push({ ...header, enabled: true });
+  headers.push(newHeader);
   await setHeaders(headers);
-  return header;
+  return newHeader;
 };
 
 export const updateHeader = async (header: Header) => {
-  const { index, headers } = await getSelectedHeader(header);
-  headers[index] = header;
+  const { selectedHeader, headers, pos } = await getSelectedHeader(header);
+  headers[pos] = header;
   await setHeaders(headers);
-  return headers[index];
+  return selectedHeader;
 };
 
 export const removeHeader = async (header: Header) => {
-  const { index, headers } = await getSelectedHeader(header);
-  headers.splice(index, 1);
+  const { headers, pos } = await getSelectedHeader(header);
+  headers.splice(pos, 1);
   await setHeaders(headers);
 };
 
 export const activateHeader = async (header: Header, isActive: boolean) => {
-  const { index, headers, header: currentHeader } = await getSelectedHeader(header);
-  headers[index] = { ...currentHeader, enabled: isActive };
-  await setHeaders(headers);
-  return headers[index];
+  const { pos, headers, selectedHeader } = await getSelectedHeader(header);
+  if (selectedHeader) {
+    headers[pos] = { ...selectedHeader, enabled: isActive };
+    await setHeaders(headers);
+    return headers[pos];
+  }
 };

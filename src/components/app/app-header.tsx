@@ -20,14 +20,20 @@ export const AppHeader = () => {
         target.getAttribute('data-type') === 'name' ? target.value : prev?.name || '';
       const headerValue =
         target.getAttribute('data-type') === 'value' ? target.value : prev?.value || '';
-      return { name: headerKey, value: headerValue, enabled: false };
+      return { id: '', name: headerKey, value: headerValue, enabled: false };
     });
   }, []);
 
   const validateHeaderKey = useCallback(() => {
     const headerKey = cleanupHeaderKey(header?.name || '');
 
-    setHeader((prev) => ({ ...prev, name: headerKey, value: prev?.value ?? '', enabled: false }));
+    setHeader((prev) => ({
+      ...prev,
+      id: prev?.id ?? '',
+      name: headerKey,
+      value: prev?.value ?? '',
+      enabled: false,
+    }));
   }, [header?.name]);
 
   useEffect(

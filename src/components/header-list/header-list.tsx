@@ -42,7 +42,7 @@ export const HeaderList = () => {
         </tbody>
       </table>
       <Drawer isOpen={open} title="Edit header" onClose={() => setOpen(false)}>
-        {selectedHeader && <EditHeader />}
+        {selectedHeader && <EditHeader closePanel={() => setOpen(false)} />}
       </Drawer>
     </div>
   );
