@@ -1,0 +1,26 @@
+.root {
+  min-height: 180;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 vars.$spacing-core-4;
+
+  .uploadButton {
+    border: 2px dashed color.scale(vars.$colors-primary-background, $lightness: -70%);
+    border-radius: vars.$border-radius-primary;
+    padding: vars.$spacing-core-8;
+    background: color.scale(vars.$colors-primary-background, $lightness: -10%);
+    text-align: center;
+    width: 100%;
+    transition: border 0.2s, background 0.2s;
+    cursor: pointer;
+    outline: none;
+    
+    &.dragActive {
+      border-color: vars.$colors-primary-action-hover;
+      background: color.scale(vars.$colors-primary-background, $lightness: -20%);
+    }
+
+    span { color: vars.$colors-primary-foreground; }
+  }
+}

@@ -13,6 +13,7 @@ import {
   activateHeader,
   addHeader,
   getHeaders,
+  importHeaders,
   removeHeader,
   updateHeader,
 } from '@helpers/header.helper';
@@ -29,6 +30,7 @@ type HeaderTweakerContextValue = {
   headers: Header[];
   selectedHeader: Header | null;
   updateHeader: (args: HeaderFn) => Promise<void>;
+  importHeaders: (headers: Header[]) => Promise<void>;
   setSelectedHeader: Dispatch<SetStateAction<Header | null>>;
 };
 
@@ -37,6 +39,7 @@ const initialState: HeaderTweakerContextValue = {
   selectedHeader: null,
   loading: false,
   updateHeader: async () => {},
+  importHeaders: async () => {},
   setSelectedHeader: () => {},
 };
 
@@ -66,6 +69,14 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
       setLoading(false);
     }
   }, []);
+
+  const importHeaderFn = useCallback(
+    async (headers: Header[]) => {
+      await importHeaders(headers);
+      await fetchHeaders();
+    },
+    [fetchHeaders]
+  );
 
   const updateHeaderFn = useCallback(
     async ({ header, action, isActive }: HeaderFn) => {
@@ -106,8 +117,9 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
       selectedHeader,
       setSelectedHeader,
       updateHeader: updateHeaderFn,
+      importHeaders: importHeaderFn,
     }),
-    [loading, headerList, updateHeaderFn, selectedHeader]
+    [loading, headerList, updateHeaderFn, importHeaderFn, selectedHeader]
   );
 
   return <HeaderTweakerContext.Provider value={value}>{children}</HeaderTweakerContext.Provider>;

@@ -7,7 +7,11 @@ import packageJson from '../../../package.json';
 
 import css from './app.module.scss';
 
-export const AppHeader = () => {
+interface AppHeaderProps {
+  withoutSettings?: boolean;
+}
+
+export const AppHeader = ({ withoutSettings = false }: AppHeaderProps) => {
   const [showSettings, setShowSettings] = useState(false);
 
   return (
@@ -19,13 +23,17 @@ export const AppHeader = () => {
         </h1>
         <code>v{packageJson.version}</code>
       </div>
-      <IconButton size="large" onClick={() => setShowSettings(true)}>
-        <Cog6ToothIcon />
-      </IconButton>
+      {!withoutSettings && (
+        <>
+          <IconButton size="large" onClick={() => setShowSettings(true)}>
+            <Cog6ToothIcon />
+          </IconButton>
 
-      <Drawer isOpen={showSettings} onClose={() => setShowSettings(false)} title="Settings">
-        <Settings />
-      </Drawer>
+          <Drawer isOpen={showSettings} onClose={() => setShowSettings(false)} title="Settings">
+            <Settings />
+          </Drawer>
+        </>
+      )}
     </header>
   );
 };
