@@ -24,7 +24,7 @@ export default defineConfig({
       input: {
         // popup: 'src/headertweaker.html',
         headertweaker: 'src/headertweaker.tsx',
-        // background: 'src/helpers/background.ts',
+        background: 'src/background.ts',
       },
       output: {
         entryFileNames: (chunk) => {

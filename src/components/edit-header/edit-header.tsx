@@ -3,7 +3,11 @@ import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 import { Switch } from '@components/switch/switch';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { cleanupHeaderKey } from '@helpers/validation.helper';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
+
+import css from './edit-header.module.scss';
 
 interface EditHeaderProps {
   closePanel: () => void;
@@ -25,17 +29,35 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
     });
   }, []);
 
+  const validateHeaderKey = useCallback(() => {
+    const headerKey = cleanupHeaderKey(header?.name || '');
+
+    setHeader((prev) => ({
+      ...prev,
+      id: prev?.id ?? '',
+      name: headerKey,
+      value: prev?.value ?? '',
+      enabled: prev?.enabled ?? false,
+    }));
+  }, [header?.name]);
+
   if (!header) return null;
 
   return (
-    <>
+    <div className={css.root}>
       <Switch
         isOn={header.enabled}
         label={header.enabled ? 'Header is active' : 'Header is disabled'}
         onChange={(state) => setHeader((prev) => prev && { ...prev, enabled: state })}
       />
 
-      <Input type="text" value={header.name} data-type="name" onChange={handleInputChange} />
+      <Input
+        type="text"
+        value={header.name}
+        data-type="name"
+        onChange={handleInputChange}
+        onBlur={validateHeaderKey}
+      />
 
       <Input type="text" value={header.value} data-type="value" onChange={handleInputChange} />
 
@@ -45,8 +67,9 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
           closePanel();
         }}
       >
+        <CheckCircleIcon />
         Save header
       </Button>
-    </>
+    </div>
   );
 };

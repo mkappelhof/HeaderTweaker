@@ -8,14 +8,13 @@
   z-index: 99998;
   cursor: pointer;
   pointer-events: none;
+  border-radius: 0 !important;
 
   &.isOpen {
     opacity: 1;
     pointer-events: auto;
   }
 }
-
-
 
 .drawer {
   position: fixed;
@@ -24,7 +23,7 @@
   right: 0;
   width: 60vw;
   height: 100vh;
-  background-color: vars.$colors-dark-lighter;
+  background-color: vars.$colors-primary-background;
   box-shadow: -4px 0 12px rgb(0 0 0 / 15%);
   transform: translateX(100%);
   transition: transform .35s ease-in-out;
@@ -35,7 +34,6 @@
   &.isOpen {transform: translateX(0)}
 
   .header {
-    background-color: color.scale(vars.$colors-dark, $lightness: -30%);
     padding: vars.$spacing-core-2 vars.$spacing-core-4;
     display: flex;
     
@@ -49,10 +47,7 @@
   }
 
   .content {
-    padding: vars.$spacing-core-4;
-    display: flex;
-    flex-direction: column;
-    gap: vars.$spacing-core-6;
+    padding: 0 vars.$spacing-core-4 vars.$spacing-core-4 vars.$spacing-core-4;
   }
 
 }

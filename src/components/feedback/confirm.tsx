@@ -17,9 +17,7 @@ export const Confirm = ({
     <ModalContent>{message}</ModalContent>
     <ModalFooter>
       <ButtonGroup>
-        <Button variant="ghost" onClick={onConfirm}>
-          {confirmText}
-        </Button>
+        <Button onClick={onConfirm}>{confirmText}</Button>
         <Button variant="ghost" onClick={onCancel}>
           {cancelText}
         </Button>

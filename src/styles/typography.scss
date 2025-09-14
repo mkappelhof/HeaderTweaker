@@ -24,14 +24,9 @@ body {
   font-weight: normal;
   font-size: 100%;
   line-height: 1.5;
-  color: rgba(vars.$colors-white, .9);
+  color: vars.$colors-primary-foreground;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.fa-regular {
-  font-family: 'Font Awesome 5 Pro', sans-serif;
-  font-style: normal;
 }
 
 h1, h2, h3, h4, h5, h6 {

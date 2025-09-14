@@ -22,8 +22,8 @@ export const HeaderList = () => {
         <thead>
           <tr>
             <th />
-            <th>Name</th>
-            <th>Value</th>
+            <th>Header key</th>
+            <th>Header value</th>
             <th />
           </tr>
         </thead>

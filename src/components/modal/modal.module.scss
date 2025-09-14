@@ -14,16 +14,17 @@
   transition: opacity 0.3s ease;
 
   .modal {
-    background-color: vars.$colors-dark-lighter;
+    background-color: vars.$colors-primary-background;
     border-radius: 8px;
     width: 60vw;
     box-shadow: -4px 0 12px rgb(0 0 0 / 15%);
     transform: translateY(40px) scale(0.98);
     opacity: 0;
     transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s cubic-bezier(.4,0,.2,1);
+    border-radius: vars.$border-radius-primary;
 
     .header {
-      background-color: color.scale(vars.$colors-dark, $lightness: -30%);
+      // background-color: color.scale(vars.$colors-dark, $lightness: -30%);
       padding: vars.$spacing-core-2 vars.$spacing-core-4;
       display: flex;
       align-items: center;
@@ -51,14 +52,6 @@
 
     .footer {
       padding: vars.$spacing-core-2 vars.$spacing-core-4 vars.$spacing-core-4 vars.$spacing-core-4;
-    }
-
-    &.confirm {
-      .header { background-color: rgba(vars.$colors-warning, .5); }
-      .icon svg { fill: vars.$colors-warning; }
-
-      .content,
-      .footer { background-color: rgba(vars.$colors-warning, .3); }
     }
   }
 

@@ -1,12 +1,19 @@
 .root {
-  color: vars.$colors-dark;
-  border-color: vars.$colors-main;
-
-  &:hover { border-color: rgba(vars.$colors-accent, .5) }
-
-  &:focus {
-    outline: none;
-    border-color: vars.$colors-accent;
-    box-shadow: 0 0 8px 0 vars.$colors-accent;
-  }
+  color: vars.$colors-primary-foreground;
+  border-color: vars.$colors-primary-action-disabled;
+  border-radius: vars.$border-radius-primary;
+  background-color: vars.$colors-primary-action-disabled;
 }
+// .root {
+//   color: vars.$colors-dark;
+//   border-color: vars.$colors-main;
+//   border-radius: vars.$border-radius-primary;
+
+//   &:hover { border-color: rgba(vars.$colors-accent, .5) }
+
+//   &:focus {
+//     outline: none;
+//     border-color: vars.$colors-accent;
+//     box-shadow: 0 0 8px 0 vars.$colors-accent;
+//   }
+// }

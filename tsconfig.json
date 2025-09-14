@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "baseUrl": "./",
+    "resolveJsonModule": true,
     "paths": {
       "@constants/*": ["src/constants/*"],
       "@contexts/*": ["src/contexts/*"],

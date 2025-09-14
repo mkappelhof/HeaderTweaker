@@ -1,12 +1,21 @@
 .root {
-  border-color: vars.$colors-main-dark;
-  display: inline-block;
-  color: vars.$colors-white;
+  border-color: vars.$colors-primary-action-hover;
+  display: flex;
+  gap: vars.$spacing-core-2;
+  align-items: center;
+  color: vars.$colors-primary-foreground;
   transition: all .1s;
   position: relative;
   overflow: hidden;
   z-index: 1;
   cursor: pointer;
+  line-height: normal;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+  }
 
   &::after {
     content: '';
@@ -15,10 +24,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: vars.$colors-main;
+    background: vars.$colors-primary-action-hover;
+    background: linear-gradient(
+      90deg,
+      rgba(vars.$colors-primary-action-hover, 1) 0%, 
+      rgba(vars.$colors-primary-action, 1) 50%
+    );
     border-radius: 24px;
     z-index: -2;
-    opacity: .5;
   }
 
   &::before{
@@ -28,14 +41,14 @@
     left: 0;
     width: 0%;
     height: 100%;
-    background-color: vars.$colors-main-dark;
+    background-color: vars.$colors-primary-action-hover;
     transition: all .1s;
     border-radius: 10rem;
     z-index: -1;
   }
 
   &:hover{
-    color: vars.$colors-white;
+    color: vars.$colors-primary-foreground;
 
     &::before{
       width: 100%;
@@ -52,20 +65,17 @@
   }
 
   &.ghost {
-    background-color: transparent;
-    border-color: vars.$colors-white;
-    color: vars.$colors-white;
+    background: transparent;
+    border-color: vars.$colors-primary-action;
+    color: vars.$colors-primary-foreground;
 
-    &::after {
-      background-color: transparent;
-    }
-    
+    &::after { background: transparent }
     &::before {
-      background-color: rgba(vars.$colors-white, .2);
+      background-color: vars.$colors-primary-action-hover;
     }
 
     &:hover {
-      color: vars.$colors-white;
+      color: vars.$colors-primary-foreground;
     }
   }
 
@@ -74,23 +84,34 @@
     align-items: center;
     justify-content: center;
     vertical-align: middle;
-    font-size: .9rem;
     line-height: normal;
     padding: 0;
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
+    color: vars.$colors-tertiary-foreground;
+    background: transparent;
+    border-color: transparent;
 
-    &.ghost {
-        color: vars.$colors-main;
-        font-size: 1.2rem;
-        background-color: transparent;
-
-        &::after {
-        background-color: transparent;
-        }
-
-        &:hover { color: white }
+    svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
     }
+
+    &.iconButtonLarge {
+      width: 42px;
+      height: 42px;
+
+      svg {
+        width: 26px;
+        height: 26px;
+        fill: currentColor;
+      }
+    }
+
+    &::after { background: transparent; }
+
+    &:hover { color: vars.$colors-primary-foreground }
   }
 }
 

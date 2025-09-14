@@ -1,4 +1,5 @@
 import { cloneElement, type ElementType, isValidElement, type ReactElement } from 'react';
+import classnames from 'clsx';
 import { Button, type ButtonProps } from './button';
 
 import css from './button.module.scss';
@@ -13,6 +14,7 @@ type ChildrenWithSizeProps<
   T extends ElementType = ElementType,
 > = Omit<ButtonProps, 'children'> & {
   children: ReactElement<P, T>;
+  size?: 'normal' | 'large';
 };
 
 export const IconButton = <
@@ -20,6 +22,7 @@ export const IconButton = <
   T extends ElementType = ElementType,
 >({
   children,
+  size = 'normal',
   ...props
 }: ChildrenWithSizeProps<P, T>) => {
   if (!isValidElement(children)) {
@@ -29,7 +32,12 @@ export const IconButton = <
   const { width: defaultWidth, height: defaultHeight }: IconSizeProps = { width: 20, height: 20 };
 
   return (
-    <Button className={css.iconButton} {...props}>
+    <Button
+      className={classnames(css.iconButton, {
+        [css.iconButtonLarge]: size === 'large',
+      })}
+      {...props}
+    >
       {cloneElement(children, {
         ...children.props,
         width: children.props.width ?? defaultWidth,

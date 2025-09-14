@@ -1,6 +1,5 @@
 .root {
-  background-color: vars.$colors-dark;
-  padding: vars.$spacing-core-4;
+  padding: 0 vars.$spacing-core-4;
   display: flex;
   flex-direction: column;
   gap: vars.$spacing-core-6;
@@ -29,7 +28,6 @@
   align-items: center;
   justify-content: flex-end;
   text-align: left;
-  gap: vars.$spacing-core-1;
   padding: 0;
 }
 

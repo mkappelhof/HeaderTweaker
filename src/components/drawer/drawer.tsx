@@ -35,7 +35,7 @@ export const Drawer = ({ isOpen, title, onClose, children }: DrawerProps) => {
         <div className={css.header}>
           <h2>{title}</h2>
           <div className={css.actions}>
-            <IconButton onClick={onClose} aria-label="Close drawer">
+            <IconButton onClick={onClose} size="large">
               <XCircleIcon />
             </IconButton>
           </div>

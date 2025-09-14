@@ -19,7 +19,7 @@
     display: inline-block;
     width: 48px;
     height: 28px;
-    background-color: vars.$colors-grey;
+    background-color: vars.$colors-primary-action-disabled;
     border-radius: 14px;
     position: relative;
     transition: background-color 0.25s ease;
@@ -27,10 +27,10 @@
     &::before {
       content: "";
       position: absolute;
-      left: 2px;
-      top: 2px;
-      width: 24px;
-      height: 24px;
+      right: 3px;
+      top: 3px;
+      width: 22px;
+      height: 22px;
       background-color: vars.$colors-white;
       border-radius: 50%;
       transition: transform 0.25s ease;
@@ -39,9 +39,9 @@
 
   &:checked {
     & + .slider {
-      background-color: vars.$colors-accent;
+      background-color: vars.$colors-primary-success;
 
-      &::before { transform: translateX(20px) }
+      &::before { transform: translateX(-20px) }
     }
   }
 }
