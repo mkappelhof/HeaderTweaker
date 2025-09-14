@@ -8,8 +8,8 @@
   "private": false,
   "type": "module",
   "scripts": {
-    "dev": "vite build --watch & web-ext run --source-dir=dist --watch-files=dist/*",
-    "dev:console": "vite build --watch & web-ext run --source-dir=dist --watch-files=dist/* --browser-console",
+    "dev": "vite build && web-ext run --source-dir=dist --watch-files=dist/*",
+    "dev:console": "vite build && web-ext run --source-dir=dist --watch-files=dist/* --browser-console",
     "build": "vite build",
     "change": "changeset",
     "lint": "biome lint .",

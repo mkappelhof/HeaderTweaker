@@ -25,7 +25,12 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
         target.getAttribute('data-type') === 'name' ? target.value : prev?.name || '';
       const headerValue =
         target.getAttribute('data-type') === 'value' ? target.value : prev?.value || '';
-      return { id: prev?.id ?? '', name: headerKey, value: headerValue, enabled: false };
+      return {
+        id: prev?.id ?? '',
+        name: headerKey,
+        value: headerValue,
+        enabled: prev?.enabled ?? false,
+      };
     });
   }, []);
 

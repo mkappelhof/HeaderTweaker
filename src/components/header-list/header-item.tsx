@@ -3,7 +3,6 @@ import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
 import { Switch } from '@components/switch/switch';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { removeHeader } from '@helpers/header.helper';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 
@@ -61,9 +60,11 @@ export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemP
         confirmText="Yes"
         cancelText="No"
         onConfirm={async () => {
-          await removeHeader({ id, name, value, enabled });
-          setSelectedHeader(null);
-          setHeaderToDelete(null);
+          if (headerToDelete) {
+            await updateHeader({ header: headerToDelete, action: 'remove' });
+            setSelectedHeader(null);
+            setHeaderToDelete(null);
+          }
         }}
         onCancel={() => setHeaderToDelete(null)}
         onClose={() => setHeaderToDelete(null)}

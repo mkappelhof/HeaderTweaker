@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import css from './switch.module.scss';
 
@@ -10,6 +10,8 @@ interface SwitchProps {
 
 export const Switch = ({ isOn, label, onChange }: SwitchProps) => {
   const [checked, setChecked] = useState(isOn);
+
+  useEffect(() => setChecked(isOn), [isOn]);
 
   const toggle = useCallback(() => {
     setChecked((prev) => {
