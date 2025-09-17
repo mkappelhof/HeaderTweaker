@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 
+import css from './modal.module.scss';
+
 const ModalFooter = ({ children }: { children: ReactNode }) => {
-  return <div className="modal-footer">{children}</div>;
+  return <div className={css.footer}>{children}</div>;
 };
 
 ModalFooter.displayName = 'ModalFooter';

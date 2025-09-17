@@ -72,10 +72,10 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
 
   const importHeaderFn = useCallback(
     async (headers: Header[]) => {
-      await importHeaders(headers);
+      await importHeaders([...headerList, ...headers]);
       await fetchHeaders();
     },
-    [fetchHeaders]
+    [fetchHeaders, headerList]
   );
 
   const updateHeaderFn = useCallback(

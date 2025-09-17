@@ -10,3 +10,10 @@ export interface ConfirmProps extends FeedbackProps {
   onConfirm: () => void;
   onCancel?: () => void;
 }
+
+export interface SuccessProps extends FeedbackProps {
+  title: string;
+  message: string;
+  confirmText?: string;
+  onConfirm: () => void;
+}

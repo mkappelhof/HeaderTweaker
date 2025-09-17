@@ -2,28 +2,27 @@ import { Button } from '@components/button/button';
 import { ButtonGroup } from '@components/button/button-group';
 import { ModalTitle } from '@components/modal/ModalTitle';
 import { Modal } from '@components/modal/modal';
+import { ModalIcon } from '@components/modal/modal.icon';
 import { ModalContent } from '@components/modal/modal-content';
 import { ModalFooter } from '@components/modal/modal-footer';
-import type { ConfirmProps } from './interfaces';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
+import type { SuccessProps } from './interfaces';
 
-export const Confirm = ({
+export const Success = ({
   message,
   onConfirm,
-  onCancel,
-  title,
   confirmText = 'OK',
-  cancelText = 'Cancel',
   ...modalProps
-}: ConfirmProps) => (
-  <Modal type="confirm" {...modalProps}>
-    <ModalTitle>{title}</ModalTitle>
+}: SuccessProps) => (
+  <Modal type="success" {...modalProps}>
+    <ModalIcon>
+      <CheckCircleIcon />
+    </ModalIcon>
+    <ModalTitle>Success</ModalTitle>
     <ModalContent>{message}</ModalContent>
     <ModalFooter>
       <ButtonGroup>
         <Button onClick={onConfirm}>{confirmText}</Button>
-        <Button variant="ghost" onClick={onCancel}>
-          {cancelText}
-        </Button>
       </ButtonGroup>
     </ModalFooter>
   </Modal>

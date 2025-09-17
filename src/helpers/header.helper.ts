@@ -34,10 +34,10 @@ export const addHeader = async (header: Header) => {
 };
 
 export const updateHeader = async (header: Header) => {
-  const { selectedHeader, headers, pos } = await getSelectedHeader(header);
+  const { headers, pos } = await getSelectedHeader(header);
   headers[pos] = header;
   await setHeaders(headers);
-  return selectedHeader;
+  return header;
 };
 
 export const removeHeader = async (header: Header) => {

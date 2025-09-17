@@ -9,7 +9,7 @@ type IconSizeProps = {
   height?: number;
 };
 
-type ChildrenWithSizeProps<
+export type IconButtonProps<
   P extends IconSizeProps = IconSizeProps,
   T extends ElementType = ElementType,
 > = Omit<ButtonProps, 'children'> & {
@@ -24,7 +24,7 @@ export const IconButton = <
   children,
   size = 'normal',
   ...props
-}: ChildrenWithSizeProps<P, T>) => {
+}: IconButtonProps<P, T>) => {
   if (!isValidElement(children)) {
     return null;
   }

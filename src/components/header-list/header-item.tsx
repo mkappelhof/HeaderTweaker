@@ -14,7 +14,7 @@ interface HeaderItemProps extends Header {
 
 export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemProps) => {
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
-  const { setSelectedHeader, updateHeader } = useHeaderTweakerContext();
+  const { selectedHeader, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
   return (
     <>
@@ -41,7 +41,7 @@ export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemP
           <span className={css.buttonWrapper}>
             <IconButton
               onClick={() => {
-                setSelectedHeader({ id, name, value, enabled });
+                setSelectedHeader(selectedHeader ?? { id, name, value, enabled });
                 openDrawer(true);
               }}
             >
