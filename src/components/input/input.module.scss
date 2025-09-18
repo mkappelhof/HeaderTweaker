@@ -1,19 +1,44 @@
 .root {
-  color: vars.$colors-primary-foreground;
-  border-color: vars.$colors-primary-action-disabled;
+  display: block;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
   border-radius: vars.$border-radius-primary;
   background-color: vars.$colors-primary-action-disabled;
+  min-height: 40px;
+  box-sizing: border-box;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-color: transparent;
+    transform: translateX(-100%);
+    transition: transform 0.2s ease-out;
+    background-color: color.scale(vars.$colors-primary-action-disabled, $lightness: -20%);
+    pointer-events: none;
+    border-radius: vars.$border-radius-primary;
+  }
+
+  &:hover::before { transform: translateX(0)}
+  &:focus-within::before { transform: translateX(-100%) }
+
+  input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    background: transparent;
+    border-color: transparent;
+    color: vars.$colors-primary-foreground;
+    border-radius: vars.$border-radius-primary;
+    transition: border-color 0.1s ease-in-out;
+    box-sizing: border-box;
+    height: 100%;
+  }
+
+  &:focus-within input { border-color: vars.$colors-primary-action }
 }
-// .root {
-//   color: vars.$colors-dark;
-//   border-color: vars.$colors-main;
-//   border-radius: vars.$border-radius-primary;
-
-//   &:hover { border-color: rgba(vars.$colors-accent, .5) }
-
-//   &:focus {
-//     outline: none;
-//     border-color: vars.$colors-accent;
-//     box-shadow: 0 0 8px 0 vars.$colors-accent;
-//   }
-// }

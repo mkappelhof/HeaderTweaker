@@ -44,21 +44,25 @@ export const AppFooter = () => {
 
   return (
     <footer className={css.footer}>
-      <Input
-        type="text"
-        placeholder="Header key"
-        data-type="name"
-        value={header?.name ?? ''}
-        onChange={handleInputChange}
-        onBlur={validateHeaderKey}
-      />
-      <Input
-        type="text"
-        placeholder="Header value"
-        data-type="value"
-        value={header?.value ?? ''}
-        onChange={handleInputChange}
-      />
+      <div className={css.inputWrapper}>
+        <Input
+          type="text"
+          placeholder="Header key"
+          data-type="name"
+          value={header?.name ?? ''}
+          onChange={handleInputChange}
+          onBlur={validateHeaderKey}
+        />
+      </div>
+      <div className={css.inputWrapper}>
+        <Input
+          type="text"
+          placeholder="Header value"
+          data-type="value"
+          value={header?.value ?? ''}
+          onChange={handleInputChange}
+        />
+      </div>
       <Button
         disabled={disabledButton}
         onClick={async () => {

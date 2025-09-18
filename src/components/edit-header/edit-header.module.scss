@@ -1,5 +1,5 @@
 .root {
-    input { width: 100% }
-    label,
-    input { margin-bottom: vars.$spacing-core-6; }
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-4;
 }
