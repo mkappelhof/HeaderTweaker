@@ -58,7 +58,11 @@ interface HeaderTweakerContextProps {
 export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) => {
   const [loading, setLoading] = useState(true);
   const [headerList, setHeaderList] = useState<Header[]>([]);
-  const [selectedHeader, setSelectedHeader] = useState<Header | null>(null);
+  const [selectedHeader, setSelectedHeaderRaw] = useState<Header | null>(null);
+
+  const setSelectedHeader = useCallback((value: SetStateAction<Header | null>) => {
+    setSelectedHeaderRaw(value);
+  }, []);
 
   const fetchHeaders = useCallback(async () => {
     try {
@@ -103,7 +107,7 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
         setSelectedHeader(newHeader);
       }
     },
-    [fetchHeaders]
+    [fetchHeaders, setSelectedHeader]
   );
 
   useEffect(() => {
@@ -119,7 +123,7 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
       updateHeader: updateHeaderFn,
       importHeaders: importHeaderFn,
     }),
-    [loading, headerList, updateHeaderFn, importHeaderFn, selectedHeader]
+    [loading, headerList, selectedHeader, setSelectedHeader, updateHeaderFn, importHeaderFn]
   );
 
   return <HeaderTweakerContext.Provider value={value}>{children}</HeaderTweakerContext.Provider>;

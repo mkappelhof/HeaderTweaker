@@ -1,4 +1,4 @@
-import { type Dispatch, type SetStateAction, useState } from 'react';
+import { memo, useState } from 'react';
 import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
 import { Switch } from '@components/switch/switch';
@@ -9,10 +9,10 @@ import type { Header } from '@interfaces/index';
 import css from './header-list.module.scss';
 
 interface HeaderItemProps extends Header {
-  openDrawer: Dispatch<SetStateAction<boolean>>;
+  openDrawer: (state: boolean) => void;
 }
 
-export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemProps) => {
+export const HeaderItem = memo(({ id, name, value, enabled, openDrawer }: HeaderItemProps) => {
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
   const { selectedHeader, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
@@ -40,15 +40,19 @@ export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemP
         <td>
           <span className={css.buttonWrapper}>
             <IconButton
+              aria-label="Edit header"
               onClick={() => {
                 setSelectedHeader(selectedHeader ?? { id, name, value, enabled });
                 openDrawer(true);
               }}
             >
-              <PencilSquareIcon />
+              <PencilSquareIcon aria-label="Edit" />
             </IconButton>
-            <IconButton onClick={() => setHeaderToDelete({ id, name, value, enabled })}>
-              <TrashIcon />
+            <IconButton
+              aria-label="Delete header"
+              onClick={() => setHeaderToDelete({ id, name, value, enabled })}
+            >
+              <TrashIcon aria-label="Delete" />
             </IconButton>
           </span>
         </td>
@@ -71,4 +75,4 @@ export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemP
       />
     </>
   );
-};
+});

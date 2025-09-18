@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { memo, useCallback, useEffect, useState } from 'react';
 
 import css from './switch.module.scss';
 
@@ -8,7 +8,7 @@ interface SwitchProps {
   onChange: (state: boolean) => void;
 }
 
-export const Switch = ({ isOn, label, onChange }: SwitchProps) => {
+export const Switch = memo(({ isOn, label, onChange }: SwitchProps) => {
   const [checked, setChecked] = useState(isOn);
 
   useEffect(() => setChecked(isOn), [isOn]);
@@ -24,10 +24,17 @@ export const Switch = ({ isOn, label, onChange }: SwitchProps) => {
   return (
     <label className={css.root}>
       <span>
-        <input type="checkbox" checked={checked} onChange={toggle} className={css.root} />
+        <input
+          type="checkbox"
+          checked={checked}
+          onChange={toggle}
+          className={css.root}
+          aria-checked={checked}
+          aria-label={label || 'Switch'}
+        />
         <div className={css.slider} />
       </span>
       {label && <span className={css.label}>{label}</span>}
     </label>
   );
-};
+});

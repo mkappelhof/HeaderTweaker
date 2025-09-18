@@ -1,4 +1,4 @@
-import { cloneElement, type ElementType, isValidElement, type ReactElement } from 'react';
+import { cloneElement, type ElementType, isValidElement, memo, type ReactElement } from 'react';
 import classnames from 'clsx';
 import { Button, type ButtonProps } from './button';
 
@@ -17,7 +17,7 @@ export type IconButtonProps<
   size?: 'normal' | 'large';
 };
 
-export const IconButton = <
+const IconButtonComponent = <
   P extends IconSizeProps = IconSizeProps,
   T extends ElementType = ElementType,
 >({
@@ -46,3 +46,5 @@ export const IconButton = <
     </Button>
   );
 };
+
+export const IconButton = memo(IconButtonComponent);
