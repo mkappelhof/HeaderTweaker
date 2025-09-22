@@ -21,8 +21,9 @@
     border-radius: vars.$border-radius-primary;
   }
 
-  &:hover::before { transform: translateX(0)}
-  &:focus-within::before { transform: translateX(-100%) }
+  &:hover::before { transform: translateX(0); }
+
+  &:focus-within ::before { transform: translateX(-100%); }
 
   input {
     appearance: none;
@@ -38,5 +39,8 @@
     height: 100%;
   }
 
-  &:focus-within input { border-color: vars.$colors-primary-action }
+  &:focus-within input {
+    border-color: vars.$colors-primary-action;
+    background-color: color.scale(vars.$colors-primary-action-disabled, $lightness: -20%); 
+  }
 }
