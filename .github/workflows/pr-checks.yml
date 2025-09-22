@@ -11,6 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Check for changeset
+        run: |
+          if ! git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }} | grep -E '^.changeset/.*\\.md$' | grep -vqE '^.changeset/(README|config)\\.md$'; then
+            echo "No changeset file found. Please add a changeset"
+            exit 1
+          fi
+        shell: bash
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
