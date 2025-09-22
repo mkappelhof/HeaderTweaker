@@ -13,8 +13,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check for changeset
         run: |
-          if ! git diff --name-only origin/${{ github.base_ref }}...${{ github.sha }} | grep -E '^.changeset/.*\\.md$' | grep -vqE '^.changeset/(README|config)\\.md$'; then
-            echo "No changeset file found. Please add a changeset"
+          CHANGES=$(git diff --name-status origin/${{ github.base_ref }}...${{ github.head_ref }} \
+                     | awk '/^A/ && $2 ~ /^\.?changesets\// {print $2}')
+
+          if [[ -z "$CHANGES" ]]; then
+            echo "No changeset found, add a changeset to proceed"
             exit 1
           fi
         shell: bash
