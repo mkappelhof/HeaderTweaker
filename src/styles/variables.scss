@@ -1,11 +1,12 @@
-$colors-white: #FDFFFC;
-$colors-grey: #ccc;
-$colors-dark: #191E20;
-$colors-dark-lighter: #171B1C;
-$colors-main: #533894;
-$colors-main-light: #F8F0FB;
-$colors-main-dark: #392469;
-$colors-accent: #E2856E;
+$colors-primary-background: #010A31;
+$colors-primary-foreground: #fff;
+$colors-primary-action: #872DFA;
+$colors-primary-action-hover: #5f14c2;
+$colors-primary-action-disabled: #333A5D;
+$colors-primary-success: #00D27C;
+
+$colors-secondary-foreground: #414362;
+$colors-tertiary-foreground: #9B9DB1;
 
 $spacing-core-1: 0.25rem;
 $spacing-core-2: 0.5rem;
@@ -27,4 +28,6 @@ $spacing-core-28: 7rem;
 $spacing-core-30: 7.5rem;
 $spacing-core-025: 0.0625rem;
 $spacing-core-05: 0.125rem;
+
+$border-radius-primary: 0.5rem;
 

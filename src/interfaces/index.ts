@@ -1,4 +1,4 @@
-export type Header = { name: string; value: string; enabled: boolean };
+export type Header = { id: string; name: string; value: string; enabled: boolean };
 
 export type RenderFn = () => Promise<void>;
 

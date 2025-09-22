@@ -1,0 +1,54 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.header {
+  padding: 0 vars.$spacing-core-4;
+  gap: vars.$spacing-core-2;
+  display: flex;
+  align-items: center;
+  height: 72px;
+
+  div {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-core-2;
+
+    h1 {
+      font-size: 1.5rem;
+      line-height: normal;
+
+      .headerName { color: vars.$colors-primary-foreground }
+      .tweakerName { color: vars.$colors-primary-action }
+    }
+
+    code {
+      background-color: vars.$colors-primary-action-disabled;
+      padding: vars.$spacing-core-1 vars.$spacing-core-2;
+      border-radius: vars.$border-radius-primary;
+      line-height: normal;
+    }
+  }
+
+  p { font-size: .8rem }
+}
+
+.content {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  gap: vars.$spacing-core-3;
+  padding: 0 vars.$spacing-core-4;
+  height: 72px;
+
+  .inputWrapper { flex-grow: 1 }
+  button { width: auto }
+}
