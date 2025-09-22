@@ -23,10 +23,10 @@ jobs:
         shell: bash
         run: |
           CHANGES=$(git diff --name-status origin/${{ github.base_ref }}...HEAD \
-                     | awk '/^A/ && $2 ~ /^\.?changesets\// {print $2}')
+                     | awk '/^A/ && $2 ~ /^\.?changeset\// {print $2}')
 
           if [[ -z "$CHANGES" ]]; then
-            echo "::error ::No changeset found – please add a file under the \"changesets/\" folder."
+            echo "No changeset found, add one to continue"
             exit 1
           else
             echo "✅ Changeset(s) found:"
