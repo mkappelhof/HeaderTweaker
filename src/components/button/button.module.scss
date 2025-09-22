@@ -28,8 +28,8 @@
     background: vars.$colors-primary-action-hover;
     background: linear-gradient(
       90deg,
-      rgba(vars.$colors-primary-action-hover, 1) 0%, 
-      rgba(vars.$colors-primary-action, 1) 50%
+      rgb(vars.$colors-primary-action-hover, 1) 0%, 
+      rgb(vars.$colors-primary-action, 1) 50%
     );
     border-radius: 24px;
     z-index: -2;
@@ -71,13 +71,10 @@
     color: vars.$colors-primary-foreground;
 
     &::after { background: transparent }
-    &::before {
-      background-color: vars.$colors-primary-action-hover;
-    }
 
-    &:hover {
-      color: vars.$colors-primary-foreground;
-    }
+    &::before { background-color: vars.$colors-primary-action-hover }
+
+    &:hover { color: vars.$colors-primary-foreground }
   }
 
   &.iconButton {
@@ -135,7 +132,7 @@
         border-radius: 0;
       }
 
-      &:before{ border: none }
+      &::before{ border: none }
 
       &:first-child {
         &::after,
@@ -144,6 +141,7 @@
           border-bottom-left-radius: 10rem;
         }
       }
+      
       &:last-child {
         &::before,
         &::after {

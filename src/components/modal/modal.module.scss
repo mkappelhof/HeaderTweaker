@@ -4,7 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgb(0 0 0 / 80%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,7 +15,6 @@
 
   .modal {
     background-color: vars.$colors-primary-background;
-    border-radius: 8px;
     width: 60vw;
     box-shadow: -4px 0 12px rgb(0 0 0 / 15%);
     transform: translateY(40px) scale(0.98);
@@ -24,7 +23,6 @@
     border-radius: vars.$border-radius-primary;
 
     .header {
-      // background-color: color.scale(vars.$colors-dark, $lightness: -30%);
       padding: vars.$spacing-core-4 vars.$spacing-core-4;
       display: flex;
       align-items: center;
@@ -34,7 +32,10 @@
         align-items: center;
         width: 40px;
 
-        svg { width: 26px; height: 26px; }
+        svg { 
+          width: 26px; 
+          height: 26px; 
+        }
       }
       
       .title { flex-grow: 1 }

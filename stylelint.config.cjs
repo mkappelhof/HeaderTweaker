@@ -2,6 +2,7 @@ module.exports = {
   extends: ['stylelint-config-standard', 'stylelint-config-recommended-scss'],
   plugins: ['stylelint-scss'],
   "rules": {
-    "selector-class-pattern": null
+    "selector-class-pattern": null,
+    "value-keyword-case": null,
   }
 };
