@@ -2,36 +2,53 @@ name: PR Checks
 
 on:
   pull_request:
-    branches:
-      - "*"
+    branches: ["*"]
 
 jobs:
   build-and-lint:
     name: Build, Lint & Format
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - name: Check for changeset
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch base branch
         run: |
-          CHANGES=$(git diff --name-status origin/${{ github.base_ref }}...${{ github.head_ref }} \
+          git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
+
+      - name: Check for changeset
+        shell: bash
+        run: |
+          CHANGES=$(git diff --name-status origin/${{ github.base_ref }}...HEAD \
                      | awk '/^A/ && $2 ~ /^\.?changesets\// {print $2}')
 
           if [[ -z "$CHANGES" ]]; then
-            echo "No changeset found, add a changeset to proceed"
+            echo "::error ::No changeset found – please add a file under the \"changesets/\" folder."
             exit 1
+          else
+            echo "✅ Changeset(s) found:"
+            echo "$CHANGES"
           fi
-        shell: bash
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
+
       - name: Install dependencies
         run: yarn install
+
       - name: Typecheck
         run: yarn check-types
+
       - name: Build
         run: yarn build
+
       - name: Lint
         run: yarn lint
+
       - name: Format
         run: yarn format
