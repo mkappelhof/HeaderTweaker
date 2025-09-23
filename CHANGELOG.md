@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 0.1.3
+
+### Patch Changes
+
+- 569c9e7: Fix deploy script
+
 ## 0.1.2
 
 ### Patch Changes
