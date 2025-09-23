@@ -7,21 +7,21 @@
   "license": "MIT",
   "private": false,
   "type": "module",
-  "scripts": {
-    "dev": "vite build && web-ext run --source-dir=dist --watch-files=dist/*",
-    "dev:console": "vite build && web-ext run --source-dir=dist --watch-files=dist/* --browser-console",
-    "build": "vite build",
-    "change": "changeset",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint . --fix",
-    "format": "biome format . && stylelint 'src/**/*.scss'",
-    "format:fix": "biome format . --fix && stylelint --fix 'src/**/*.scss'",
-    "format-n-lint": "yarn lint && yarn format",
-    "format-n-lint:fix": "yarn lint:fix && yarn format:fix",
-    "check-types": "tsc --noEmit",
-    "clean": "rimraf dist node_modules",
-    "web-ext:run": "web-ext run  --source-dir=dist",
-    "web-ext:build": "web-ext build --source-dir=dist"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mkappelhof/HeaderTweaker.git"
+  },
+  "packageManager": "yarn@1.22.22",
+  "engines": {
+    "node": ">=20",
+    "yarn": "<2"
+  },
+  "dependencies": {
+    "@heroicons/react": "^2.2.0",
+    "clsx": "^2.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
@@ -41,11 +41,24 @@
     "vite": "^5.0.0",
     "web-ext": "^8.9.0"
   },
-  "dependencies": {
-    "@heroicons/react": "^2.2.0",
-    "clsx": "^2.1.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "uuid": "^11.1.0"
+  "scripts": {
+    "dev": "vite build && web-ext run --source-dir=dist --watch-files=dist/*",
+    "dev:console": "vite build && web-ext run --source-dir=dist --watch-files=dist/* --browser-console",
+    "build": "vite build",
+    "change": "changeset",
+    "lint": "biome lint .",
+    "lint:fix": "biome lint . --fix",
+    "format": "biome format . && stylelint 'src/**/*.scss'",
+    "format:fix": "biome format . --fix && stylelint --fix 'src/**/*.scss'",
+    "format-n-lint": "yarn lint && yarn format",
+    "format-n-lint:fix": "yarn lint:fix && yarn format:fix",
+    "check-types": "tsc --noEmit",
+    "clean": "rimraf dist node_modules",
+    "web-ext:run": "web-ext run  --source-dir=dist",
+    "web-ext:build": "web-ext build --source-dir=dist"
+  },
+  "lint-staged": {
+    "*.{css,scss,sass}": "stylelint --fix",
+    "*.{js,cjs,mjs,jsx,ts,tsx,graphql,json,jsonc}": "biome check --fix --files-ignore-unknown=true --no-errors-on-unmatched"
   }
 }
