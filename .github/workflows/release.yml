@@ -10,11 +10,16 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+
       - name: Cache Yarn dependencies
         uses: actions/cache@v4
         with:
@@ -24,8 +29,18 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+
       - name: Install dependencies
         run: yarn install
+
+      - name: Update manifest version
+        run: |
+          NEW_VERSION=$(node -p "require('./package.json').version")
+          jq --arg v "$NEW_VERSION" '.version = $v' public/manifest.json > public/manifest.tmp.json
+          mv public/manifest.tmp.json public/manifest.json
+        shell: bash
+        if: always()
+
       - name: Cache build output
         uses: actions/cache@v4
         with:
@@ -34,9 +49,11 @@ jobs:
           key: ${{ runner.os }}-build-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-build-
+
       - name: Build
         run: yarn build
-      - name: Create Release Pull Request or Publish to npm
+
+      - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
           publish: yarn
