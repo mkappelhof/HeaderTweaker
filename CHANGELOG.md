@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 0.1.2
+
+### Patch Changes
+
+- 414cc78: Fix actions
+
 ## 0.1.1
 
 ### Patch Changes
