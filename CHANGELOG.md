@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 0.1.1
+
+### Patch Changes
+
+- ae68915: Cleanup
+
 ## 0.1.0
 
 ### Minor Changes
