@@ -56,9 +56,5 @@
     "clean": "rimraf dist node_modules",
     "web-ext:run": "web-ext run  --source-dir=dist",
     "web-ext:build": "web-ext build --source-dir=dist"
-  },
-  "lint-staged": {
-    "*.{css,scss,sass}": "stylelint --fix",
-    "*.{js,cjs,mjs,jsx,ts,tsx,graphql,json,jsonc}": "biome check --fix --files-ignore-unknown=true --no-errors-on-unmatched"
   }
 }
