@@ -41,6 +41,16 @@ jobs:
         shell: bash
         if: always()
 
+      - name: Commit and push updated manifest
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/manifest.json
+          VERSION=$(node -p "require('./package.json').version")
+          git commit -m "chore: update manifest version to $VERSION" || echo "No changes to commit"
+          git push
+        if: always()
+
       - name: Cache build output
         uses: actions/cache@v4
         with:

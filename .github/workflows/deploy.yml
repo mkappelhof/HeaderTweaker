@@ -29,7 +29,8 @@ jobs:
       - name: Get version from package.json
         id: get_version
         run: |
-          echo "version=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_OUTPUT
+          VERSION=$(node -p 'require("./package.json").version')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Find built zip file
         id: find_zip
