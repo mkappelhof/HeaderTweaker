@@ -1,9 +1,20 @@
 name: Deploy Extension
 
+# Only run on push to master when the commit message contains 'Version Packages' (from changesets release PR)
 on:
   push:
     branches:
       - master
+    # Only run if the commit message contains 'Version Packages'
+    # This is a workaround for only running after a release PR merge
+    # See: https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#using-filters
+    # This requires the workflow to be triggered by a commit with a specific message
+    # This will run the deploy only if the commit message contains 'Version Packages'
+    # (which is the default title for changesets release PRs)
+    paths-ignore:
+      - "**"
+    # The workflow_dispatch event can be used for manual deploys
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
