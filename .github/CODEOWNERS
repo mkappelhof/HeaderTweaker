@@ -5,4 +5,4 @@
 # No Owner
 
 /.changeset/
-yarn.lock
+pnpm-lock.yaml
