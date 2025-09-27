@@ -34,7 +34,7 @@ export default defineConfig({
         },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name?.endsWith('.css')) {
-            return 'css/styles.css';
+            return 'css/headertweaker.css';
           }
           return 'assets/[name][extname]';
         },
