@@ -11,10 +11,10 @@
     "type": "git",
     "url": "https://github.com/mkappelhof/HeaderTweaker.git"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "pnpm@10.17.1",
   "engines": {
     "node": ">=20",
-    "yarn": "<2"
+    "pnpm": ">=10"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
@@ -51,8 +51,8 @@
     "lint:fix": "biome lint . --fix",
     "format": "biome format . && stylelint 'src/**/*.scss'",
     "format:fix": "biome format . --fix && stylelint --fix 'src/**/*.scss'",
-    "format-n-lint": "yarn lint && yarn format",
-    "format-n-lint:fix": "yarn lint:fix && yarn format:fix",
+    "format-n-lint": "pnpm lint && pnpm format",
+    "format-n-lint:fix": "pnpm lint:fix && pnpm format:fix",
     "check-types": "tsc --noEmit",
     "clean": "rimraf dist node_modules",
     "web-ext:run": "web-ext run  --source-dir=dist",

@@ -9,6 +9,7 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -19,19 +20,20 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: pnpm
 
-      - name: Cache Yarn dependencies
+      - name: Cache pnpm dependencies
         uses: actions/cache@v4
         with:
           path: |
-            .yarn/cache
+            ~/.pnpm-store
             node_modules
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-pnpm-
 
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install --frozen-lockfile
 
       - name: Cache build output
         uses: actions/cache@v4
@@ -43,15 +45,15 @@ jobs:
             ${{ runner.os }}-build-
 
       - name: Build
-        run: yarn build
-      
+        run: pnpm run build
+
       - name: Build web extension
-        run: yarn web-ext:build
+        run: pnpm run web-ext:build
 
       - name: Create Release Pull Request
         uses: changesets/action@v1
         with:
-          publish: yarn
+          publish: pnpm
           title: "Version Packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -59,7 +61,7 @@ jobs:
       - name: Get version from package.json
         id: get_version
         run: |
-          VERSION=$(node -p 'require("./package.json").version')
+          VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Find built zip file
