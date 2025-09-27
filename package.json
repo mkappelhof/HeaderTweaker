@@ -28,6 +28,7 @@
     "@changesets/cli": "^2.29.6",
     "@types/chrome": "^0.1.4",
     "@types/firefox-webext-browser": "^120.0.4",
+    "@types/node": "^24.5.2",
     "@types/react": "^19.1.12",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.2",
