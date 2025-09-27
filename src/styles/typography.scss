@@ -2,8 +2,8 @@
 
 @font-face {
     font-family: 'Mozilla Text', serif;
-    src: url('../MozillaText-Bold.woff2') format('woff2'),
-        url('../MozillaText-Bold.woff') format('woff');
+    src: url('@fonts/MozillaText-Bold.woff2') format('woff2'),
+        url('@fonts/MozillaText-Bold.woff') format('woff');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -11,8 +11,8 @@
 
 @font-face {
     font-family: 'Mozilla Text', serif;
-    src: url('../MozillaText-Regular.woff2') format('woff2'),
-        url('../MozillaText-Regular.woff') format('woff');
+    src: url('@fonts/MozillaText-Regular.woff2') format('woff2'),
+        url('@fonts/MozillaText-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;

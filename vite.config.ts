@@ -14,6 +14,7 @@ export default defineConfig({
       '@helpers': path.resolve(__dirname, 'src/helpers'),
       '@interfaces': path.resolve(__dirname, 'src/interfaces'),
       '@styles': path.resolve(__dirname, 'src/styles'),
+      '@fonts': path.resolve('./src/fonts')
     },
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
   },
@@ -22,7 +23,6 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        // popup: 'src/headertweaker.html',
         headertweaker: 'src/headertweaker.tsx',
         background: 'src/background.ts',
       },
@@ -44,6 +44,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
+        api: 'modern',
         additionalData: `@use "sass:color";@use "@styles/variables.scss" as vars;`,
       },
     },
