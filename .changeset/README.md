@@ -7,5 +7,5 @@ This directory contains configuration and metadata for the Changesets versioning
 
 ## Usage
 
-- Run `yarn changeset` to create a new changeset after making changes.
+- Run `pnpm changeset` to create a new changeset after making changes.
 - Merging a PR to `master` will trigger the GitHub Actions workflow to create a release PR with updated version and changelog.

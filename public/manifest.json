@@ -3,6 +3,7 @@
   "name": "HeaderTweaker",
   "version": "1.0",
   "description": "Lightweight browser extension that lets you easily modify outgoing HTTP headers",
+  "content_security_policy": "default-src 'self'; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
   "permissions": [
     "storage",
     "webRequest",

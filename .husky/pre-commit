@@ -1,1 +1,1 @@
-yarn format-n-lint:fix
+pnpm format-n-lint:fix
