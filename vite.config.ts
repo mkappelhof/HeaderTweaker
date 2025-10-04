@@ -14,7 +14,6 @@ export default defineConfig({
       '@helpers': path.resolve(__dirname, 'src/helpers'),
       '@interfaces': path.resolve(__dirname, 'src/interfaces'),
       '@styles': path.resolve(__dirname, 'src/styles'),
-      '@fonts': path.resolve('./src/fonts'),
     },
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
   },

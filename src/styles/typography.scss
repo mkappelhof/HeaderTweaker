@@ -1,27 +1,9 @@
 @use './variables.scss' as vars;
 
-@font-face {
-    font-family: 'Mozilla Text', serif;
-    src: url('@fonts/MozillaText-Bold.woff2') format('woff2'),
-        url('@fonts/MozillaText-Bold.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Mozilla Text', serif;
-    src: url('@fonts/MozillaText-Regular.woff2') format('woff2'),
-        url('@fonts/MozillaText-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 html, 
 body {
-  font-family: 'Mozilla Text', serif;
-  font-weight: normal;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
   font-size: 100%;
   line-height: 1.5;
   color: vars.$colors-primary-foreground;
@@ -30,6 +12,6 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: bold;
+  font-weight: 700;
 }
 
