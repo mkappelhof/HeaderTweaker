@@ -76,9 +76,7 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
   const getStatus = useCallback(async () => setIsDisabled(await isDisabledGlobally()), []);
 
   const setStatus = useCallback(async (status: Status) => {
-    console.log('status', status);
     const newStatus = await setHeaderTweakerStatus(status);
-    console.log('newStatus', newStatus);
     setIsDisabled(newStatus === 'disabled');
   }, []);
 
