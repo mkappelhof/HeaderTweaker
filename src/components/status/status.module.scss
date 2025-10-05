@@ -1,0 +1,17 @@
+.root {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: vars.$spacing-core-2;
+
+    .indicator {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: vars.$colors-primary-success;
+
+        &.disabled { background-color: vars.$colors-primary-error }
+    }
+
+    .label { opacity: 0.75 }
+}

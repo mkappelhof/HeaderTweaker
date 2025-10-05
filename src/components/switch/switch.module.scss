@@ -44,4 +44,6 @@
       &::before { transform: translateX(-20px) }
     }
   }
+
+  &.disabled { cursor: not-allowed }
 }

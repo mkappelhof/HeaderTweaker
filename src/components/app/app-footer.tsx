@@ -11,7 +11,7 @@ import css from './app.module.scss';
 export const AppFooter = () => {
   const [header, setHeader] = useState<Header>();
   const [disabledButton, setDisabledButton] = useState(true);
-  const { updateHeader } = useHeaderTweakerContext();
+  const { isDisabled, updateHeader } = useHeaderTweakerContext();
 
   const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -47,6 +47,7 @@ export const AppFooter = () => {
       <div className={css.inputWrapper}>
         <Input
           type="text"
+          disabled={isDisabled}
           placeholder="Header key"
           data-type="name"
           value={header?.name ?? ''}
@@ -57,6 +58,7 @@ export const AppFooter = () => {
       <div className={css.inputWrapper}>
         <Input
           type="text"
+          disabled={isDisabled}
           placeholder="Header value"
           data-type="value"
           value={header?.value ?? ''}
@@ -64,7 +66,7 @@ export const AppFooter = () => {
         />
       </div>
       <Button
-        disabled={disabledButton}
+        disabled={isDisabled || disabledButton}
         onClick={async () => {
           if (header) {
             await updateHeader({ header, action: 'add' });

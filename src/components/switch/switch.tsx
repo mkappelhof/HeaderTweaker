@@ -1,14 +1,15 @@
-import { memo, useCallback, useEffect, useState } from 'react';
+import { type ComponentProps, memo, useCallback, useEffect, useState } from 'react';
+import classnames from 'clsx';
 
 import css from './switch.module.scss';
 
-interface SwitchProps {
+interface SwitchProps extends Omit<ComponentProps<'input'>, 'onChange'> {
   isOn: boolean;
   label?: string;
   onChange: (state: boolean) => void;
 }
 
-export const Switch = memo(({ isOn, label, onChange }: SwitchProps) => {
+export const Switch = memo(({ isOn, label, onChange, ...inputProps }: SwitchProps) => {
   const [checked, setChecked] = useState(isOn);
 
   useEffect(() => setChecked(isOn), [isOn]);
@@ -22,7 +23,7 @@ export const Switch = memo(({ isOn, label, onChange }: SwitchProps) => {
   }, [onChange]);
 
   return (
-    <label className={css.root}>
+    <label className={classnames(css.root, { [css.disabled]: inputProps.disabled })}>
       <span>
         <input
           type="checkbox"
@@ -31,6 +32,7 @@ export const Switch = memo(({ isOn, label, onChange }: SwitchProps) => {
           className={css.root}
           aria-checked={checked}
           aria-label={label || 'Switch'}
+          {...inputProps}
         />
         <div className={css.slider} />
       </span>
