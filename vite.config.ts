@@ -22,7 +22,6 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        // popup: 'src/headertweaker.html',
         headertweaker: 'src/headertweaker.tsx',
         background: 'src/background.ts',
       },
@@ -34,7 +33,7 @@ export default defineConfig({
         },
         assetFileNames: (assetInfo) => {
           if (assetInfo.name?.endsWith('.css')) {
-            return 'css/styles.css';
+            return 'css/headertweaker.css';
           }
           return 'assets/[name][extname]';
         },
@@ -44,6 +43,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
+        api: 'modern',
         additionalData: `@use "sass:color";@use "@styles/variables.scss" as vars;`,
       },
     },

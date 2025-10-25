@@ -11,11 +11,11 @@
   align-items: center;
   height: 72px;
 
-  div {
+  .headerItems {
     flex-grow: 1;
     display: flex;
     align-items: center;
-    gap: vars.$spacing-core-2;
+    gap: vars.$spacing-core-3;
 
     h1 {
       font-size: 1.5rem;

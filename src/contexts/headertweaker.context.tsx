@@ -17,7 +17,11 @@ import {
   removeHeader,
   updateHeader,
 } from '@helpers/header.helper';
-import type { Header } from '@interfaces/index';
+import {
+  isDisabledGlobally,
+  setStatus as setHeaderTweakerStatus,
+} from '@helpers/headertweaker.helper';
+import type { Header, Status } from '@interfaces/index';
 
 type HeaderFn = {
   header: Header;
@@ -28,9 +32,11 @@ type HeaderFn = {
 type HeaderTweakerContextValue = {
   loading: boolean;
   headers: Header[];
+  isDisabled: boolean;
   selectedHeader: Header | null;
   updateHeader: (args: HeaderFn) => Promise<void>;
   importHeaders: (headers: Header[]) => Promise<void>;
+  setStatus: (status: Status) => Promise<void>;
   setSelectedHeader: Dispatch<SetStateAction<Header | null>>;
 };
 
@@ -38,9 +44,11 @@ const initialState: HeaderTweakerContextValue = {
   headers: [],
   selectedHeader: null,
   loading: false,
+  isDisabled: false,
   updateHeader: async () => {},
   importHeaders: async () => {},
   setSelectedHeader: () => {},
+  setStatus: async () => {},
 };
 
 export const HeaderTweakerContext = createContext<HeaderTweakerContextValue>({
@@ -57,6 +65,7 @@ interface HeaderTweakerContextProps {
 
 export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) => {
   const [loading, setLoading] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [headerList, setHeaderList] = useState<Header[]>([]);
   const [selectedHeader, setSelectedHeaderRaw] = useState<Header | null>(null);
 
@@ -64,11 +73,17 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
     setSelectedHeaderRaw(value);
   }, []);
 
+  const getStatus = useCallback(async () => setIsDisabled(await isDisabledGlobally()), []);
+
+  const setStatus = useCallback(async (status: Status) => {
+    const newStatus = await setHeaderTweakerStatus(status);
+    setIsDisabled(newStatus === 'disabled');
+  }, []);
+
   const fetchHeaders = useCallback(async () => {
     try {
       const headers = await getHeaders();
       setHeaderList(headers);
-    } catch {
     } finally {
       setLoading(false);
     }
@@ -111,19 +126,31 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
   );
 
   useEffect(() => {
+    getStatus();
     fetchHeaders();
-  }, [fetchHeaders]);
+  }, [fetchHeaders, getStatus]);
 
   const value = useMemo(
     () => ({
       loading,
+      isDisabled,
       headers: headerList,
       selectedHeader,
       setSelectedHeader,
+      setStatus,
       updateHeader: updateHeaderFn,
       importHeaders: importHeaderFn,
     }),
-    [loading, headerList, selectedHeader, setSelectedHeader, updateHeaderFn, importHeaderFn]
+    [
+      loading,
+      isDisabled,
+      headerList,
+      setStatus,
+      selectedHeader,
+      setSelectedHeader,
+      updateHeaderFn,
+      importHeaderFn,
+    ]
   );
 
   return <HeaderTweakerContext.Provider value={value}>{children}</HeaderTweakerContext.Provider>;

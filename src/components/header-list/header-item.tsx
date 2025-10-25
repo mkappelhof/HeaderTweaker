@@ -5,6 +5,7 @@ import { Switch } from '@components/switch/switch';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
+import classnames from 'clsx';
 
 import css from './header-list.module.scss';
 
@@ -14,14 +15,15 @@ interface HeaderItemProps extends Header {
 
 export const HeaderItem = memo(({ id, name, value, enabled, openDrawer }: HeaderItemProps) => {
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
-  const { selectedHeader, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
+  const { isDisabled, selectedHeader, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
   return (
     <>
-      <tr>
+      <tr className={classnames({ [css.disabled]: isDisabled })}>
         <td>
           <Switch
             isOn={enabled}
+            disabled={isDisabled}
             onChange={async (state) =>
               await updateHeader({
                 header: { id, name, value, enabled: state },
@@ -40,6 +42,7 @@ export const HeaderItem = memo(({ id, name, value, enabled, openDrawer }: Header
         <td>
           <span className={css.buttonWrapper}>
             <IconButton
+              disabled={isDisabled}
               aria-label="Edit header"
               onClick={() => {
                 setSelectedHeader(selectedHeader ?? { id, name, value, enabled });
@@ -49,6 +52,7 @@ export const HeaderItem = memo(({ id, name, value, enabled, openDrawer }: Header
               <PencilSquareIcon aria-label="Edit" />
             </IconButton>
             <IconButton
+              disabled={isDisabled}
               aria-label="Delete header"
               onClick={() => setHeaderToDelete({ id, name, value, enabled })}
             >

@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { Button } from '@components/button/button';
+import { Switch } from '@components/switch/switch';
 import { IMPORT_PARAM } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { exportHeaders } from '@helpers/header.helper';
@@ -8,7 +9,7 @@ import { ArrowDownTrayIcon, ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 import css from './settings.module.scss';
 
 export const Settings = () => {
-  const { headers } = useHeaderTweakerContext();
+  const { isDisabled, headers, setStatus } = useHeaderTweakerContext();
 
   const headerCount = headers.length;
 
@@ -26,6 +27,11 @@ export const Settings = () => {
 
   return (
     <div className={css.root}>
+      <Switch
+        isOn={isDisabled}
+        label={`HeaderTweaker is ${isDisabled ? 'Disabled' : 'Enabled'}`}
+        onChange={(newState) => setStatus(newState ? 'disabled' : 'enabled')}
+      />
       <Button onClick={openImportWindow}>
         <ArrowUpTrayIcon /> Import new headers
       </Button>

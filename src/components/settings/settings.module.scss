@@ -1,4 +1,5 @@
 .root {
+    label,
     button {
         &:not(:last-child) {
             margin-bottom: vars.$spacing-core-4;

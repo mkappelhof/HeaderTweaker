@@ -10,6 +10,11 @@ const setHeaders = async (headers: Header[]) => {
   }
 };
 
+export const getHeaders = async (): Promise<Header[]> => {
+  const result = await storage.local.get('headers');
+  return result.headers || [];
+};
+
 const getSelectedHeader = async (header: Header) => {
   const headers = await getHeaders();
   return {
@@ -17,11 +22,6 @@ const getSelectedHeader = async (header: Header) => {
     pos: headers.findIndex(({ id }) => id === header.id),
     selectedHeader: headers.find(({ id }) => id === header.id),
   };
-};
-
-export const getHeaders = async (): Promise<Header[]> => {
-  const result = await storage.local.get('headers');
-  return result.headers || [];
 };
 
 export const addHeader = async (header: Header) => {

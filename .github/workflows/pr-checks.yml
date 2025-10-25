@@ -38,17 +38,23 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install pnpm
+        run: |
+          corepack enable
+          corepack prepare pnpm@latest --activate
+          pnpm --version
+
       - name: Install dependencies
-        run: yarn install
+        run: pnpm install
 
       - name: Typecheck
-        run: yarn check-types
+        run: pnpm check-types
 
       - name: Build
-        run: yarn build
+        run: pnpm build
 
       - name: Lint
-        run: yarn lint
+        run: pnpm lint
 
       - name: Format
-        run: yarn format
+        run: pnpm format
