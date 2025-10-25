@@ -1,6 +1,7 @@
 import { memo, useState } from 'react';
 import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
+import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
@@ -34,10 +35,10 @@ export const HeaderItem = memo(({ id, name, value, enabled, openDrawer }: Header
           />
         </td>
         <td>
-          <p>{name}</p>
+          <HeaderContent content={name} />
         </td>
         <td>
-          <p>{value}</p>
+          <HeaderContent content={value} />
         </td>
         <td>
           <span className={css.buttonWrapper}>
