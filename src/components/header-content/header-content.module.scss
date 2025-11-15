@@ -1,7 +1,11 @@
 .root {
+    cursor: pointer;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     background: transparent;
     padding: 0;
     border: none;
     color: vars.$colors-primary-foreground;
-    cursor: pointer;
 }

@@ -13,7 +13,7 @@ export const HeaderContent = ({ content }: HeaderContentProps) => {
   }, [content]);
 
   return (
-    <button type="button" onClick={onClick} className={css.root}>
+    <button type="button" className={css.root} onClick={onClick}>
       {content}
     </button>
   );
