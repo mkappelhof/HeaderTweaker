@@ -7,6 +7,7 @@ export interface TooltipContentProps {
 const TooltipContent = ({ children }: TooltipContentProps) => {
   return <>{children}</>;
 };
+
 TooltipContent.displayName = 'TooltipContent';
 
 export { TooltipContent };

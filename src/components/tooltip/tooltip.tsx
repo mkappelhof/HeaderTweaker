@@ -89,11 +89,6 @@ export const Tooltip: FC<TooltipProps> = memo(({ children, delay = 200 }) => {
     [handleMouseEnter, handleMouseLeave, isVisible, tooltipId]
   );
 
-  const tooltipClassName = useMemo(
-    () => classnames(css.tooltip, { [css.visible]: isVisible }),
-    [isVisible]
-  );
-
   let trigger: ReactNode = null;
   let content: ReactNode = null;
 
@@ -116,7 +111,7 @@ export const Tooltip: FC<TooltipProps> = memo(({ children, delay = 200 }) => {
         createPortal(
           <div
             ref={tooltipRef}
-            className={tooltipClassName}
+            className={classnames(css.tooltip, { [css.visible]: isVisible })}
             style={{ top: `${coords.top}px`, left: `${coords.left}px` }}
             role="tooltip"
             id={tooltipId}
