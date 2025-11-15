@@ -1,0 +1,5 @@
+---
+"headertweaker": patch
+---
+
+Fix release

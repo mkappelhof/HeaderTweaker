@@ -55,7 +55,8 @@ jobs:
       - name: Build web extension
         run: pnpm run web-ext:build
 
-      - name: Create Release Pull Request
+      - name: Create Release Pull Request or Publish
+        id: changesets
         uses: changesets/action@v1
         with:
           publish: pnpm
@@ -64,18 +65,27 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get version from package.json
+        if: steps.changesets.outputs.published == 'true'
         id: get_version
         run: |
           VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Find built zip file
+        if: steps.changesets.outputs.published == 'true'
         id: find_zip
         run: |
-          ZIP_FILE=$(ls dist/*.zip | head -n 1)
+          ZIP_FILE=$(find dist -name "*.zip" -type f | head -n 1)
+          if [ -z "$ZIP_FILE" ]; then
+            echo "Error: No zip file found in dist directory"
+            ls -la dist/
+            exit 1
+          fi
           echo "zip_file=$ZIP_FILE" >> $GITHUB_OUTPUT
+          echo "Found zip file: $ZIP_FILE"
 
       - name: Create GitHub Release
+        if: steps.changesets.outputs.published == 'true'
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -89,6 +99,7 @@ jobs:
           prerelease: false
 
       - name: Upload zip to Release
+        if: steps.changesets.outputs.published == 'true'
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
