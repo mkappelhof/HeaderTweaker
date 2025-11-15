@@ -2,6 +2,7 @@ import { type ChangeEvent, useCallback, useState } from 'react';
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 import { Switch } from '@components/switch/switch';
+import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
@@ -73,7 +74,7 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
         }}
       >
         <CheckCircleIcon />
-        Save header
+        <Text as="span">Save header</Text>
       </Button>
     </div>
   );

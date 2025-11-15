@@ -1,4 +1,5 @@
 import { type ComponentProps, memo, useCallback, useEffect, useState } from 'react';
+import { Text } from '@components/text/text';
 import classnames from 'clsx';
 
 import css from './switch.module.scss';
@@ -36,7 +37,11 @@ export const Switch = memo(({ isOn, label, onChange, ...inputProps }: SwitchProp
         />
         <div className={css.slider} />
       </span>
-      {label && <span className={css.label}>{label}</span>}
+      {label && (
+        <Text as="span" className={css.label}>
+          {label}
+        </Text>
+      )}
     </label>
   );
 });

@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { Text, TextVariant } from '@components/text/text';
 import { Tooltip } from '@components/tooltip/tooltip';
 import { TooltipContent } from '@components/tooltip/tooltip-content';
 import { TooltipTrigger } from '@components/tooltip/tooltip-trigger';
@@ -23,7 +24,10 @@ export const HeaderContent = ({ content }: HeaderContentProps) => {
         </button>
       </TooltipTrigger>
 
-      <TooltipContent>{content}</TooltipContent>
+      <TooltipContent>
+        <Text>{content}</Text>
+        <Text variant={TextVariant.BODY_SMALL}>(Click to copy to clipboard)</Text>
+      </TooltipContent>
     </Tooltip>
   );
 };
