@@ -2,6 +2,7 @@ import { memo, useCallback, useState } from 'react';
 import { Drawer } from '@components/drawer/drawer';
 import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
+import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 
 import css from './header-list.module.scss';
@@ -24,8 +25,12 @@ export const HeaderList = memo(() => {
         <thead>
           <tr>
             <th />
-            <th>Header key</th>
-            <th>Header value</th>
+            <th>
+              <Text as="span">Header key</Text>
+            </th>
+            <th>
+              <Text as="span">Header value</Text>
+            </th>
             <th />
           </tr>
         </thead>
@@ -33,7 +38,7 @@ export const HeaderList = memo(() => {
           {!headers.length ? (
             <tr>
               <td colSpan={4} className={css.notFound}>
-                No headers to display yet
+                <Text>No headers to display yet</Text>
               </td>
             </tr>
           ) : (

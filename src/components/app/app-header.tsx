@@ -3,6 +3,7 @@ import { IconButton } from '@components/button/icon-button';
 import { Drawer } from '@components/drawer/drawer';
 import { Settings } from '@components/settings/settings';
 import { Status } from '@components/status/status';
+import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { Cog6ToothIcon } from '@heroicons/react/24/solid';
 import packageJson from '../../../package.json';
@@ -20,11 +21,11 @@ export const AppHeader = ({ withoutSettings = false }: AppHeaderProps) => {
   return (
     <header className={css.header}>
       <div className={css.headerItems}>
-        <h1>
+        <Text variant="h1">
           <span className={css.headerName}>Header</span>
           <span className={css.tweakerName}>Tweaker</span>
-        </h1>
-        <code>v{packageJson.version}</code>
+        </Text>
+        <Text as="code">v{packageJson.version}</Text>
         <Status
           status={isDisabled ? 'disabled' : 'enabled'}
           label={isDisabled ? 'HeaderTweaker is disabled' : undefined}

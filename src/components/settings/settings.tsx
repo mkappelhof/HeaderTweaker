@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { Button } from '@components/button/button';
 import { Switch } from '@components/switch/switch';
+import { Text } from '@components/text/text';
 import { IMPORT_PARAM } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { exportHeaders } from '@helpers/header.helper';
@@ -37,7 +38,9 @@ export const Settings = () => {
       </Button>
       <Button onClick={exportHeaders} disabled={headerCount < 1}>
         <ArrowDownTrayIcon />
-        Export {headerCount >= 1 ? headerCount : ''} header{headerCount !== 1 ? 's' : ''}
+        <Text as="span">
+          Export {headerCount >= 1 ? headerCount : ''} header{headerCount !== 1 ? 's' : ''}
+        </Text>
       </Button>
     </div>
   );

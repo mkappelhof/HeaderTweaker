@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { Success } from '@components/feedback/success';
+import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getHeaders } from '@helpers/header.helper';
 import type { Header } from '@interfaces/index';
@@ -99,11 +100,11 @@ export const ImportHeaders = () => {
               }
             }}
           />
-          <span>
+          <Text as="span">
             {dragActive
               ? 'Drop your file here...'
               : 'Drag & drop a HeaderTweaker export file here, or click to select'}
-          </span>
+          </Text>
         </button>
       </form>
       <Success
