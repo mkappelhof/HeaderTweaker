@@ -1,0 +1,17 @@
+.trigger { display: inline-flex }
+
+.tooltip {
+  position: fixed;
+  z-index: 2000;
+  padding: vars.$spacing-core-2 vars.$spacing-core-4;
+  background-color: color.scale(vars.$colors-primary-background, $lightness: -40%);
+  border-radius: vars.$border-radius-primary;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  white-space: nowrap;
+  transform: translate(-50%, 0);
+
+  &.visible { opacity: 1 }
+}
