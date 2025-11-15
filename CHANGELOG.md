@@ -1,5 +1,14 @@
 # HeaderTweaker
 
+## 0.1.4
+
+### Patch Changes
+
+- 76fd2c9: Update versions automatically
+- 3141289: Add tooltip and truncate text
+- 34c5971: Combine release & deploy step, move fonts and update vite config
+- 1730f25: Update workflows
+
 ## 0.1.3
 
 ### Patch Changes
