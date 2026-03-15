@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.0.0
+
+### Major Changes
+
+- 59caeba: Major release
+
 ## 0.1.8
 
 ### Patch Changes

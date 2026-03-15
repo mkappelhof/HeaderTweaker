@@ -1,5 +1,0 @@
----
-"headertweaker": major
----
-
-Major release
