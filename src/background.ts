@@ -1,7 +1,14 @@
-import { getStatus } from '@helpers/headertweaker.helper';
-
 const isFirefox = typeof browser !== 'undefined';
 const webRequest = isFirefox ? browser.webRequest : chrome.webRequest;
+const storage = isFirefox ? browser.storage : chrome.storage;
+
+// Keep in sync with STATUS_KEY in headertweaker.helper.ts
+const STATUS_KEY = 'isDisabled';
+
+const getStatus = async (): Promise<'enabled' | 'disabled'> => {
+  const result = await storage.local.get(STATUS_KEY);
+  return result[STATUS_KEY] ? 'disabled' : 'enabled';
+};
 
 type Header = { name: string; value: string; enabled: boolean };
 
@@ -12,7 +19,6 @@ type OnBeforeSendHeadersDetails<T> = T extends typeof browser.webRequest
     : never;
 
 const getHeaders = async (): Promise<Header[]> => {
-  const storage = typeof browser !== 'undefined' ? browser.storage : chrome.storage;
   const result = await storage.local.get('headers');
   return result.headers || [];
 };
