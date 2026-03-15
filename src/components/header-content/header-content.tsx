@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { Text } from '@components/text/text';
 import { Tooltip } from '@components/tooltip/tooltip';
 import { TooltipContent } from '@components/tooltip/tooltip-content';
@@ -11,10 +10,10 @@ interface HeaderContentProps {
 }
 
 export const HeaderContent = ({ content }: HeaderContentProps) => {
-  const onClick = useCallback(async () => {
+  const onClick = async () => {
     const clipboardItem = new ClipboardItem({ 'text/plain': content });
     await navigator.clipboard.write([clipboardItem]);
-  }, [content]);
+  };
 
   return (
     <Tooltip>
@@ -26,7 +25,7 @@ export const HeaderContent = ({ content }: HeaderContentProps) => {
 
       <TooltipContent>
         <Text>{content}</Text>
-        <Text variant="small">(Click to copy to clipboard)</Text>
+        <Text variant="body-small">(Click to copy to clipboard)</Text>
       </TooltipContent>
     </Tooltip>
   );

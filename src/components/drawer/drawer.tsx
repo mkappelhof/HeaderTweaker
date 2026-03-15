@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { ModalTitle } from '@components/modal/ModalTitle';
 import { Modal, type ModalProps } from '@components/modal/modal';
 import { ModalClose } from '@components/modal/modal-close';
@@ -8,7 +7,7 @@ interface DrawerProps extends Omit<ModalProps, 'type'> {
   title: string;
 }
 
-export const Drawer = memo(({ title, children, ...props }: DrawerProps) => {
+export const Drawer = ({ title, children, ...props }: DrawerProps) => {
   return (
     <Modal type="drawer" {...props}>
       <ModalTitle>{title}</ModalTitle>
@@ -16,4 +15,4 @@ export const Drawer = memo(({ title, children, ...props }: DrawerProps) => {
       <ModalContent>{children}</ModalContent>
     </Modal>
   );
-});
+};

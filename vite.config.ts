@@ -20,9 +20,17 @@ const syncManifestVersion = () => {
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  plugins: [react(), syncManifestVersion()],
+  plugins: [
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler', {}]],
+      },
+    }),
+    syncManifestVersion(),
+  ],
   resolve: {
     alias: {
+      'react/compiler-runtime': 'react-compiler-runtime',
       '@constants': path.resolve(__dirname, 'src/constants'),
       '@contexts': path.resolve(__dirname, 'src/contexts'),
       '@components': path.resolve(__dirname, 'src/components'),

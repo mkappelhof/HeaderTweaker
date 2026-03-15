@@ -3,10 +3,8 @@ import {
   type Dispatch,
   type ReactNode,
   type SetStateAction,
-  useCallback,
   useContext,
   useEffect,
-  useMemo,
   useState,
 } from 'react';
 import {
@@ -69,89 +67,72 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
   const [headerList, setHeaderList] = useState<Header[]>([]);
   const [selectedHeader, setSelectedHeaderRaw] = useState<Header | null>(null);
 
-  const setSelectedHeader = useCallback((value: SetStateAction<Header | null>) => {
+  const setSelectedHeader = (value: SetStateAction<Header | null>) => {
     setSelectedHeaderRaw(value);
-  }, []);
+  };
 
-  const getStatus = useCallback(async () => setIsDisabled(await isDisabledGlobally()), []);
+  const getStatus = async () => setIsDisabled(await isDisabledGlobally());
 
-  const setStatus = useCallback(async (status: Status) => {
+  const setStatus = async (status: Status) => {
     const newStatus = await setHeaderTweakerStatus(status);
     setIsDisabled(newStatus === 'disabled');
-  }, []);
+  };
 
-  const fetchHeaders = useCallback(async () => {
+  const fetchHeaders = async () => {
     try {
       const headers = await getHeaders();
       setHeaderList(headers);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
-  const importHeaderFn = useCallback(
-    async (headers: Header[]) => {
-      await importHeaders([...headerList, ...headers]);
-      await fetchHeaders();
-    },
-    [fetchHeaders, headerList]
-  );
+  const importHeaderFn = async (headers: Header[]) => {
+    await importHeaders([...headerList, ...headers]);
+    await fetchHeaders();
+  };
 
-  const updateHeaderFn = useCallback(
-    async ({ header, action, isActive }: HeaderFn) => {
-      let newHeader: Header | undefined;
+  const updateHeaderFn = async ({ header, action, isActive }: HeaderFn) => {
+    let newHeader: Header | undefined;
 
-      switch (action) {
-        case 'add':
-          newHeader = await addHeader(header);
-          break;
-        case 'update':
-          newHeader = await updateHeader(header);
-          break;
-        case 'remove':
-          await removeHeader(header);
-          break;
-        case 'activate':
-          newHeader = await activateHeader(header, isActive ?? false);
-          break;
-      }
+    switch (action) {
+      case 'add':
+        newHeader = await addHeader(header);
+        break;
+      case 'update':
+        newHeader = await updateHeader(header);
+        break;
+      case 'remove':
+        await removeHeader(header);
+        break;
+      case 'activate':
+        newHeader = await activateHeader(header, isActive ?? false);
+        break;
+    }
 
-      await fetchHeaders();
+    await fetchHeaders();
 
-      if (newHeader) {
-        setSelectedHeader(newHeader);
-      }
-    },
-    [fetchHeaders, setSelectedHeader]
-  );
+    if (newHeader) {
+      setSelectedHeader(newHeader);
+    }
+  };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: should only run on mount
   useEffect(() => {
     getStatus();
     fetchHeaders();
-  }, [fetchHeaders, getStatus]);
+  }, []);
 
-  const value = useMemo(
-    () => ({
-      loading,
-      isDisabled,
-      headers: headerList,
-      selectedHeader,
-      setSelectedHeader,
-      setStatus,
-      updateHeader: updateHeaderFn,
-      importHeaders: importHeaderFn,
-    }),
-    [
-      loading,
-      isDisabled,
-      headerList,
-      setStatus,
-      selectedHeader,
-      setSelectedHeader,
-      updateHeaderFn,
-      importHeaderFn,
-    ]
-  );
+  const value = {
+    loading,
+    isDisabled,
+    headers: headerList,
+    selectedHeader,
+    setSelectedHeader,
+    setStatus,
+    updateHeader: updateHeaderFn,
+    importHeaders: importHeaderFn,
+  };
 
   return <HeaderTweakerContext.Provider value={value}>{children}</HeaderTweakerContext.Provider>;
 };

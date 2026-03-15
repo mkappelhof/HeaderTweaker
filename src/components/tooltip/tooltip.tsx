@@ -3,12 +3,9 @@ import {
   cloneElement,
   type FC,
   isValidElement,
-  memo,
   type ReactNode,
-  useCallback,
   useEffect,
   useId,
-  useMemo,
   useRef,
   useState,
 } from 'react';
@@ -22,7 +19,7 @@ export interface TooltipProps {
   delay?: number;
 }
 
-export const Tooltip: FC<TooltipProps> = memo(({ children, delay = 200 }) => {
+export const Tooltip: FC<TooltipProps> = ({ children, delay = 200 }) => {
   const tooltipId = useId();
   const triggerRef = useRef<HTMLElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -33,7 +30,7 @@ export const Tooltip: FC<TooltipProps> = memo(({ children, delay = 200 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
 
-  const handleMouseEnter = useCallback(() => {
+  const handleMouseEnter = () => {
     if (fadeTimeoutRef.current) {
       clearTimeout(fadeTimeoutRef.current);
       fadeTimeoutRef.current = null;
@@ -41,16 +38,16 @@ export const Tooltip: FC<TooltipProps> = memo(({ children, delay = 200 }) => {
     timeoutRef.current = setTimeout(() => {
       setIsRendered(true);
     }, delay);
-  }, [delay]);
+  };
 
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = () => {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
       timeoutRef.current = null;
     }
     setIsVisible(false);
     fadeTimeoutRef.current = setTimeout(() => setIsRendered(false), 150);
-  }, []);
+  };
 
   useEffect(() => {
     if (isRendered && triggerRef.current) {
@@ -79,15 +76,12 @@ export const Tooltip: FC<TooltipProps> = memo(({ children, delay = 200 }) => {
     };
   }, [isRendered]);
 
-  const triggerProps = useMemo(
-    () => ({
-      ref: triggerRef,
-      onMouseEnter: handleMouseEnter,
-      onMouseLeave: handleMouseLeave,
-      'aria-describedby': isVisible ? tooltipId : undefined,
-    }),
-    [handleMouseEnter, handleMouseLeave, isVisible, tooltipId]
-  );
+  const triggerProps = {
+    ref: triggerRef,
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+    'aria-describedby': isVisible ? tooltipId : undefined,
+  };
 
   let trigger: ReactNode = null;
   let content: ReactNode = null;
@@ -122,6 +116,6 @@ export const Tooltip: FC<TooltipProps> = memo(({ children, delay = 200 }) => {
         )}
     </>
   );
-});
+};
 
 Tooltip.displayName = 'Tooltip';
