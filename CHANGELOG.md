@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.0.2
+
+### Patch Changes
+
+- e39c435: Bugfixes
+
 ## 1.0.1
 
 ### Patch Changes
