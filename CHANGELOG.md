@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 0.1.8
+
+### Patch Changes
+
+- 4a2a603: Swap changeset publish for changeset tag
+
 ## 0.1.7
 
 ### Patch Changes
