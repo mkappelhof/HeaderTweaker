@@ -12,7 +12,7 @@ const syncManifestVersion = () => {
       const manifestPath = path.resolve(__dirname, 'dist/manifest.json');
       const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
       manifest.version = pkg.version;
-      writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+      writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
     },
   };
 };
