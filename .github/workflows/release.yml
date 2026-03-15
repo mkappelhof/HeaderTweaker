@@ -40,42 +40,32 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Create Release Pull Request
+      - name: Create Release Pull Request or Tag
         id: changesets
         uses: changesets/action@v1
         with:
           title: "Version Packages"
+          publish: pnpm changeset tag
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check if version changed
-        id: version_check
+      - name: Get version from package.json
+        if: steps.changesets.outputs.published == 'true'
+        id: get_version
         run: |
-          COMMIT_MSG=$(git log -1 --pretty=%s)
-          if [[ "$COMMIT_MSG" != *"Version Packages"* ]]; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          CURRENT=$(node -p "require('./package.json').version")
-          git show HEAD~1:package.json > /tmp/prev-package.json
-          PREV=$(node -p "require('/tmp/prev-package.json').version")
-          if [ "$CURRENT" != "$PREV" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "version=$CURRENT" >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
-          fi
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Build
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.changesets.outputs.published == 'true'
         run: pnpm run build
 
       - name: Build web extension
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.changesets.outputs.published == 'true'
         run: pnpm run web-ext:build
 
       - name: Find built zip file
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.changesets.outputs.published == 'true'
         id: find_zip
         run: |
           ZIP_FILE=$(find web-ext-artifacts -name "*.zip" -type f | head -n 1)
@@ -88,13 +78,13 @@ jobs:
           echo "Found zip file: $ZIP_FILE"
 
       - name: Create GitHub Release
-        if: steps.version_check.outputs.changed == 'true'
+        if: steps.changesets.outputs.published == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.version_check.outputs.version }}
-          name: Release v${{ steps.version_check.outputs.version }}
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: Release v${{ steps.get_version.outputs.version }}
           body: |
-            Automated release for version ${{ steps.version_check.outputs.version }}.
+            Automated release for version ${{ steps.get_version.outputs.version }}.
           files: ${{ steps.find_zip.outputs.zip_file }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
