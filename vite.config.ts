@@ -1,11 +1,26 @@
+import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+const pkg = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8'));
+
+const syncManifestVersion = () => {
+  return {
+    name: 'sync-manifest-version',
+    closeBundle() {
+      const manifestPath = path.resolve(__dirname, 'dist/manifest.json');
+      const manifest = JSON.parse(readFileSync(manifestPath, 'utf-8'));
+      manifest.version = pkg.version;
+      writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n');
+    },
+  };
+};
+
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  plugins: [react()],
+  plugins: [react(), syncManifestVersion()],
   resolve: {
     alias: {
       '@constants': path.resolve(__dirname, 'src/constants'),

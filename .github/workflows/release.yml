@@ -51,6 +51,11 @@ jobs:
       - name: Check if version changed
         id: version_check
         run: |
+          COMMIT_MSG=$(git log -1 --pretty=%s)
+          if [[ "$COMMIT_MSG" != *"Version Packages"* ]]; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
           CURRENT=$(node -p "require('./package.json').version")
           git show HEAD~1:package.json > /tmp/prev-package.json
           PREV=$(node -p "require('/tmp/prev-package.json').version")
