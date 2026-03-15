@@ -6,7 +6,7 @@ export const TextVariant = {
   H3: 'h3',
   BODY: 'body',
   BODY_SMALL: 'body-small',
-};
+} as const;
 
 type TextVariant = (typeof TextVariant)[keyof typeof TextVariant];
 

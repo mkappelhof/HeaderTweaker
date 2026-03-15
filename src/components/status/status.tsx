@@ -14,7 +14,7 @@ export const Status = ({ status, label }: StatusProps) => {
     <div className={css.root}>
       <div className={classnames(css.indicator, { [css.disabled]: status === 'disabled' })} />
       {label && (
-        <Text variant="small" className={css.label}>
+        <Text variant="body-small" className={css.label}>
           {label}
         </Text>
       )}

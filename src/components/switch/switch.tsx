@@ -16,12 +16,10 @@ export const Switch = memo(({ isOn, label, onChange, ...inputProps }: SwitchProp
   useEffect(() => setChecked(isOn), [isOn]);
 
   const toggle = useCallback(() => {
-    setChecked((prev) => {
-      const state = !prev;
-      onChange(state);
-      return state;
-    });
-  }, [onChange]);
+    const newState = !checked;
+    setChecked(newState);
+    onChange(newState);
+  }, [checked, onChange]);
 
   return (
     <label className={classnames(css.root, { [css.disabled]: inputProps.disabled })}>

@@ -12,6 +12,10 @@ import css from './settings.module.scss';
 export const Settings = () => {
   const { isDisabled, headers, setStatus } = useHeaderTweakerContext();
 
+  const handleStatusChange = useCallback((newState: boolean) => {
+    setStatus(newState ? 'enabled' : 'disabled').catch(console.error);
+  }, [setStatus]);
+
   const headerCount = headers.length;
 
   const openImportWindow = useCallback(() => {
@@ -29,9 +33,9 @@ export const Settings = () => {
   return (
     <div className={css.root}>
       <Switch
-        isOn={isDisabled}
+        isOn={!isDisabled}
         label={`HeaderTweaker is ${isDisabled ? 'Disabled' : 'Enabled'}`}
-        onChange={(newState) => setStatus(newState ? 'disabled' : 'enabled')}
+        onChange={handleStatusChange}
       />
       <Button onClick={openImportWindow}>
         <ArrowUpTrayIcon /> Import new headers
