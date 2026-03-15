@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 0.1.7
+
+### Patch Changes
+
+- f892c13: Sync manifest version with package.json
+
 ## 0.1.6
 
 ### Patch Changes
