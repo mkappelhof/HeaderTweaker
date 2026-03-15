@@ -1,1 +1,2 @@
 pnpm format-n-lint:fix
+pnpm check
