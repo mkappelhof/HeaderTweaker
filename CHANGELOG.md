@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.0.1
+
+### Patch Changes
+
+- 00634f1: Add check to husky pre-commit hook
+
 ## 1.0.0
 
 ### Major Changes
