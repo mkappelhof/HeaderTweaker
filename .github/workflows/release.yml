@@ -40,22 +40,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Cache build output
-        uses: actions/cache@v4
-        with:
-          path: |
-            dist
-          key: ${{ runner.os }}-build-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-build-
-
-      - name: Build
-        run: pnpm run build
-
-      - name: Build web extension
-        run: pnpm run web-ext:build
-
-      - name: Create Release Pull Request or Publish
+      - name: Create Release Pull Request
         id: changesets
         uses: changesets/action@v1
         with:
@@ -63,47 +48,48 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get version from package.json
-        if: steps.changesets.outputs.published == 'true'
-        id: get_version
+      - name: Check if version changed
+        id: version_check
         run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          CURRENT=$(node -p "require('./package.json').version")
+          git show HEAD~1:package.json > /tmp/prev-package.json
+          PREV=$(node -p "require('/tmp/prev-package.json').version")
+          if [ "$CURRENT" != "$PREV" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "version=$CURRENT" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build
+        if: steps.version_check.outputs.changed == 'true'
+        run: pnpm run build
+
+      - name: Build web extension
+        if: steps.version_check.outputs.changed == 'true'
+        run: pnpm run web-ext:build
 
       - name: Find built zip file
-        if: steps.changesets.outputs.published == 'true'
+        if: steps.version_check.outputs.changed == 'true'
         id: find_zip
         run: |
-          ZIP_FILE=$(find dist -name "*.zip" -type f | head -n 1)
+          ZIP_FILE=$(find web-ext-artifacts -name "*.zip" -type f | head -n 1)
           if [ -z "$ZIP_FILE" ]; then
-            echo "Error: No zip file found in dist directory"
-            ls -la dist/
+            echo "Error: No zip file found in web-ext-artifacts directory"
+            ls -la web-ext-artifacts/
             exit 1
           fi
           echo "zip_file=$ZIP_FILE" >> $GITHUB_OUTPUT
           echo "Found zip file: $ZIP_FILE"
 
       - name: Create GitHub Release
-        if: steps.changesets.outputs.published == 'true'
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: steps.version_check.outputs.changed == 'true'
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
-          release_name: Release v${{ steps.get_version.outputs.version }}
+          tag_name: v${{ steps.version_check.outputs.version }}
+          name: Release v${{ steps.version_check.outputs.version }}
           body: |
-            Automated release for version ${{ steps.get_version.outputs.version }}.
-          draft: false
-          prerelease: false
-
-      - name: Upload zip to Release
-        if: steps.changesets.outputs.published == 'true'
-        uses: actions/upload-release-asset@v1
+            Automated release for version ${{ steps.version_check.outputs.version }}.
+          files: ${{ steps.find_zip.outputs.zip_file }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ${{ steps.find_zip.outputs.zip_file }}
-          asset_name: headertweaker-${{ steps.get_version.outputs.version }}.zip
-          asset_content_type: application/zip
