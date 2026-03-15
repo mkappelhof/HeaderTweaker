@@ -15,7 +15,7 @@ export const setStatus = async (status: Status) => {
 
 export const getStatus = async (): Promise<Status> => {
   const result = await storage.local.get(STATUS_KEY);
-  return result[STATUS_KEY] ?? 'enabled';
+  return result[STATUS_KEY] ? 'disabled' : 'enabled';
 };
 
 export const isDisabledGlobally = async () => {

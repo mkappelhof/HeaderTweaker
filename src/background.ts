@@ -23,7 +23,7 @@ const onBeforeSendHeaders = async <D extends OnBeforeSendHeadersDetails<typeof w
 ) => {
   const isEnabled = await getStatus();
 
-  if (isEnabled) {
+  if (isEnabled === 'enabled') {
     const headers = (await getHeaders()) as Header[];
     if (!headers.length || !details.requestHeaders) return {} as D;
 

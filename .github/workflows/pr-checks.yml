@@ -8,7 +8,6 @@ jobs:
   build-and-lint:
     name: Build, Lint & Format
     runs-on: ubuntu-latest
-    if: github.actor != 'github-actions[bot]'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,6 +19,7 @@ jobs:
           git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
 
       - name: Check for changeset
+        if: github.actor != 'github-actions[bot]'
         shell: bash
         run: |
           CHANGES=$(git diff --name-status origin/${{ github.base_ref }}...HEAD \
