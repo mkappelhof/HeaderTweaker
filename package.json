@@ -54,6 +54,7 @@
     "format:fix": "biome format . --fix && stylelint --fix 'src/**/*.scss'",
     "format-n-lint": "pnpm lint && pnpm format",
     "format-n-lint:fix": "pnpm lint:fix && pnpm format:fix",
+    "check": "biome check .",
     "check-types": "tsc --noEmit",
     "clean": "rimraf dist node_modules web-ext-artifacts",
     "web-ext:run": "web-ext run  --source-dir=dist",
