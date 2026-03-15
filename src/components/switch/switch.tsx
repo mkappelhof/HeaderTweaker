@@ -1,4 +1,4 @@
-import { type ComponentProps, memo, useCallback, useEffect, useState } from 'react';
+import { type ComponentProps, useEffect, useState } from 'react';
 import { Text } from '@components/text/text';
 import classnames from 'clsx';
 
@@ -10,16 +10,16 @@ interface SwitchProps extends Omit<ComponentProps<'input'>, 'onChange'> {
   onChange: (state: boolean) => void;
 }
 
-export const Switch = memo(({ isOn, label, onChange, ...inputProps }: SwitchProps) => {
+export const Switch = ({ isOn, label, onChange, ...inputProps }: SwitchProps) => {
   const [checked, setChecked] = useState(isOn);
 
   useEffect(() => setChecked(isOn), [isOn]);
 
-  const toggle = useCallback(() => {
+  const toggle = () => {
     const newState = !checked;
     setChecked(newState);
     onChange(newState);
-  }, [checked, onChange]);
+  };
 
   return (
     <label className={classnames(css.root, { [css.disabled]: inputProps.disabled })}>
@@ -42,4 +42,4 @@ export const Switch = memo(({ isOn, label, onChange, ...inputProps }: SwitchProp
       )}
     </label>
   );
-});
+};

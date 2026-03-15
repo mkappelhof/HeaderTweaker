@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from 'react';
+import { useState } from 'react';
 import { Drawer } from '@components/drawer/drawer';
 import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
@@ -7,11 +7,11 @@ import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 
 import css from './header-list.module.scss';
 
-export const HeaderList = memo(() => {
+export const HeaderList = () => {
   const [open, setOpen] = useState(false);
   const { headers, selectedHeader } = useHeaderTweakerContext();
 
-  const openDrawer = useCallback((state: boolean) => setOpen(state), []);
+  const openDrawer = (state: boolean) => setOpen(state);
 
   return (
     <div className={css.root}>
@@ -53,4 +53,4 @@ export const HeaderList = memo(() => {
       </Drawer>
     </div>
   );
-});
+};

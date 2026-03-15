@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { useState } from 'react';
 import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
 import { HeaderContent } from '@components/header-content/header-content';
@@ -14,7 +14,7 @@ interface HeaderItemProps extends Header {
   openDrawer: (state: boolean) => void;
 }
 
-export const HeaderItem = memo(({ id, name, value, enabled, openDrawer }: HeaderItemProps) => {
+export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemProps) => {
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
   const { isDisabled, selectedHeader, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
@@ -80,4 +80,4 @@ export const HeaderItem = memo(({ id, name, value, enabled, openDrawer }: Header
       />
     </>
   );
-});
+};

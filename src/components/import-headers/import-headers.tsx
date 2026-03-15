@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Success } from '@components/feedback/success';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
@@ -15,7 +15,7 @@ export const ImportHeaders = () => {
 
   const { importHeaders } = useHeaderTweakerContext();
 
-  const handleDrag = useCallback((e: React.DragEvent<HTMLFormElement>) => {
+  const handleDrag = (e: React.DragEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
     if (e.type === 'dragenter' || e.type === 'dragover') {
@@ -23,7 +23,7 @@ export const ImportHeaders = () => {
     } else if (e.type === 'dragleave') {
       setDragActive(false);
     }
-  }, []);
+  };
 
   const handleFiles = (files: FileList) => {
     const file = files[0];

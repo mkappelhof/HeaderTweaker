@@ -1,4 +1,4 @@
-import { type ChangeEvent, useCallback, useState } from 'react';
+import { type ChangeEvent, useState } from 'react';
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 import { Switch } from '@components/switch/switch';
@@ -18,7 +18,7 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
   const { updateHeader, selectedHeader } = useHeaderTweakerContext();
   const [header, setHeader] = useState<Header | null>(selectedHeader);
 
-  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
 
     setHeader((prev) => {
@@ -33,9 +33,9 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
         enabled: prev?.enabled ?? false,
       };
     });
-  }, []);
+  };
 
-  const validateHeaderKey = useCallback(() => {
+  const validateHeaderKey = () => {
     const headerKey = cleanupHeaderKey(header?.name || '');
 
     setHeader((prev) => ({
@@ -45,7 +45,7 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
       value: prev?.value ?? '',
       enabled: prev?.enabled ?? false,
     }));
-  }, [header?.name]);
+  };
 
   if (!header) return null;
 

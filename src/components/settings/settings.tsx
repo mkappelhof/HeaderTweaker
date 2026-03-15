@@ -1,4 +1,3 @@
-import { useCallback } from 'react';
 import { Button } from '@components/button/button';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
@@ -12,13 +11,13 @@ import css from './settings.module.scss';
 export const Settings = () => {
   const { isDisabled, headers, setStatus } = useHeaderTweakerContext();
 
-  const handleStatusChange = useCallback((newState: boolean) => {
+  const handleStatusChange = (newState: boolean) => {
     setStatus(newState ? 'enabled' : 'disabled').catch(console.error);
-  }, [setStatus]);
+  };
 
   const headerCount = headers.length;
 
-  const openImportWindow = useCallback(() => {
+  const openImportWindow = () => {
     const width = 800;
     const height = 500;
     const left = window.screen.availWidth - width - 100;
@@ -28,7 +27,7 @@ export const Settings = () => {
       'headertweaker',
       `width=${width},height=${height},left=${left},top=${top},menubar=no,toolbar=no,location=no,status=no,scrollbars=yes,resizable=yes`
     );
-  }, []);
+  };
 
   return (
     <div className={css.root}>

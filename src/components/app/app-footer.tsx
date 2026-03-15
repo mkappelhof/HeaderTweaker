@@ -1,4 +1,4 @@
-import { type ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { type ChangeEvent, useEffect, useState } from 'react';
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
@@ -13,7 +13,7 @@ export const AppFooter = () => {
   const [disabledButton, setDisabledButton] = useState(true);
   const { isDisabled, updateHeader } = useHeaderTweakerContext();
 
-  const handleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
 
     setHeader((prev) => {
@@ -23,9 +23,9 @@ export const AppFooter = () => {
         target.getAttribute('data-type') === 'value' ? target.value : prev?.value || '';
       return { id: '', name: headerKey, value: headerValue, enabled: false };
     });
-  }, []);
+  };
 
-  const validateHeaderKey = useCallback(() => {
+  const validateHeaderKey = () => {
     const headerKey = cleanupHeaderKey(header?.name || '');
 
     setHeader((prev) => ({
@@ -35,7 +35,7 @@ export const AppFooter = () => {
       value: prev?.value ?? '',
       enabled: false,
     }));
-  }, [header?.name]);
+  };
 
   useEffect(
     () => setDisabledButton(!(header?.name && header?.value)),

@@ -1,4 +1,4 @@
-import { cloneElement, type ElementType, isValidElement, memo, type ReactElement } from 'react';
+import { cloneElement, type ElementType, isValidElement, type ReactElement } from 'react';
 import classnames from 'clsx';
 import { Button, type ButtonProps } from './button';
 
@@ -47,4 +47,4 @@ const IconButtonComponent = <
   );
 };
 
-export const IconButton = memo(IconButtonComponent);
+export const IconButton = IconButtonComponent;
