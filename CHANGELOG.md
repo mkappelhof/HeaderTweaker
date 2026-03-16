@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.0.3
+
+### Patch Changes
+
+- 38b86cf: Make sure existing headers also have a unique ID
+
 ## 1.0.2
 
 ### Patch Changes
