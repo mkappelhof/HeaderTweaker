@@ -1,18 +1,23 @@
-import { isFirefox, storage } from '@constants/index';
+import { storage } from '@constants/index';
 import type { Header } from '@interfaces/index';
 import { v4 as uuidv4 } from 'uuid';
 
 const setHeaders = async (headers: Header[]) => {
-  if (isFirefox) {
-    await storage.local.set({ headers });
-  } else {
-    storage.local.set({ headers });
-  }
+  await storage.local.set({ headers });
 };
 
 export const getHeaders = async (): Promise<Header[]> => {
   const result = await storage.local.get('headers');
-  return result.headers || [];
+  const headers: Header[] = result.headers || [];
+  const headersWithoutId = headers.some(({ id }) => !id);
+
+  if (headersWithoutId) {
+    const headersWithId = headers.map((h) => (h.id ? h : { ...h, id: uuidv4() }));
+    await setHeaders(headersWithId);
+    return headersWithId;
+  }
+
+  return headers;
 };
 
 const getSelectedHeader = async (header: Header) => {

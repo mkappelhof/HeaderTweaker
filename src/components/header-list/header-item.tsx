@@ -16,7 +16,7 @@ interface HeaderItemProps extends Header {
 
 export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemProps) => {
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
-  const { isDisabled, selectedHeader, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
+  const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
   return (
     <>
@@ -46,7 +46,7 @@ export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemP
               disabled={isDisabled}
               aria-label="Edit header"
               onClick={() => {
-                setSelectedHeader(selectedHeader ?? { id, name, value, enabled });
+                setSelectedHeader({ id, name, value, enabled });
                 openDrawer(true);
               }}
             >
