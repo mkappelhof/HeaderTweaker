@@ -45,7 +45,6 @@ export const ImportHeaders = () => {
             .filter(
               ({ name }) => !currentHeaders.some((existingHeader) => existingHeader.name === name)
             );
-          validHeaders.forEach(console.log);
           setImportedHeaders(validHeaders.length);
           await importHeaders(validHeaders);
         }

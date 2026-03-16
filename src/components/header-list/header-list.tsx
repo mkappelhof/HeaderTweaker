@@ -43,7 +43,7 @@ export const HeaderList = () => {
             </tr>
           ) : (
             headers.map((header) => (
-              <HeaderItem key={`header-${header.name}`} openDrawer={openDrawer} {...header} />
+              <HeaderItem key={header.id} openDrawer={openDrawer} {...header} />
             ))
           )}
         </tbody>

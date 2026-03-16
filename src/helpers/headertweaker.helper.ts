@@ -1,15 +1,10 @@
-import { isFirefox, storage } from '@constants/index';
+import { storage } from '@constants/index';
 import type { Status } from '@interfaces/index';
 
 const STATUS_KEY = 'isDisabled';
 
 export const setStatus = async (status: Status) => {
-  if (isFirefox) {
-    await storage.local.set({ [STATUS_KEY]: status === 'disabled' });
-  } else {
-    storage.local.set({ [STATUS_KEY]: status === 'disabled' });
-  }
-
+  await storage.local.set({ [STATUS_KEY]: status === 'disabled' });
   return status;
 };
 
