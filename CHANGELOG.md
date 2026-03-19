@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.1.0
+
+### Minor Changes
+
+- 39d4b3a: Add support for Chromium based browsers
+
 ## 1.0.3
 
 ### Patch Changes
