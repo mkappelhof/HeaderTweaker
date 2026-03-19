@@ -46,9 +46,13 @@
     "web-ext": "8.9.0"
   },
   "scripts": {
-    "dev": "vite build && web-ext run --source-dir=dist --watch-files=dist/*",
-    "dev:console": "vite build && web-ext run --source-dir=dist --watch-files=dist/* --browser-console",
-    "build": "vite build",
+    "dev:firefox": "BROWSER=firefox vite build && web-ext run --source-dir=dist/firefox --watch-files=dist/firefox/*",
+    "dev:firefox:console": "BROWSER=firefox vite build && web-ext run --source-dir=dist/firefox --watch-files=dist/firefox/* --browser-console",
+    "build:firefox": "BROWSER=firefox vite build",
+    "dev:chrome": "BROWSER=chrome vite build && web-ext run --target=chromium --source-dir=dist/chrome --watch-files=dist/chrome/*",
+    "dev:chrome:console": "BROWSER=chrome vite build && web-ext run --target=chromium --source-dir=dist/chrome --watch-files=dist/chrome/* --browser-console",
+    "build:chrome": "BROWSER=chrome vite build",
+    "build:all": "pnpm run build:firefox && pnpm run build:chrome",
     "change": "changeset",
     "lint": "biome lint .",
     "lint:fix": "biome lint . --fix",

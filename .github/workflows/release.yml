@@ -56,26 +56,38 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-      - name: Build
+      - name: Build Firefox extension
         if: steps.changesets.outputs.published == 'true'
-        run: pnpm run build
+        run: pnpm run build:firefox
 
-      - name: Build web extension
+      - name: Build Chrome extension
         if: steps.changesets.outputs.published == 'true'
-        run: pnpm run web-ext:build
+        run: pnpm run build:chrome
 
-      - name: Find built zip file
+      - name: Package Firefox extension
         if: steps.changesets.outputs.published == 'true'
-        id: find_zip
+        run: pnpm exec web-ext build --source-dir=dist/firefox --artifacts-dir=web-ext-artifacts/firefox
+
+      - name: Package Chrome extension
+        if: steps.changesets.outputs.published == 'true'
+        run: pnpm exec web-ext build --source-dir=dist/chrome --artifacts-dir=web-ext-artifacts/chrome
+
+      - name: Find built zip files
+        if: steps.changesets.outputs.published == 'true'
+        id: find_zips
         run: |
-          ZIP_FILE=$(find web-ext-artifacts -name "*.zip" -type f | head -n 1)
-          if [ -z "$ZIP_FILE" ]; then
-            echo "Error: No zip file found in web-ext-artifacts directory"
-            ls -la web-ext-artifacts/
+          FIREFOX_ZIP=$(find web-ext-artifacts/firefox -name "*.zip" -type f | head -n 1)
+          CHROME_ZIP=$(find web-ext-artifacts/chrome -name "*.zip" -type f | head -n 1)
+          if [ -z "$FIREFOX_ZIP" ]; then
+            echo "Error: No zip file found for Firefox"
             exit 1
           fi
-          echo "zip_file=$ZIP_FILE" >> $GITHUB_OUTPUT
-          echo "Found zip file: $ZIP_FILE"
+          if [ -z "$CHROME_ZIP" ]; then
+            echo "Error: No zip file found for Chrome"
+            exit 1
+          fi
+          echo "firefox_zip=$FIREFOX_ZIP" >> $GITHUB_OUTPUT
+          echo "chrome_zip=$CHROME_ZIP" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         if: steps.changesets.outputs.published == 'true'
@@ -85,6 +97,8 @@ jobs:
           name: Release v${{ steps.get_version.outputs.version }}
           body: |
             Automated release for version ${{ steps.get_version.outputs.version }}.
-          files: ${{ steps.find_zip.outputs.zip_file }}
+          files: |
+            ${{ steps.find_zips.outputs.firefox_zip }}
+            ${{ steps.find_zips.outputs.chrome_zip }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
