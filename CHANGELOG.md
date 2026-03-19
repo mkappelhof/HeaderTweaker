@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.1.1
+
+### Patch Changes
+
+- ad2f619: Fix release versions
+
 ## 1.1.0
 
 ### Minor Changes
