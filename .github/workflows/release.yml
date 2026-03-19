@@ -66,28 +66,17 @@ jobs:
 
       - name: Package Firefox extension
         if: steps.changesets.outputs.published == 'true'
-        run: pnpm exec web-ext build --source-dir=dist/firefox --artifacts-dir=web-ext-artifacts/firefox
+        run: |
+          pnpm exec web-ext build --source-dir=dist/firefox --artifacts-dir=web-ext-artifacts/firefox
+          ZIP=$(find web-ext-artifacts/firefox -name "*.zip" -type f | head -n 1)
+          mv "$ZIP" "web-ext-artifacts/headertweaker-firefox-${{ steps.get_version.outputs.version }}.zip"
 
       - name: Package Chrome extension
         if: steps.changesets.outputs.published == 'true'
-        run: pnpm exec web-ext build --source-dir=dist/chrome --artifacts-dir=web-ext-artifacts/chrome
-
-      - name: Find built zip files
-        if: steps.changesets.outputs.published == 'true'
-        id: find_zips
         run: |
-          FIREFOX_ZIP=$(find web-ext-artifacts/firefox -name "*.zip" -type f | head -n 1)
-          CHROME_ZIP=$(find web-ext-artifacts/chrome -name "*.zip" -type f | head -n 1)
-          if [ -z "$FIREFOX_ZIP" ]; then
-            echo "Error: No zip file found for Firefox"
-            exit 1
-          fi
-          if [ -z "$CHROME_ZIP" ]; then
-            echo "Error: No zip file found for Chrome"
-            exit 1
-          fi
-          echo "firefox_zip=$FIREFOX_ZIP" >> $GITHUB_OUTPUT
-          echo "chrome_zip=$CHROME_ZIP" >> $GITHUB_OUTPUT
+          pnpm exec web-ext build --source-dir=dist/chrome --artifacts-dir=web-ext-artifacts/chrome
+          ZIP=$(find web-ext-artifacts/chrome -name "*.zip" -type f | head -n 1)
+          mv "$ZIP" "web-ext-artifacts/headertweaker-chromium-${{ steps.get_version.outputs.version }}.zip"
 
       - name: Create GitHub Release
         if: steps.changesets.outputs.published == 'true'
@@ -98,7 +87,7 @@ jobs:
           body: |
             Automated release for version ${{ steps.get_version.outputs.version }}.
           files: |
-            ${{ steps.find_zips.outputs.firefox_zip }}
-            ${{ steps.find_zips.outputs.chrome_zip }}
+            web-ext-artifacts/headertweaker-firefox-${{ steps.get_version.outputs.version }}.zip
+            web-ext-artifacts/headertweaker-chromium-${{ steps.get_version.outputs.version }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
