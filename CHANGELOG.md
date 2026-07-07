@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.2.0
+
+### Minor Changes
+
+- 383bd4f: Make headers orderable and fix switch style
+
 ## 1.1.1
 
 ### Patch Changes
