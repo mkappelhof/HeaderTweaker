@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.2.1
+
+### Patch Changes
+
+- f16f080: Fix headers not being applied
+
 ## 1.2.0
 
 ### Minor Changes
