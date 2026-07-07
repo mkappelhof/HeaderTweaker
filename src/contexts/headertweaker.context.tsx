@@ -13,6 +13,7 @@ import {
   getHeaders,
   importHeaders,
   removeHeader,
+  reorderHeaders,
   updateHeader,
 } from '@helpers/header.helper';
 import {
@@ -34,6 +35,7 @@ type HeaderTweakerContextValue = {
   selectedHeader: Header | null;
   updateHeader: (args: HeaderFn) => Promise<void>;
   importHeaders: (headers: Header[]) => Promise<void>;
+  reorderHeaders: (headers: Header[]) => Promise<void>;
   setStatus: (status: Status) => Promise<void>;
   setSelectedHeader: Dispatch<SetStateAction<Header | null>>;
 };
@@ -45,6 +47,7 @@ const initialState: HeaderTweakerContextValue = {
   isDisabled: false,
   updateHeader: async () => {},
   importHeaders: async () => {},
+  reorderHeaders: async () => {},
   setSelectedHeader: () => {},
   setStatus: async () => {},
 };
@@ -92,6 +95,11 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
     await fetchHeaders();
   };
 
+  const reorderHeadersFn = async (headers: Header[]) => {
+    await reorderHeaders(headers);
+    setHeaderList(headers);
+  };
+
   const updateHeaderFn = async ({ header, action, isActive }: HeaderFn) => {
     let newHeader: Header | undefined;
 
@@ -132,6 +140,7 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
     setStatus,
     updateHeader: updateHeaderFn,
     importHeaders: importHeaderFn,
+    reorderHeaders: reorderHeadersFn,
   };
 
   return <HeaderTweakerContext.Provider value={value}>{children}</HeaderTweakerContext.Provider>;
