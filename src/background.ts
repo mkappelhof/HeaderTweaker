@@ -3,15 +3,16 @@ const STATUS_KEY = 'isDisabled';
 
 type Header = { name: string; value: string; enabled: boolean };
 
-// chrome.storage works in both Firefox (MV2) and Chrome (MV3)
+const storageLocal = __BROWSER__ === 'firefox' ? browser.storage.local : chrome.storage.local;
+
 const getStatus = async (): Promise<'enabled' | 'disabled'> => {
-  const result = await chrome.storage.local.get(STATUS_KEY);
+  const result = await storageLocal.get(STATUS_KEY);
   return result[STATUS_KEY] ? 'disabled' : 'enabled';
 };
 
 const getHeaders = async (): Promise<Header[]> => {
-  const result = await chrome.storage.local.get('headers');
-  return result.headers || [];
+  const result = await storageLocal.get('headers');
+  return (result.headers as Header[]) || [];
 };
 
 if (__BROWSER__ === 'chrome') {

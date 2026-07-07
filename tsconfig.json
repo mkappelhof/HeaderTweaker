@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "resolveJsonModule": true,
+    "types": ["chrome", "firefox-webext-browser", "node"],
     "paths": {
       "@constants/*": ["./src/constants/*"],
       "@contexts/*": ["./src/contexts/*"],
