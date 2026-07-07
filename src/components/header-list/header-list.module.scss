@@ -8,6 +8,8 @@
 
 .notFound { text-align: center; }
 
+.headerDragHandle { width: 28px; }
+
 .headerSwitch { width: 70px; }
 
 .headerActions { 
@@ -31,3 +33,27 @@
 }
 
 .disabled { opacity: 0.4 }
+
+.dragHandleCell { padding-right: 0; }
+
+.switchCell { padding-left: vars.$spacing-core-2; }
+
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: vars.$colors-tertiary-foreground;
+  cursor: grab;
+
+  svg { 
+    width: 16px; 
+    height: 16px; 
+  }
+
+  &:active { cursor: grabbing; }
+}
+
+.dragOver { 
+  outline: 2px solid vars.$colors-primary-action; 
+  outline-offset: -1px; 
+}

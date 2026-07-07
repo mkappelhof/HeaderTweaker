@@ -82,3 +82,7 @@ export const importHeaders = async (headers: Header[]) => {
   if (!Array.isArray(headers)) return;
   await setHeaders(headers);
 };
+
+export const reorderHeaders = async (headers: Header[]) => {
+  await setHeaders(headers);
+};

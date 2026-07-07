@@ -4,7 +4,7 @@ import { Confirm } from '@components/feedback/confirm';
 import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { Bars3Icon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 import classnames from 'clsx';
 
@@ -12,16 +12,46 @@ import css from './header-list.module.scss';
 
 interface HeaderItemProps extends Header {
   openDrawer: (state: boolean) => void;
+  index: number;
+  isDragOver: boolean;
+  onDragStart: (index: number) => void;
+  onDragOver: (e: React.DragEvent, index: number) => void;
+  onDrop: (index: number) => void;
+  onDragEnd: () => void;
 }
 
-export const HeaderItem = ({ id, name, value, enabled, openDrawer }: HeaderItemProps) => {
+export const HeaderItem = ({
+  id,
+  name,
+  value,
+  enabled,
+  openDrawer,
+  index,
+  isDragOver,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragEnd,
+}: HeaderItemProps) => {
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
   const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
   return (
     <>
-      <tr className={classnames({ [css.disabled]: isDisabled })}>
-        <td>
+      <tr
+        draggable
+        className={classnames({ [css.disabled]: isDisabled, [css.dragOver]: isDragOver })}
+        onDragStart={() => onDragStart(index)}
+        onDragOver={(e) => onDragOver(e, index)}
+        onDrop={() => onDrop(index)}
+        onDragEnd={onDragEnd}
+      >
+        <td className={css.dragHandleCell}>
+          <span className={css.dragHandle}>
+            <Bars3Icon />
+          </span>
+        </td>
+        <td className={css.switchCell}>
           <Switch
             isOn={enabled}
             disabled={isDisabled}
