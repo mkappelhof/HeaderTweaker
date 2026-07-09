@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.2.2
+
+### Patch Changes
+
+- f7faa37: Add option to resize header keys/values width
+
 ## 1.2.1
 
 ### Patch Changes

@@ -1,6 +1,6 @@
 {
   "name": "headertweaker",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Lightweight browser extension that lets you easily modify outgoing HTTP headers",
   "main": "dist/headertweaker.html",
   "author": "Maurice Kappelhof",
