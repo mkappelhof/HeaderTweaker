@@ -25,6 +25,7 @@ export const HeaderItem = ({
   name,
   value,
   enabled,
+  urls,
   openDrawer,
   index,
   isDragOver,
@@ -57,7 +58,7 @@ export const HeaderItem = ({
             disabled={isDisabled}
             onChange={async (state) =>
               await updateHeader({
-                header: { id, name, value, enabled: state },
+                header: { id, name, value, enabled: state, urls },
                 action: 'activate',
                 isActive: state,
               })
@@ -76,7 +77,7 @@ export const HeaderItem = ({
               disabled={isDisabled}
               aria-label="Edit header"
               onClick={() => {
-                setSelectedHeader({ id, name, value, enabled });
+                setSelectedHeader({ id, name, value, enabled, urls });
                 openDrawer(true);
               }}
             >
@@ -85,7 +86,7 @@ export const HeaderItem = ({
             <IconButton
               disabled={isDisabled}
               aria-label="Delete header"
-              onClick={() => setHeaderToDelete({ id, name, value, enabled })}
+              onClick={() => setHeaderToDelete({ id, name, value, enabled, urls })}
             >
               <TrashIcon aria-label="Delete" />
             </IconButton>

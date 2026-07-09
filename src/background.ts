@@ -1,7 +1,7 @@
 // Keep in sync with STATUS_KEY in headertweaker.helper.ts
 const STATUS_KEY = 'isDisabled';
 
-type Header = { name: string; value: string; enabled: boolean };
+type Header = { name: string; value: string; enabled: boolean; urls?: string[] };
 
 const storageLocal = __BROWSER__ === 'firefox' ? browser.storage.local : chrome.storage.local;
 
@@ -44,18 +44,37 @@ if (__BROWSER__ === 'chrome') {
 
     if (isEnabled === 'enabled') {
       const enabledHeaders = headers.filter(({ enabled }) => enabled);
-      enabledHeaders.forEach(({ name, value }, index) => {
-        addRules.push({
-          id: index + 1,
-          priority: 1,
-          action: {
-            type: 'modifyHeaders',
-            requestHeaders: [{ header: name, operation: 'set', value }],
-          },
-          condition: {
-            resourceTypes: ALL_RESOURCE_TYPES,
-          },
-        });
+      let ruleId = 1;
+      enabledHeaders.forEach(({ name, value, urls }) => {
+        const hasUrls = urls && urls.length > 0;
+        if (hasUrls) {
+          urls.forEach((urlFilter) => {
+            addRules.push({
+              id: ruleId++,
+              priority: 1,
+              action: {
+                type: 'modifyHeaders',
+                requestHeaders: [{ header: name, operation: 'set', value }],
+              },
+              condition: {
+                urlFilter,
+                resourceTypes: ALL_RESOURCE_TYPES,
+              },
+            });
+          });
+        } else {
+          addRules.push({
+            id: ruleId++,
+            priority: 1,
+            action: {
+              type: 'modifyHeaders',
+              requestHeaders: [{ header: name, operation: 'set', value }],
+            },
+            condition: {
+              resourceTypes: ALL_RESOURCE_TYPES,
+            },
+          });
+        }
       });
     }
 
@@ -69,6 +88,13 @@ if (__BROWSER__ === 'chrome') {
   });
 } else {
   // Firefox MV2: use blocking webRequest to modify outgoing request headers
+  const matchesUrl = (url: string, patterns: string[]): boolean => {
+    return patterns.some((pattern) => {
+      const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+      return new RegExp(`^${escaped}$`).test(url);
+    });
+  };
+
   const onBeforeSendHeaders = async (
     details: browser.webRequest._OnBeforeSendHeadersDetails
   ): Promise<browser.webRequest.BlockingResponse> => {
@@ -82,7 +108,8 @@ if (__BROWSER__ === 'chrome') {
       if (!enabledHeaders.length) return {};
 
       const requestHeaders = details.requestHeaders.slice();
-      enabledHeaders.forEach(({ name, value }) => {
+      enabledHeaders.forEach(({ name, value, urls }) => {
+        if (urls && urls.length > 0 && !matchesUrl(details.url, urls)) return;
         for (let i = requestHeaders.length - 1; i >= 0; i--) {
           if (requestHeaders[i].name.toLowerCase() === name.toLowerCase()) {
             requestHeaders.splice(i, 1);
