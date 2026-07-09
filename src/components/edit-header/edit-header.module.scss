@@ -3,3 +3,15 @@
   flex-direction: column;
   gap: vars.$spacing-core-4;
 }
+
+.urlSection {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-2;
+}
+
+.urlRow {
+  display: flex;
+  gap: vars.$spacing-core-2;
+  align-items: center;
+}

@@ -8,14 +8,77 @@
 
 .notFound { text-align: center; }
 
+.tableFixed {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.resizing {
+  cursor: col-resize;
+  user-select: none;
+}
+
 .headerDragHandle { width: 28px; }
 
 .headerSwitch { width: 70px; }
 
 .headerActions { 
-  width: 120px; 
+  width: 100px; 
   padding-left: 0;
   padding-right: 0;
+}
+
+.headerNameTh {
+  position: relative;
+}
+
+.columnResizeHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -4px;
+  width: 8px;
+  cursor: col-resize;
+  z-index: 2;
+
+  &.hidden { display: none }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(50% - 1px);
+    width: 2px;
+    background: vars.$colors-tertiary-foreground;
+    opacity: 0.35;
+    border-radius: 1px;
+    transition: opacity 0.15s, background-color 0.15s;
+  }
+
+  &:hover {
+    &::before {
+      opacity: 1;
+      background-color: vars.$colors-primary-action;
+    }
+
+    &::after {
+      opacity: 1;
+      border-color: vars.$colors-primary-action;
+    }
+  }
+}
+
+.columnResizeHandleActive {
+  &::before {
+    opacity: 1;
+    background-color: vars.$colors-primary-action;
+  }
+
+  &::after {
+    opacity: 1;
+    border-color: vars.$colors-primary-action;
+  }
 }
 
 .buttonWrapper { 

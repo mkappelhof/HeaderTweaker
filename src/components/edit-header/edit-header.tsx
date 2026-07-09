@@ -1,11 +1,12 @@
 import { type ChangeEvent, useState } from 'react';
 import { Button } from '@components/button/button';
+import { IconButton } from '@components/button/icon-button';
 import { Input } from '@components/input/input';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
-import { CheckCircleIcon } from '@heroicons/react/24/solid';
+import { CheckCircleIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 
 import css from './edit-header.module.scss';
@@ -31,6 +32,7 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
         name: headerKey,
         value: headerValue,
         enabled: prev?.enabled ?? false,
+        urls: prev?.urls,
       };
     });
   };
@@ -45,6 +47,26 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
       value: prev?.value ?? '',
       enabled: prev?.enabled ?? false,
     }));
+  };
+
+  const handleUrlChange = (index: number, value: string) => {
+    setHeader((prev) => {
+      if (!prev) return prev;
+      const urls = [...(prev.urls ?? [])];
+      urls[index] = value;
+      return { ...prev, urls };
+    });
+  };
+
+  const addUrl = () => {
+    setHeader((prev) => prev && { ...prev, urls: [...(prev.urls ?? []), ''] });
+  };
+
+  const removeUrl = (index: number) => {
+    setHeader((prev) => {
+      if (!prev) return prev;
+      return { ...prev, urls: (prev.urls ?? []).filter((_, i) => i !== index) };
+    });
   };
 
   if (!header) return null;
@@ -67,9 +89,36 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
 
       <Input type="text" value={header.value} data-type="value" onChange={handleInputChange} />
 
+      <div className={css.urlSection}>
+        <Text as="span" variant="body-small">
+          URL restrictions
+        </Text>
+        {(header.urls ?? []).map((url, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: order is stable, no reordering
+          <div key={index} className={css.urlRow}>
+            <Input
+              type="text"
+              placeholder="https://example.com/*"
+              value={url}
+              onChange={(e) => handleUrlChange(index, e.target.value)}
+            />
+            <IconButton aria-label="Remove URL" onClick={() => removeUrl(index)}>
+              <XMarkIcon />
+            </IconButton>
+          </div>
+        ))}
+        <Button variant="ghost" onClick={addUrl}>
+          <PlusIcon />
+          <Text as="span">Add URL</Text>
+        </Button>
+      </div>
+
       <Button
         onClick={async () => {
-          await updateHeader({ header, action: 'update' });
+          await updateHeader({
+            header: { ...header, urls: header.urls?.filter((u) => u.trim() !== '') },
+            action: 'update',
+          });
           closePanel();
         }}
       >
