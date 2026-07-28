@@ -13,15 +13,19 @@ export const HeaderList = () => {
   const [open, setOpen] = useState(false);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [nameColWidth, setNameColWidth] = useState(275);
+  const [labelColWidth, setLabelColWidth] = useState(150);
   const [isResizing, setIsResizing] = useState(false);
   const dragIndexRef = useRef<number | null>(null);
   const tableRef = useRef<HTMLTableElement>(null);
-  const { headers, selectedHeader, reorderHeaders } = useHeaderTweakerContext();
+  const { headers, selectedHeader, reorderHeaders, useLabels } = useHeaderTweakerContext();
 
   useEffect(() => {
-    storage.local.get('nameColWidth').then((result) => {
+    storage.local.get(['nameColWidth', 'labelColWidth']).then((result) => {
       if (typeof result.nameColWidth === 'number') {
         setNameColWidth(result.nameColWidth);
+      }
+      if (typeof result.labelColWidth === 'number') {
+        setLabelColWidth(result.labelColWidth);
       }
     });
   }, []);
@@ -82,12 +86,40 @@ export const HeaderList = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
+  const handleLabelResizeMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const startX = e.clientX;
+    const startWidth = labelColWidth;
+    const tableWidth = tableRef.current?.offsetWidth ?? 600;
+    const maxWidth = tableWidth - nameColWidth - 218 - 80;
+    let currentWidth = startWidth;
+
+    setIsResizing(true);
+
+    const handleMouseMove = (moveEvent: MouseEvent) => {
+      const delta = moveEvent.clientX - startX;
+      currentWidth = Math.max(80, Math.min(maxWidth, startWidth + delta));
+      setLabelColWidth(currentWidth);
+    };
+
+    const handleMouseUp = () => {
+      setIsResizing(false);
+      storage.local.set({ labelColWidth: currentWidth });
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+  };
+
   return (
     <div className={css.root}>
       <table ref={tableRef} className={classnames({ [css.resizing]: isResizing })}>
         <colgroup>
           <col className={css.headerDragHandle} />
           <col className={css.headerSwitch} />
+          {useLabels && <col style={{ width: labelColWidth }} />}
           <col style={{ width: nameColWidth }} />
           <col />
           <col className={css.headerActions} />
@@ -96,6 +128,19 @@ export const HeaderList = () => {
           <tr>
             <th />
             <th />
+            {useLabels && (
+              <th className={css.headerLabelTh}>
+                <Text as="span">Label</Text>
+                <div
+                  className={classnames(css.columnResizeHandle, {
+                    [css.columnResizeHandleActive]: isResizing,
+                    [css.hidden]: !headers.length,
+                  })}
+                  onMouseDown={handleLabelResizeMouseDown}
+                  aria-hidden="true"
+                />
+              </th>
+            )}
             <th className={css.headerNameTh}>
               <Text as="span">Header key</Text>
               <div
@@ -116,7 +161,7 @@ export const HeaderList = () => {
         <tbody>
           {!headers.length ? (
             <tr>
-              <td colSpan={5} className={css.notFound}>
+              <td colSpan={useLabels ? 6 : 5} className={css.notFound}>
                 <Text>No headers to display yet</Text>
               </td>
             </tr>
@@ -125,6 +170,7 @@ export const HeaderList = () => {
               <HeaderItem
                 key={header.id}
                 index={index}
+                showLabel={useLabels}
                 isDragOver={dropIndex === index}
                 onDragStart={handleDragStart}
                 onDragOver={handleDragOver}

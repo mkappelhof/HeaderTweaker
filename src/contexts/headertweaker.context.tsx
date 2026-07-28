@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { storage } from '@constants/index';
 import {
   activateHeader,
   addHeader,
@@ -32,11 +33,13 @@ type HeaderTweakerContextValue = {
   loading: boolean;
   headers: Header[];
   isDisabled: boolean;
+  useLabels: boolean;
   selectedHeader: Header | null;
   updateHeader: (args: HeaderFn) => Promise<void>;
   importHeaders: (headers: Header[]) => Promise<void>;
   reorderHeaders: (headers: Header[]) => Promise<void>;
   setStatus: (status: Status) => Promise<void>;
+  setUseLabels: (show: boolean) => void;
   setSelectedHeader: Dispatch<SetStateAction<Header | null>>;
 };
 
@@ -45,10 +48,12 @@ const initialState: HeaderTweakerContextValue = {
   selectedHeader: null,
   loading: false,
   isDisabled: false,
+  useLabels: false,
   updateHeader: async () => {},
   importHeaders: async () => {},
   reorderHeaders: async () => {},
   setSelectedHeader: () => {},
+  setUseLabels: () => {},
   setStatus: async () => {},
 };
 
@@ -67,11 +72,17 @@ interface HeaderTweakerContextProps {
 export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) => {
   const [loading, setLoading] = useState(true);
   const [isDisabled, setIsDisabled] = useState(false);
+  const [useLabels, setUseLabels] = useState(false);
   const [headerList, setHeaderList] = useState<Header[]>([]);
   const [selectedHeader, setSelectedHeaderRaw] = useState<Header | null>(null);
 
   const setSelectedHeader = (value: SetStateAction<Header | null>) => {
     setSelectedHeaderRaw(value);
+  };
+
+  const setUseLabelsFn = (show: boolean) => {
+    setUseLabels(show);
+    storage.local.set({ useLabels: show });
   };
 
   const getStatus = async () => setIsDisabled(await isDisabledGlobally());
@@ -129,15 +140,22 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
   useEffect(() => {
     getStatus();
     fetchHeaders();
+    storage.local.get('useLabels').then((result) => {
+      if (typeof result.useLabels === 'boolean') {
+        setUseLabels(result.useLabels);
+      }
+    });
   }, []);
 
   const value = {
     loading,
     isDisabled,
-    headers: headerList,
+    useLabels,
     selectedHeader,
     setSelectedHeader,
     setStatus,
+    headers: headerList,
+    setUseLabels: setUseLabelsFn,
     updateHeader: updateHeaderFn,
     importHeaders: importHeaderFn,
     reorderHeaders: reorderHeadersFn,

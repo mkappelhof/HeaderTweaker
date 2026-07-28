@@ -9,7 +9,7 @@ import { ArrowDownTrayIcon, ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 import css from './settings.module.scss';
 
 export const Settings = () => {
-  const { isDisabled, headers, setStatus } = useHeaderTweakerContext();
+  const { isDisabled, headers, setStatus, useLabels, setUseLabels } = useHeaderTweakerContext();
 
   const handleStatusChange = (newState: boolean) => {
     setStatus(newState ? 'enabled' : 'disabled').catch(console.error);
@@ -36,6 +36,7 @@ export const Settings = () => {
         label={`HeaderTweaker is ${isDisabled ? 'Disabled' : 'Enabled'}`}
         onChange={handleStatusChange}
       />
+      <Switch isOn={useLabels} label="Use labels" onChange={setUseLabels} />
       <Button onClick={openImportWindow}>
         <ArrowUpTrayIcon /> Import new headers
       </Button>
