@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.3.0
+
+### Minor Changes
+
+- 4d1ab8c: Add option to use labels for headers
+
 ## 1.2.2
 
 ### Patch Changes
