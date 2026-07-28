@@ -14,6 +14,7 @@ interface HeaderItemProps extends Header {
   openDrawer: (state: boolean) => void;
   index: number;
   isDragOver: boolean;
+  showLabel: boolean;
   onDragStart: (index: number) => void;
   onDragOver: (e: React.DragEvent, index: number) => void;
   onDrop: (index: number) => void;
@@ -26,9 +27,11 @@ export const HeaderItem = ({
   value,
   enabled,
   urls,
+  label,
   openDrawer,
   index,
   isDragOver,
+  showLabel,
   onDragStart,
   onDragOver,
   onDrop,
@@ -58,13 +61,18 @@ export const HeaderItem = ({
             disabled={isDisabled}
             onChange={async (state) =>
               await updateHeader({
-                header: { id, name, value, enabled: state, urls },
+                header: { id, name, value, enabled: state, urls, label },
                 action: 'activate',
                 isActive: state,
               })
             }
           />
         </td>
+        {showLabel && (
+          <td className={css.labelCell}>
+            {label ? <span className={css.label}>{label}</span> : null}
+          </td>
+        )}
         <td>
           <HeaderContent content={name} />
         </td>
@@ -77,7 +85,7 @@ export const HeaderItem = ({
               disabled={isDisabled}
               aria-label="Edit header"
               onClick={() => {
-                setSelectedHeader({ id, name, value, enabled, urls });
+                setSelectedHeader({ id, name, value, enabled, urls, label });
                 openDrawer(true);
               }}
             >
@@ -86,7 +94,7 @@ export const HeaderItem = ({
             <IconButton
               disabled={isDisabled}
               aria-label="Delete header"
-              onClick={() => setHeaderToDelete({ id, name, value, enabled, urls })}
+              onClick={() => setHeaderToDelete({ id, name, value, enabled, urls, label })}
             >
               <TrashIcon aria-label="Delete" />
             </IconButton>

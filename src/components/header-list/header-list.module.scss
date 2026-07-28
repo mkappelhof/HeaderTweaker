@@ -32,6 +32,21 @@
   position: relative;
 }
 
+.headerLabelTh {
+  position: relative;
+}
+
+.labelCell {
+  overflow: hidden;
+}
+
+.label {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .columnResizeHandle {
   position: absolute;
   top: 0;

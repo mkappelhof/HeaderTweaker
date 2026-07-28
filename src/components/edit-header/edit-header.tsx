@@ -21,20 +21,16 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
+    const type = target.getAttribute('data-type');
 
-    setHeader((prev) => {
-      const headerKey =
-        target.getAttribute('data-type') === 'name' ? target.value : prev?.name || '';
-      const headerValue =
-        target.getAttribute('data-type') === 'value' ? target.value : prev?.value || '';
-      return {
-        id: prev?.id ?? '',
-        name: headerKey,
-        value: headerValue,
-        enabled: prev?.enabled ?? false,
-        urls: prev?.urls,
-      };
-    });
+    setHeader((prev) => ({
+      id: prev?.id ?? '',
+      name: type === 'name' ? target.value : prev?.name || '',
+      value: type === 'value' ? target.value : prev?.value || '',
+      label: type === 'label' ? target.value : prev?.label,
+      enabled: prev?.enabled ?? false,
+      urls: prev?.urls,
+    }));
   };
 
   const validateHeaderKey = () => {
@@ -88,6 +84,14 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
       />
 
       <Input type="text" value={header.value} data-type="value" onChange={handleInputChange} />
+
+      <Input
+        type="text"
+        placeholder="Label (optional)"
+        value={header.label ?? ''}
+        data-type="label"
+        onChange={handleInputChange}
+      />
 
       <div className={css.urlSection}>
         <Text as="span" variant="body-small">
