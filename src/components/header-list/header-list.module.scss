@@ -144,3 +144,9 @@
   &.inactive { opacity: .5 }
   &.currentUrl { color: vars.$colors-primary-action }
 }
+
+.scopedCell {
+  vertical-align: middle;
+
+  .scopedIcon { display: block; }
+}

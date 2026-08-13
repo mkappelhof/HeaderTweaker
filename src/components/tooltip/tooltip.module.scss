@@ -12,6 +12,7 @@
   transition: opacity 0.15s ease;
   overflow-wrap: break-word;
   transform: translate(-50%, 0);
+  width: max-content;
   max-width: 250px;
 
   &.visible { opacity: 1 }

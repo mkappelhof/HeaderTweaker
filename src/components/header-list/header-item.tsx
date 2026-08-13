@@ -49,7 +49,7 @@ export const HeaderItem = ({
 
   console.log('currentUrl', currentUrl);
 
-  const isScoped = urls && urls.length > 0;
+  const isScoped = urls && urls.length >= 1;
   const isCurrentUrl = !!(isScoped && currentUrl && matchesUrl(currentUrl, urls));
 
   return (
@@ -91,7 +91,7 @@ export const HeaderItem = ({
         <td>
           <HeaderContent content={value} />
         </td>
-        <td>
+        <td className={css.scopedCell}>
           <Tooltip>
             <TooltipTrigger>
               <GlobeAltIcon
@@ -106,13 +106,15 @@ export const HeaderItem = ({
             </TooltipTrigger>
 
             <TooltipContent>
-              {!isScoped && <Text>This header is not scoped to an url</Text>}
+              {!isScoped && <Text>This header is not scoped to any url</Text>}
 
-              {isScoped && isCurrentUrl ? (
-                <Text>This header is scoped to the current url</Text>
-              ) : (
-                <Text>The header is scoped to the following url's: {urls?.join(', ')}</Text>
-              )}
+              {isScoped ? (
+                isCurrentUrl ? (
+                  <Text>This header is scoped to the current url</Text>
+                ) : (
+                  <Text>The header is scoped to the following url's: {urls?.join(', ')}</Text>
+                )
+              ) : null}
             </TooltipContent>
           </Tooltip>
         </td>
