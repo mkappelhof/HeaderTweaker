@@ -47,8 +47,6 @@ export const HeaderItem = ({
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
   const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
-  console.log('currentUrl', currentUrl);
-
   const isScoped = urls && urls.length >= 1;
   const isCurrentUrl = !!(isScoped && currentUrl && matchesUrl(currentUrl, urls));
 
