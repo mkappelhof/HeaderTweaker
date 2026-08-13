@@ -1,4 +1,4 @@
-import { storage } from '@constants/index';
+import { storage, tabs } from '@constants/index';
 import type { Header } from '@interfaces/index';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -85,4 +85,16 @@ export const importHeaders = async (headers: Header[]) => {
 
 export const reorderHeaders = async (headers: Header[]) => {
   await setHeaders(headers);
+};
+
+export const getCurrentTabUrl = async (): Promise<string | undefined> => {
+  const [activeTab] = await tabs.query({ active: true, currentWindow: true });
+  return activeTab?.url;
+};
+
+export const matchesUrl = (url: string, patterns: string[]): boolean => {
+  return patterns.some((pattern) => {
+    const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+    return new RegExp(escaped).test(url);
+  });
 };

@@ -3,8 +3,13 @@ import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
 import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
+import { Text } from '@components/text/text';
+import { Tooltip } from '@components/tooltip/tooltip';
+import { TooltipContent } from '@components/tooltip/tooltip-content';
+import { TooltipTrigger } from '@components/tooltip/tooltip-trigger';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { Bars3Icon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { matchesUrl } from '@helpers/header.helper';
+import { Bars3Icon, GlobeAltIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 import classnames from 'clsx';
 
@@ -15,6 +20,7 @@ interface HeaderItemProps extends Header {
   index: number;
   isDragOver: boolean;
   showLabel: boolean;
+  currentUrl?: string;
   onDragStart: (index: number) => void;
   onDragOver: (e: React.DragEvent, index: number) => void;
   onDrop: (index: number) => void;
@@ -32,6 +38,7 @@ export const HeaderItem = ({
   index,
   isDragOver,
   showLabel,
+  currentUrl,
   onDragStart,
   onDragOver,
   onDrop,
@@ -39,6 +46,11 @@ export const HeaderItem = ({
 }: HeaderItemProps) => {
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
   const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
+
+  console.log('currentUrl', currentUrl);
+
+  const isScoped = urls && urls.length > 0;
+  const isCurrentUrl = !!(isScoped && currentUrl && matchesUrl(currentUrl, urls));
 
   return (
     <>
@@ -78,6 +90,31 @@ export const HeaderItem = ({
         </td>
         <td>
           <HeaderContent content={value} />
+        </td>
+        <td>
+          <Tooltip>
+            <TooltipTrigger>
+              <GlobeAltIcon
+                width={20}
+                height={20}
+                className={classnames(css.scopedIcon, {
+                  [css.active]: isScoped,
+                  [css.inactive]: !isScoped,
+                  [css.currentUrl]: isCurrentUrl,
+                })}
+              />
+            </TooltipTrigger>
+
+            <TooltipContent>
+              {!isScoped && <Text>This header is not scoped to an url</Text>}
+
+              {isScoped && isCurrentUrl ? (
+                <Text>This header is scoped to the current url</Text>
+              ) : (
+                <Text>The header is scoped to the following url's: {urls?.join(', ')}</Text>
+              )}
+            </TooltipContent>
+          </Tooltip>
         </td>
         <td>
           <span className={css.buttonWrapper}>
