@@ -10,8 +10,18 @@
   gap: vars.$spacing-core-2;
 }
 
+.urlEntry {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-1;
+}
+
 .urlRow {
   display: flex;
   gap: vars.$spacing-core-2;
   align-items: center;
+}
+
+.urlError {
+  color: vars.$colors-primary-error;
 }

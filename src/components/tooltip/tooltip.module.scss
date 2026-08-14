@@ -12,7 +12,12 @@
   transition: opacity 0.15s ease;
   overflow-wrap: break-word;
   transform: translate(-50%, 0);
+  width: max-content;
   max-width: 250px;
 
   &.visible { opacity: 1 }
+
+  &.alignLeft { text-align: left }
+  &.alignCenter { text-align: center }
+  &.alignRight { text-align: right }
 }

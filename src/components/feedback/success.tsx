@@ -1,14 +1,11 @@
+import type { FC } from 'react';
 import { Button } from '@components/button/button';
 import { ButtonGroup } from '@components/button/button-group';
-import { ModalTitle } from '@components/modal/ModalTitle';
-import { Modal } from '@components/modal/modal';
-import { ModalIcon } from '@components/modal/modal.icon';
-import { ModalContent } from '@components/modal/modal-content';
-import { ModalFooter } from '@components/modal/modal-footer';
+import { Modal, ModalContent, ModalFooter, ModalIcon, ModalTitle } from '@components/modal/modal';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import type { SuccessProps } from './interfaces';
 
-export const Success = ({
+export const Success: FC<SuccessProps> = ({
   message,
   onConfirm,
   confirmText = 'OK',

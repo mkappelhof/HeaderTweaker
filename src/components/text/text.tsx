@@ -1,4 +1,4 @@
-import type { HTMLAttributes, HTMLElementType, ReactNode } from 'react';
+import type { ComponentPropsWithoutRef, FC, HTMLElementType, ReactNode } from 'react';
 
 export const TextVariant = {
   H1: 'h1',
@@ -18,13 +18,13 @@ const VariantTags: { [key in TextVariant]: HTMLElementType } = {
   [TextVariant.BODY_SMALL]: 'small',
 };
 
-interface TextProps extends HTMLAttributes<HTMLElement> {
+type TextProps = ComponentPropsWithoutRef<'span'> & {
   children: ReactNode;
   variant?: TextVariant;
   as?: HTMLElementType;
-}
+};
 
-export const Text = ({
+export const Text: FC<TextProps> = ({
   children,
   variant = TextVariant.BODY,
   as: Tag = VariantTags[variant],

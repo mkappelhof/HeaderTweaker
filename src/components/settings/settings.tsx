@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { Button } from '@components/button/button';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
@@ -8,7 +9,9 @@ import { ArrowDownTrayIcon, ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 
 import css from './settings.module.scss';
 
-export const Settings = () => {
+type SettingsProps = Record<never, never>;
+
+export const Settings: FC<SettingsProps> = () => {
   const { isDisabled, headers, setStatus, useLabels, setUseLabels } = useHeaderTweakerContext();
 
   const handleStatusChange = (newState: boolean) => {

@@ -1,20 +1,24 @@
-import { useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 import { Drawer } from '@components/drawer/drawer';
 import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
 import { Text } from '@components/text/text';
 import { storage } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { getCurrentTabUrl } from '@helpers/header.helper';
 import classnames from 'clsx';
 
 import css from './header-list.module.scss';
 
-export const HeaderList = () => {
+type HeaderListProps = Record<never, never>;
+
+export const HeaderList: FC<HeaderListProps> = () => {
   const [open, setOpen] = useState(false);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [nameColWidth, setNameColWidth] = useState(275);
   const [labelColWidth, setLabelColWidth] = useState(150);
   const [isResizing, setIsResizing] = useState(false);
+  const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const dragIndexRef = useRef<number | null>(null);
   const tableRef = useRef<HTMLTableElement>(null);
   const { headers, selectedHeader, reorderHeaders, useLabels } = useHeaderTweakerContext();
@@ -28,6 +32,10 @@ export const HeaderList = () => {
         setLabelColWidth(result.labelColWidth);
       }
     });
+  }, []);
+
+  useEffect(() => {
+    getCurrentTabUrl().then(setCurrentUrl);
   }, []);
 
   const openDrawer = (state: boolean) => setOpen(state);
@@ -122,6 +130,7 @@ export const HeaderList = () => {
           {useLabels && <col style={{ width: labelColWidth }} />}
           <col style={{ width: nameColWidth }} />
           <col />
+          <col className={css.headerScope} />
           <col className={css.headerActions} />
         </colgroup>
         <thead>
@@ -142,7 +151,7 @@ export const HeaderList = () => {
               </th>
             )}
             <th className={css.headerNameTh}>
-              <Text as="span">Header key</Text>
+              <Text as="span">Key</Text>
               <div
                 className={classnames(css.columnResizeHandle, {
                   [css.columnResizeHandleActive]: isResizing,
@@ -153,8 +162,9 @@ export const HeaderList = () => {
               />
             </th>
             <th>
-              <Text as="span">Header value</Text>
+              <Text as="span">Value</Text>
             </th>
+            <th />
             <th />
           </tr>
         </thead>
@@ -177,6 +187,7 @@ export const HeaderList = () => {
                 onDrop={handleDrop}
                 onDragEnd={handleDragEnd}
                 openDrawer={openDrawer}
+                currentUrl={currentUrl}
                 {...header}
               />
             ))

@@ -1,16 +1,16 @@
-import { type ComponentProps, useEffect, useState } from 'react';
+import { type ComponentPropsWithoutRef, type FC, useEffect, useState } from 'react';
 import { Text } from '@components/text/text';
 import classnames from 'clsx';
 
 import css from './switch.module.scss';
 
-interface SwitchProps extends Omit<ComponentProps<'input'>, 'onChange'> {
+type SwitchProps = Omit<ComponentPropsWithoutRef<'input'>, 'onChange'> & {
   isOn: boolean;
   label?: string;
   onChange: (state: boolean) => void;
-}
+};
 
-export const Switch = ({ isOn, label, onChange, ...inputProps }: SwitchProps) => {
+export const Switch: FC<SwitchProps> = ({ isOn, label, onChange, ...inputProps }) => {
   const [checked, setChecked] = useState(isOn);
 
   useEffect(() => setChecked(isOn), [isOn]);

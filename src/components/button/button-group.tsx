@@ -1,15 +1,15 @@
-import type { ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import classnames from 'clsx';
 
 import css from './button.module.scss';
 
-interface ButtonGroupProps {
+type ButtonGroupProps = {
   direction?: 'horizontal' | 'vertical';
   withoutSpacing?: boolean;
   children: ReactNode;
-}
+};
 
-export const ButtonGroup = ({
+export const ButtonGroup: FC<ButtonGroupProps> = ({
   children,
   direction = 'horizontal',
   withoutSpacing = false,

@@ -1,15 +1,14 @@
+import type { FC } from 'react';
 import { Text } from '@components/text/text';
-import { Tooltip } from '@components/tooltip/tooltip';
-import { TooltipContent } from '@components/tooltip/tooltip-content';
-import { TooltipTrigger } from '@components/tooltip/tooltip-trigger';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@components/tooltip/tooltip';
 
 import css from './header-content.module.scss';
 
-interface HeaderContentProps {
+type HeaderContentProps = {
   content: string;
-}
+};
 
-export const HeaderContent = ({ content }: HeaderContentProps) => {
+export const HeaderContent: FC<HeaderContentProps> = ({ content }) => {
   const onClick = async () => {
     const clipboardItem = new ClipboardItem({ 'text/plain': content });
     await navigator.clipboard.write([clipboardItem]);

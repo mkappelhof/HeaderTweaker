@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 const pkg = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8'));
 const BROWSER = (process.env.BROWSER as 'firefox' | 'chrome') || 'firefox';
@@ -84,5 +84,8 @@ export default defineConfig({
         additionalData: `@use "sass:color";@use "@styles/variables.scss" as vars;`,
       },
     },
+  },
+  test: {
+    environment: 'jsdom',
   },
 });

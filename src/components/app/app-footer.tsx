@@ -1,4 +1,4 @@
-import { type ChangeEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useState } from 'react';
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
@@ -8,7 +8,9 @@ import type { Header } from '@interfaces/index';
 
 import css from './app.module.scss';
 
-export const AppFooter = () => {
+type AppFooterProps = Record<never, never>;
+
+export const AppFooter: FC<AppFooterProps> = () => {
   const [header, setHeader] = useState<Header>();
   const [disabledButton, setDisabledButton] = useState(true);
   const { isDisabled, updateHeader } = useHeaderTweakerContext();
@@ -42,6 +44,19 @@ export const AppFooter = () => {
     [header?.name, header?.value]
   );
 
+  const addHeader = async () => {
+    if (header) {
+      await updateHeader({ header, action: 'add' });
+      setHeader(undefined);
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isDisabled && !disabledButton) {
+      addHeader();
+    }
+  };
+
   return (
     <footer className={css.footer}>
       <div className={css.inputWrapper}>
@@ -52,6 +67,7 @@ export const AppFooter = () => {
           data-type="name"
           value={header?.name ?? ''}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           onBlur={validateHeaderKey}
         />
       </div>
@@ -63,17 +79,10 @@ export const AppFooter = () => {
           data-type="value"
           value={header?.value ?? ''}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
       </div>
-      <Button
-        disabled={isDisabled || disabledButton}
-        onClick={async () => {
-          if (header) {
-            await updateHeader({ header, action: 'add' });
-            setHeader(undefined);
-          }
-        }}
-      >
+      <Button disabled={isDisabled || disabledButton} onClick={addHeader}>
         <PlusCircleIcon />
         Add header
       </Button>

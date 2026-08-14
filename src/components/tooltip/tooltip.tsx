@@ -12,14 +12,18 @@ import {
 import classnames from 'clsx';
 import { createPortal } from 'react-dom';
 
+export { TooltipContent } from './elements/tooltip-content';
+export { TooltipTrigger } from './elements/tooltip-trigger';
+
 import css from './tooltip.module.scss';
 
-export interface TooltipProps {
+export type TooltipProps = {
   children: ReactNode;
   delay?: number;
-}
+  align?: 'left' | 'center' | 'right';
+};
 
-export const Tooltip: FC<TooltipProps> = ({ children, delay = 200 }) => {
+export const Tooltip: FC<TooltipProps> = ({ children, align = 'left', delay = 200 }) => {
   const tooltipId = useId();
   const triggerRef = useRef<HTMLElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
@@ -105,7 +109,12 @@ export const Tooltip: FC<TooltipProps> = ({ children, delay = 200 }) => {
         createPortal(
           <div
             ref={tooltipRef}
-            className={classnames(css.tooltip, { [css.visible]: isVisible })}
+            className={classnames(css.tooltip, {
+              [css.visible]: isVisible,
+              [css.alignLeft]: align === 'left',
+              [css.alignCenter]: align === 'center',
+              [css.alignRight]: align === 'right',
+            })}
             style={{ top: `${coords.top}px`, left: `${coords.left}px` }}
             role="tooltip"
             id={tooltipId}

@@ -3,7 +3,7 @@ import {
   type FC,
   isValidElement,
   type MouseEvent,
-  type ReactNode,
+  type PropsWithChildren,
   useEffect,
   useRef,
   useState,
@@ -11,16 +11,21 @@ import {
 import classnames from 'clsx';
 import { createPortal } from 'react-dom';
 
+export { ModalClose } from './elements/modal-close';
+export { ModalContent } from './elements/modal-content';
+export { ModalFooter } from './elements/modal-footer';
+export { ModalIcon } from './elements/modal-icon';
+export { ModalTitle } from './elements/modal-title';
+
 import css from './modal.module.scss';
 
-export interface ModalProps {
+export type ModalProps = PropsWithChildren<{
   isOpen: boolean;
   onClose: () => void;
-  children: ReactNode;
   type: 'modal' | 'drawer' | 'alert' | 'confirm' | 'success';
-}
+}>;
 
-export const Modal = ({ type, isOpen, onClose, children }: ModalProps) => {
+export const Modal: FC<ModalProps> = ({ type, isOpen, onClose, children }) => {
   const modalRoot = document.body;
 
   const backdropRef = useRef<HTMLDivElement>(null);
