@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { type FC, useRef, useState } from 'react';
 import { Success } from '@components/feedback/success';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
@@ -7,7 +7,9 @@ import classnames from 'clsx';
 
 import css from './import-headers.module.scss';
 
-export const ImportHeaders = () => {
+type ImportHeadersProps = Record<never, never>;
+
+export const ImportHeaders: FC<ImportHeadersProps> = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [importedHeaders, setImportedHeaders] = useState(0);
   const [dragActive, setDragActive] = useState(false);

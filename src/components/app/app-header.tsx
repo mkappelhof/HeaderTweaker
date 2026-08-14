@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { type FC, useState } from 'react';
 import { IconButton } from '@components/button/icon-button';
 import { Drawer } from '@components/drawer/drawer';
 import { Settings } from '@components/settings/settings';
@@ -10,11 +10,11 @@ import packageJson from '../../../package.json';
 
 import css from './app.module.scss';
 
-interface AppHeaderProps {
+type AppHeaderProps = {
   withoutSettings?: boolean;
-}
+};
 
-export const AppHeader = ({ withoutSettings = false }: AppHeaderProps) => {
+export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
   const [showSettings, setShowSettings] = useState(false);
   const { isDisabled } = useHeaderTweakerContext();
 

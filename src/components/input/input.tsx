@@ -1,13 +1,13 @@
-import { type ComponentProps, useId } from 'react';
+import { type ComponentPropsWithoutRef, type FC, useId } from 'react';
 
 import css from './input.module.scss';
 
-export const Input = ({
+export const Input: FC<ComponentPropsWithoutRef<'input'>> = ({
   type,
   placeholder,
   'aria-label': ariaLabel,
   ...props
-}: ComponentProps<'input'>) => {
+}: ComponentPropsWithoutRef<'input'>) => {
   const id = useId();
 
   return (

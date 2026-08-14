@@ -1,3 +1,4 @@
+import type { FC } from 'react';
 import { HeaderList } from '@components/header-list/header-list';
 import { ImportHeaders } from '@components/import-headers/import-headers';
 import { IMPORT_PARAM } from '@constants/index';
@@ -7,7 +8,9 @@ import { AppHeader } from './app-header';
 
 import css from './app.module.scss';
 
-export const App = () => {
+type AppProps = Record<never, never>;
+
+export const App: FC<AppProps> = () => {
   const params = new URLSearchParams(window.location.search);
 
   const isImportWindow = params.get(IMPORT_PARAM) === 'true';

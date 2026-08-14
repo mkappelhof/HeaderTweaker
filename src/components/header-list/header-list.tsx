@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { type FC, useEffect, useRef, useState } from 'react';
 import { Drawer } from '@components/drawer/drawer';
 import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
@@ -10,7 +10,9 @@ import classnames from 'clsx';
 
 import css from './header-list.module.scss';
 
-export const HeaderList = () => {
+type HeaderListProps = Record<never, never>;
+
+export const HeaderList: FC<HeaderListProps> = () => {
   const [open, setOpen] = useState(false);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [nameColWidth, setNameColWidth] = useState(275);

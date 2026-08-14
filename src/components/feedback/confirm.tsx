@@ -1,12 +1,10 @@
+import type { FC } from 'react';
 import { Button } from '@components/button/button';
 import { ButtonGroup } from '@components/button/button-group';
-import { ModalTitle } from '@components/modal/ModalTitle';
-import { Modal } from '@components/modal/modal';
-import { ModalContent } from '@components/modal/modal-content';
-import { ModalFooter } from '@components/modal/modal-footer';
+import { Modal, ModalContent, ModalFooter, ModalTitle } from '@components/modal/modal';
 import type { ConfirmProps } from './interfaces';
 
-export const Confirm = ({
+export const Confirm: FC<ConfirmProps> = ({
   message,
   onConfirm,
   onCancel,

@@ -1,13 +1,17 @@
-import { ModalTitle } from '@components/modal/ModalTitle';
-import { Modal, type ModalProps } from '@components/modal/modal';
-import { ModalClose } from '@components/modal/modal-close';
-import { ModalContent } from '@components/modal/modal-content';
+import type { FC } from 'react';
+import {
+  Modal,
+  ModalClose,
+  ModalContent,
+  type ModalProps,
+  ModalTitle,
+} from '@components/modal/modal';
 
-interface DrawerProps extends Omit<ModalProps, 'type'> {
+type DrawerProps = Omit<ModalProps, 'type'> & {
   title: string;
-}
+};
 
-export const Drawer = ({ title, children, ...props }: DrawerProps) => {
+export const Drawer: FC<DrawerProps> = ({ title, children, ...props }) => {
   return (
     <Modal type="drawer" {...props}>
       <ModalTitle>{title}</ModalTitle>

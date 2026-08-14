@@ -12,13 +12,16 @@ import {
 import classnames from 'clsx';
 import { createPortal } from 'react-dom';
 
+export { TooltipContent } from './elements/tooltip-content';
+export { TooltipTrigger } from './elements/tooltip-trigger';
+
 import css from './tooltip.module.scss';
 
-export interface TooltipProps {
+export type TooltipProps = {
   children: ReactNode;
   delay?: number;
   align?: 'left' | 'center' | 'right';
-}
+};
 
 export const Tooltip: FC<TooltipProps> = ({ children, align = 'left', delay = 200 }) => {
   const tooltipId = useId();

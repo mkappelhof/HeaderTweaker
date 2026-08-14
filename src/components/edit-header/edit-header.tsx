@@ -1,4 +1,4 @@
-import { type ChangeEvent, type KeyboardEvent, useState } from 'react';
+import { type ChangeEvent, type FC, type KeyboardEvent, useState } from 'react';
 import { Button } from '@components/button/button';
 import { IconButton } from '@components/button/icon-button';
 import { Input } from '@components/input/input';
@@ -12,11 +12,11 @@ import type { Header } from '@interfaces/index';
 
 import css from './edit-header.module.scss';
 
-interface EditHeaderProps {
+type EditHeaderProps = {
   closePanel: () => void;
-}
+};
 
-export const EditHeader = ({ closePanel }: EditHeaderProps) => {
+export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
   const { updateHeader, selectedHeader, useLabels, setUseLabels } = useHeaderTweakerContext();
   const [header, setHeader] = useState<Header | null>(selectedHeader);
   const [focusedUrlIndex, setFocusedUrlIndex] = useState<number | null>(null);

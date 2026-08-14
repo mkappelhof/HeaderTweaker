@@ -1,4 +1,4 @@
-import { type ChangeEvent, type KeyboardEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useState } from 'react';
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
@@ -8,7 +8,9 @@ import type { Header } from '@interfaces/index';
 
 import css from './app.module.scss';
 
-export const AppFooter = () => {
+type AppFooterProps = Record<never, never>;
+
+export const AppFooter: FC<AppFooterProps> = () => {
   const [header, setHeader] = useState<Header>();
   const [disabledButton, setDisabledButton] = useState(true);
   const { isDisabled, updateHeader } = useHeaderTweakerContext();

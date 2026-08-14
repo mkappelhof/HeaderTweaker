@@ -1,12 +1,10 @@
-import { useState } from 'react';
+import { type FC, useState } from 'react';
 import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
 import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
-import { Tooltip } from '@components/tooltip/tooltip';
-import { TooltipContent } from '@components/tooltip/tooltip-content';
-import { TooltipTrigger } from '@components/tooltip/tooltip-trigger';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@components/tooltip/tooltip';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { matchesUrl } from '@helpers/header.helper';
 import { Bars3Icon, GlobeAltIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
@@ -15,7 +13,7 @@ import classnames from 'clsx';
 
 import css from './header-list.module.scss';
 
-interface HeaderItemProps extends Header {
+type HeaderItemProps = Header & {
   openDrawer: (state: boolean) => void;
   index: number;
   isDragOver: boolean;
@@ -25,9 +23,9 @@ interface HeaderItemProps extends Header {
   onDragOver: (e: React.DragEvent, index: number) => void;
   onDrop: (index: number) => void;
   onDragEnd: () => void;
-}
+};
 
-export const HeaderItem = ({
+export const HeaderItem: FC<HeaderItemProps> = ({
   id,
   name,
   value,

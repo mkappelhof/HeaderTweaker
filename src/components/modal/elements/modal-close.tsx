@@ -1,14 +1,15 @@
+import type { FC } from 'react';
 import { IconButton, type IconButtonProps } from '@components/button/icon-button';
 import { XCircleIcon } from '@heroicons/react/24/solid';
 
-import css from './modal.module.scss';
+import css from '../modal.module.scss';
 
-interface ModalCloseProps {
+type ModalCloseProps = {
   onClose: () => void;
   size?: IconButtonProps['size'];
-}
+};
 
-const ModalClose = ({ onClose, size = 'large' }: ModalCloseProps) => {
+const ModalClose: FC<ModalCloseProps> = ({ onClose, size = 'large' }) => {
   return (
     <div className={css.actions}>
       <IconButton onClick={onClose} aria-label="Close modal" size={size}>
