@@ -17,7 +17,7 @@ interface EditHeaderProps {
 }
 
 export const EditHeader = ({ closePanel }: EditHeaderProps) => {
-  const { updateHeader, selectedHeader } = useHeaderTweakerContext();
+  const { updateHeader, selectedHeader, useLabels, setUseLabels } = useHeaderTweakerContext();
   const [header, setHeader] = useState<Header | null>(selectedHeader);
   const [focusedUrlIndex, setFocusedUrlIndex] = useState<number | null>(null);
   const [duplicateUrlIndex, setDuplicateUrlIndex] = useState<number | null>(null);
@@ -159,6 +159,10 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
         disabled={hasDuplicateUrls}
         onClick={async () => {
           if (hasDuplicateUrls) return;
+
+          if (header.label?.trim() && !useLabels) {
+            setUseLabels(true);
+          }
 
           await updateHeader({
             header: { ...header, urls: header.urls?.filter((u) => u.trim() !== '') },
