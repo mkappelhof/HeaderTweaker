@@ -5,6 +5,7 @@ import { Input } from '@components/input/input';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { isDuplicateUrl, normalizeUrlRestriction } from '@helpers/scope.helper';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { CheckCircleIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
@@ -14,22 +15,6 @@ import css from './edit-header.module.scss';
 interface EditHeaderProps {
   closePanel: () => void;
 }
-
-const normalizeUrlRestriction = (url: string) => {
-  const value = url.trim().toLowerCase();
-  if (!value) return '';
-
-  const urlWithProtocol = /^[a-z][a-z\d+.-]*:\/\//.test(value) ? value : `https://${value}`;
-
-  try {
-    return new URL(urlWithProtocol).hostname.replace(/^www\./, '');
-  } catch {
-    return value
-      .replace(/^[a-z][a-z\d+.-]*:\/\//, '')
-      .replace(/^www\./, '')
-      .split('/')[0];
-  }
-};
 
 export const EditHeader = ({ closePanel }: EditHeaderProps) => {
   const { updateHeader, selectedHeader } = useHeaderTweakerContext();
@@ -41,16 +26,6 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
     const urls = (header?.urls ?? []).map(normalizeUrlRestriction).filter(Boolean);
     return new Set(urls).size !== urls.length;
   })();
-
-  const isDuplicateUrl = (index: number) => {
-    const url = normalizeUrlRestriction(header?.urls?.[index] ?? '');
-    return Boolean(
-      url &&
-        header?.urls?.some((value, valueIndex) => {
-          return valueIndex !== index && normalizeUrlRestriction(value) === url;
-        })
-    );
-  };
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -102,7 +77,7 @@ export const EditHeader = ({ closePanel }: EditHeaderProps) => {
     if (event.key !== 'Enter') return;
 
     event.preventDefault();
-    if (isDuplicateUrl(index)) {
+    if (isDuplicateUrl(header, index)) {
       setDuplicateUrlIndex(index);
       return;
     }
