@@ -149,7 +149,7 @@ export const HeaderList = () => {
               </th>
             )}
             <th className={css.headerNameTh}>
-              <Text as="span">Header key</Text>
+              <Text as="span">Key</Text>
               <div
                 className={classnames(css.columnResizeHandle, {
                   [css.columnResizeHandleActive]: isResizing,
@@ -160,7 +160,7 @@ export const HeaderList = () => {
               />
             </th>
             <th>
-              <Text as="span">Header value</Text>
+              <Text as="span">Value</Text>
             </th>
             <th />
             <th />
