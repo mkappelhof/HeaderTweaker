@@ -16,4 +16,8 @@
   max-width: 250px;
 
   &.visible { opacity: 1 }
+
+  &.alignLeft { text-align: left }
+  &.alignCenter { text-align: center }
+  &.alignRight { text-align: right }
 }

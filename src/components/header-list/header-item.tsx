@@ -90,7 +90,7 @@ export const HeaderItem = ({
           <HeaderContent content={value} />
         </td>
         <td className={css.scopedCell}>
-          <Tooltip>
+          <Tooltip align="center">
             <TooltipTrigger>
               <GlobeAltIcon
                 width={20}
@@ -104,7 +104,7 @@ export const HeaderItem = ({
             </TooltipTrigger>
 
             <TooltipContent>
-              {!isScoped && <Text>This header is not scoped to any url</Text>}
+              {!isScoped && <Text>This header is not scoped to a specific url</Text>}
 
               {isScoped ? (
                 isCurrentUrl ? (
