@@ -33,19 +33,20 @@ jobs:
             echo "$CHANGES"
           fi
 
-      - name: Use Node.js
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-
-      - name: Install pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm --version
+          node-version-file: .nvmrc
+          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit
+        run: pnpm audit --audit-level=high --prod
 
       - name: Lint
         run: pnpm lint
