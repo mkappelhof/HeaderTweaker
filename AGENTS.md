@@ -39,7 +39,19 @@ pnpm format-n-lint:fix     # Auto-fix lint and format issues
   `@components/*`, `@helpers/*`, `@contexts/*`, `@interfaces/*`, `@constants/*`, `@styles/*`
 - CSS: **SCSS modules** (`.module.scss`) co-located with each component
 - Components use named arrow-function exports typed as `FC<Props>`.
+- Always render text through the `Text` component (`@components/text/text`); never place raw strings in bare DOM elements such as `<span>` or `<p>`.
 - Declare all TypeScript types with `type`; do not use `interface`. Export a component prop type when it is shared.
+- Constants belong in `src/constants/`, never inline in components. Define sets of options as a `SCREAMING_SNAKE_CASE` object with `as const` and derive the type from it:
+
+  ```ts
+  export const SCOPES = {
+    ALL: 'all',
+    NO_SCOPE: 'no-scope',
+  } as const;
+
+  export type Scope = (typeof SCOPES)[keyof typeof SCOPES];
+  ```
+
 - Type DOM-wrapping components with `ComponentPropsWithoutRef<'element'>` and wrappers with `PropsWithChildren<Props>`.
 - Do not use `as any` or `as unknown as T` to silence TypeScript errors; narrow values to the required type instead.
 - Import `clsx` as `classnames`: `import classnames from 'clsx'`. Compose class names as `classnames(css.header, className)`.

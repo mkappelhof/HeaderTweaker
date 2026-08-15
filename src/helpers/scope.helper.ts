@@ -1,3 +1,5 @@
+import { SCOPES, type Scope } from '@constants/scopes';
+import { matchesUrl } from '@helpers/header.helper';
 import type { Header } from '@interfaces/index';
 
 export const normalizeUrlRestriction = (url: string) => {
@@ -26,4 +28,21 @@ export const isDuplicateUrl = (header: Header | null, index: number) => {
         return valueIndex !== index && normalizeUrlRestriction(value) === url;
       })
   );
+};
+
+export const isScoped = (header: Header) => Boolean(header.urls?.length);
+
+export const filterHeadersByScope = (headers: Header[], scope: Scope, currentUrl?: string) => {
+  switch (scope) {
+    case SCOPES.SCOPED:
+      return headers.filter(isScoped);
+    case SCOPES.NO_SCOPE:
+      return headers.filter((header) => !isScoped(header));
+    case SCOPES.CURRENT_URL:
+      return currentUrl
+        ? headers.filter((header) => isScoped(header) && matchesUrl(currentUrl, header.urls ?? []))
+        : [];
+    default:
+      return headers;
+  }
 };

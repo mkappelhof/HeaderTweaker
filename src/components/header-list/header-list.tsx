@@ -6,6 +6,7 @@ import { Text } from '@components/text/text';
 import { storage } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/header.helper';
+import { filterHeadersByScope } from '@helpers/scope.helper';
 import classnames from 'clsx';
 
 import css from './header-list.module.scss';
@@ -21,7 +22,10 @@ export const HeaderList: FC<HeaderListProps> = () => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const dragIndexRef = useRef<number | null>(null);
   const tableRef = useRef<HTMLTableElement>(null);
-  const { headers, selectedHeader, reorderHeaders, useLabels } = useHeaderTweakerContext();
+  const { headers, selectedHeader, reorderHeaders, useLabels, showHeadersFilter } =
+    useHeaderTweakerContext();
+
+  const visibleHeaders = filterHeadersByScope(headers, showHeadersFilter, currentUrl);
 
   useEffect(() => {
     storage.local.get(['nameColWidth', 'labelColWidth']).then((result) => {
@@ -56,9 +60,14 @@ export const HeaderList: FC<HeaderListProps> = () => {
     dragIndexRef.current = null;
     setDropIndex(null);
     if (from === null || from === index) return;
+
+    const fromIndex = headers.findIndex(({ id }) => id === visibleHeaders[from]?.id);
+    const toIndex = headers.findIndex(({ id }) => id === visibleHeaders[index]?.id);
+    if (fromIndex === -1 || toIndex === -1) return;
+
     const newHeaders = [...headers];
-    const [moved] = newHeaders.splice(from, 1);
-    newHeaders.splice(index, 0, moved);
+    const [moved] = newHeaders.splice(fromIndex, 1);
+    newHeaders.splice(toIndex, 0, moved);
     await reorderHeaders(newHeaders);
   };
 
@@ -169,14 +178,14 @@ export const HeaderList: FC<HeaderListProps> = () => {
           </tr>
         </thead>
         <tbody>
-          {!headers.length ? (
+          {!visibleHeaders.length ? (
             <tr>
               <td colSpan={useLabels ? 6 : 5} className={css.notFound}>
                 <Text>No headers to display yet</Text>
               </td>
             </tr>
           ) : (
-            headers.map((header, index) => (
+            visibleHeaders.map((header, index) => (
               <HeaderItem
                 key={header.id}
                 index={index}

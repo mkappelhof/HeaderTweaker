@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { storage } from '@constants/index';
+import { SCOPES, type Scope, storage } from '@constants/index';
 import {
   activateHeader,
   addHeader,
@@ -35,11 +35,13 @@ type HeaderTweakerContextValue = {
   isDisabled: boolean;
   useLabels: boolean;
   selectedHeader: Header | null;
+  showHeadersFilter: Scope;
   updateHeader: (args: HeaderFn) => Promise<void>;
   importHeaders: (headers: Header[]) => Promise<void>;
   reorderHeaders: (headers: Header[]) => Promise<void>;
   setStatus: (status: Status) => Promise<void>;
   setUseLabels: (show: boolean) => void;
+  setShowHeadersFilter: Dispatch<SetStateAction<Scope>>;
   setSelectedHeader: Dispatch<SetStateAction<Header | null>>;
 };
 
@@ -49,11 +51,13 @@ const initialState: HeaderTweakerContextValue = {
   loading: false,
   isDisabled: false,
   useLabels: false,
+  showHeadersFilter: SCOPES.ALL,
   updateHeader: async () => {},
   importHeaders: async () => {},
   reorderHeaders: async () => {},
   setSelectedHeader: () => {},
   setUseLabels: () => {},
+  setShowHeadersFilter: () => {},
   setStatus: async () => {},
 };
 
@@ -75,6 +79,7 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
   const [useLabels, setUseLabels] = useState(false);
   const [headerList, setHeaderList] = useState<Header[]>([]);
   const [selectedHeader, setSelectedHeaderRaw] = useState<Header | null>(null);
+  const [showHeadersFilter, setShowHeadersFilter] = useState<Scope>(SCOPES.ALL);
 
   const setSelectedHeader = (value: SetStateAction<Header | null>) => {
     setSelectedHeaderRaw(value);
@@ -152,6 +157,8 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
     isDisabled,
     useLabels,
     selectedHeader,
+    showHeadersFilter,
+    setShowHeadersFilter,
     setSelectedHeader,
     setStatus,
     headers: headerList,

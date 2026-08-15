@@ -1,0 +1,5 @@
+---
+"headertweaker": minor
+---
+
+Add filters

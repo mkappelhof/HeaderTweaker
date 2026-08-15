@@ -1,6 +1,7 @@
 import { type FC, useState } from 'react';
 import { IconButton } from '@components/button/icon-button';
 import { Drawer } from '@components/drawer/drawer';
+import { HeaderFilters } from '@components/header-filters/header-filters';
 import { Settings } from '@components/settings/settings';
 import { Status } from '@components/status/status';
 import { Text } from '@components/text/text';
@@ -20,28 +21,33 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
 
   return (
     <header className={css.header}>
-      <div className={css.headerItems}>
-        <Text variant="h1">
-          <span className={css.headerName}>Header</span>
-          <span className={css.tweakerName}>Tweaker</span>
-        </Text>
-        <Text as="code">v{packageJson.version}</Text>
-        <Status
-          status={isDisabled ? 'disabled' : 'enabled'}
-          label={isDisabled ? 'HeaderTweaker is disabled' : undefined}
-        />
-      </div>
-      {!withoutSettings && (
-        <>
-          <IconButton size="large" onClick={() => setShowSettings(true)}>
-            <Cog6ToothIcon />
-          </IconButton>
+      <div className={css.main}>
+        <div className={css.headerItems}>
+          <Text variant="h1">
+            <span className={css.headerName}>Header</span>
+            <span className={css.tweakerName}>Tweaker</span>
+          </Text>
+          <Text as="code">v{packageJson.version}</Text>
+          <Status
+            status={isDisabled ? 'disabled' : 'enabled'}
+            label={isDisabled ? 'HeaderTweaker is disabled' : undefined}
+          />
+        </div>
+        {!withoutSettings && (
+          <>
+            <IconButton size="large" onClick={() => setShowSettings(true)}>
+              <Cog6ToothIcon />
+            </IconButton>
 
-          <Drawer isOpen={showSettings} onClose={() => setShowSettings(false)} title="Settings">
-            <Settings />
-          </Drawer>
-        </>
-      )}
+            <Drawer isOpen={showSettings} onClose={() => setShowSettings(false)} title="Settings">
+              <Settings />
+            </Drawer>
+          </>
+        )}
+      </div>
+      <div className={css.scopes}>
+        <HeaderFilters />
+      </div>
     </header>
   );
 };

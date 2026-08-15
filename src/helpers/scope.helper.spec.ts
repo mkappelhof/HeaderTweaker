@@ -1,6 +1,18 @@
+import { SCOPES } from '@constants/scopes';
 import type { Header } from '@interfaces/index';
-import { describe, expect, it } from 'vitest';
-import { isDuplicateUrl, normalizeUrlRestriction } from './scope.helper';
+import { describe, expect, it, vi } from 'vitest';
+
+vi.mock('@constants/index', () => ({
+  storage: { local: { get: vi.fn(), set: vi.fn() } },
+  tabs: { query: vi.fn() },
+}));
+
+import {
+  filterHeadersByScope,
+  isDuplicateUrl,
+  isScoped,
+  normalizeUrlRestriction,
+} from './scope.helper';
 
 const header = (urls?: string[]): Header => ({
   id: 'header-id',
@@ -47,5 +59,39 @@ describe('isDuplicateUrl', () => {
 
   it('does not treat distinct normalized hostnames as duplicates', () => {
     expect(isDuplicateUrl(header(['example.com', 'api.example.com']), 1)).toBe(false);
+  });
+});
+
+describe('isScoped', () => {
+  it('is only true when the header has at least one URL', () => {
+    expect(isScoped(header())).toBe(false);
+    expect(isScoped(header([]))).toBe(false);
+    expect(isScoped(header(['example.com']))).toBe(true);
+  });
+});
+
+describe('filterHeadersByScope', () => {
+  const unscoped = { ...header(), id: 'unscoped' };
+  const scoped = { ...header(['https://example.com/*']), id: 'scoped' };
+  const other = { ...header(['https://other.com/*']), id: 'other' };
+  const headers = [unscoped, scoped, other];
+
+  it('returns every header for the "all" scope', () => {
+    expect(filterHeadersByScope(headers, SCOPES.ALL)).toEqual(headers);
+  });
+
+  it('returns only headers with or without URLs', () => {
+    expect(filterHeadersByScope(headers, SCOPES.SCOPED)).toEqual([scoped, other]);
+    expect(filterHeadersByScope(headers, SCOPES.NO_SCOPE)).toEqual([unscoped]);
+  });
+
+  it('returns only headers matching the current URL', () => {
+    expect(filterHeadersByScope(headers, SCOPES.CURRENT_URL, 'https://example.com/page')).toEqual([
+      scoped,
+    ]);
+  });
+
+  it('returns nothing for the current URL scope without a URL', () => {
+    expect(filterHeadersByScope(headers, SCOPES.CURRENT_URL)).toEqual([]);
   });
 });

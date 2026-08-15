@@ -4,7 +4,7 @@
   height: 100vh;
 }
 
-.header {
+.main {
   padding: 0 vars.$spacing-core-4;
   gap: vars.$spacing-core-2;
   display: flex;
@@ -34,6 +34,10 @@
   }
 
   p { font-size: .8rem }
+}
+
+.scopes {
+  padding: vars.$spacing-core-2 vars.$spacing-core-4;
 }
 
 .content {
