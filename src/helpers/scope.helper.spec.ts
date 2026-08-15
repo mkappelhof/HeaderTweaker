@@ -9,6 +9,7 @@ vi.mock('@constants/index', () => ({
 
 import {
   filterHeadersByScope,
+  getScopeErrorMessage,
   isDuplicateUrl,
   isScoped,
   normalizeUrlRestriction,
@@ -93,5 +94,25 @@ describe('filterHeadersByScope', () => {
 
   it('returns nothing for the current URL scope without a URL', () => {
     expect(filterHeadersByScope(headers, SCOPES.CURRENT_URL)).toEqual([]);
+  });
+});
+
+describe('getScopeErrorMessage', () => {
+  it('returns a distinct message for every scope', () => {
+    const messages = Object.values(SCOPES).map(getScopeErrorMessage);
+
+    expect(new Set(messages).size).toBe(messages.length);
+    expect(messages.every(Boolean)).toBe(true);
+  });
+
+  it('explains why the selected scope is empty', () => {
+    expect(getScopeErrorMessage(SCOPES.ALL)).toBe('No headers match the selected filter');
+    expect(getScopeErrorMessage(SCOPES.SCOPED)).toBe('None of the headers are limited to a URL');
+    expect(getScopeErrorMessage(SCOPES.NO_SCOPE)).toBe(
+      'Every header is limited to a URL, so none apply everywhere'
+    );
+    expect(getScopeErrorMessage(SCOPES.CURRENT_URL)).toBe(
+      'None of the headers apply to the current URL'
+    );
   });
 });

@@ -2,11 +2,12 @@ import { type FC, useEffect, useRef, useState } from 'react';
 import { Drawer } from '@components/drawer/drawer';
 import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
+import { NoHeaders } from '@components/placeholders/no-headers';
 import { Text } from '@components/text/text';
 import { storage } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/header.helper';
-import { filterHeadersByScope } from '@helpers/scope.helper';
+import { filterHeadersByScope, getScopeErrorMessage } from '@helpers/scope.helper';
 import classnames from 'clsx';
 
 import css from './header-list.module.scss';
@@ -130,6 +131,14 @@ export const HeaderList: FC<HeaderListProps> = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
+  if (!headers.length) {
+    return <NoHeaders message="No headers to display yet, add your first one below" />;
+  }
+
+  if (!visibleHeaders.length) {
+    return <NoHeaders message={getScopeErrorMessage(showHeadersFilter)} />;
+  }
+
   return (
     <div className={css.root}>
       <table ref={tableRef} className={classnames({ [css.resizing]: isResizing })}>
@@ -178,29 +187,21 @@ export const HeaderList: FC<HeaderListProps> = () => {
           </tr>
         </thead>
         <tbody>
-          {!visibleHeaders.length ? (
-            <tr>
-              <td colSpan={useLabels ? 6 : 5} className={css.notFound}>
-                <Text>No headers to display yet</Text>
-              </td>
-            </tr>
-          ) : (
-            visibleHeaders.map((header, index) => (
-              <HeaderItem
-                key={header.id}
-                index={index}
-                showLabel={useLabels}
-                isDragOver={dropIndex === index}
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onDragEnd={handleDragEnd}
-                openDrawer={openDrawer}
-                currentUrl={currentUrl}
-                {...header}
-              />
-            ))
-          )}
+          {visibleHeaders.map((header, index) => (
+            <HeaderItem
+              key={header.id}
+              index={index}
+              showLabel={useLabels}
+              isDragOver={dropIndex === index}
+              onDragStart={handleDragStart}
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+              onDragEnd={handleDragEnd}
+              openDrawer={openDrawer}
+              currentUrl={currentUrl}
+              {...header}
+            />
+          ))}
         </tbody>
       </table>
       <Drawer isOpen={open} title="Edit header" onClose={() => setOpen(false)}>

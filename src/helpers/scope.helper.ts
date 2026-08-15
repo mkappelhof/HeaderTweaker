@@ -46,3 +46,16 @@ export const filterHeadersByScope = (headers: Header[], scope: Scope, currentUrl
       return headers;
   }
 };
+
+export const getScopeErrorMessage = (scope: Scope) => {
+  switch (scope) {
+    case SCOPES.SCOPED:
+      return 'None of the headers are limited to a URL';
+    case SCOPES.NO_SCOPE:
+      return 'Every header is limited to a URL, so none apply everywhere';
+    case SCOPES.CURRENT_URL:
+      return 'None of the headers apply to the current URL';
+    default:
+      return 'No headers match the selected filter';
+  }
+};
