@@ -10,6 +10,7 @@ vi.mock('@constants/index', () => ({
 import {
   filterHeadersByScope,
   getScopeErrorMessage,
+  groupHeadersByUrl,
   isDuplicateUrl,
   isScoped,
   normalizeUrlRestriction,
@@ -94,6 +95,49 @@ describe('filterHeadersByScope', () => {
 
   it('returns nothing for the current URL scope without a URL', () => {
     expect(filterHeadersByScope(headers, SCOPES.CURRENT_URL)).toEqual([]);
+  });
+});
+
+describe('groupHeadersByUrl', () => {
+  it('groups headers by each exact scoped url', () => {
+    const a = { ...header(['example.com/a']), id: 'a' };
+    const b = { ...header(['example.com/b']), id: 'b' };
+    const c = { ...header(['example.com/a']), id: 'c' };
+
+    expect(groupHeadersByUrl([a, b, c])).toEqual([
+      { url: 'example.com/a', headers: [a, c] },
+      { url: 'example.com/b', headers: [b] },
+    ]);
+  });
+
+  it('lists a header under every url it is scoped to', () => {
+    const multi = { ...header(['example.com/a', 'example.com/b']), id: 'multi' };
+
+    expect(groupHeadersByUrl([multi])).toEqual([
+      { url: 'example.com/a', headers: [multi] },
+      { url: 'example.com/b', headers: [multi] },
+    ]);
+  });
+
+  it('sorts groups alphabetically by url', () => {
+    const b = { ...header(['example.com/b']), id: 'b' };
+    const a = { ...header(['example.com/a']), id: 'a' };
+
+    expect(groupHeadersByUrl([b, a]).map((group) => group.url)).toEqual([
+      'example.com/a',
+      'example.com/b',
+    ]);
+  });
+
+  it('treats different paths on the same host as distinct groups', () => {
+    const a = { ...header(['example.com/pathA']), id: 'a' };
+    const b = { ...header(['example.com/pathB']), id: 'b' };
+
+    expect(groupHeadersByUrl([a, b])).toHaveLength(2);
+  });
+
+  it('returns no groups for unscoped headers', () => {
+    expect(groupHeadersByUrl([header()])).toEqual([]);
   });
 });
 

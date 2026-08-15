@@ -47,6 +47,30 @@ export const filterHeadersByScope = (headers: Header[], scope: Scope, currentUrl
   }
 };
 
+export type HeaderGroup = {
+  url: string;
+  headers: Header[];
+};
+
+export const groupHeadersByUrl = (headers: Header[]): HeaderGroup[] => {
+  const groups = new Map<string, Header[]>();
+
+  for (const header of headers) {
+    for (const url of header.urls ?? []) {
+      const group = groups.get(url);
+      if (group) {
+        group.push(header);
+      } else {
+        groups.set(url, [header]);
+      }
+    }
+  }
+
+  return Array.from(groups.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([url, groupedHeaders]) => ({ url, headers: groupedHeaders }));
+};
+
 export const getScopeErrorMessage = (scope: Scope) => {
   switch (scope) {
     case SCOPES.SCOPED:

@@ -150,3 +150,10 @@
 
   .scopedIcon { display: block; }
 }
+
+.groupRow {
+  td {
+    padding-top: vars.$spacing-core-4;
+    padding-bottom: vars.$spacing-core-2;
+  }
+}

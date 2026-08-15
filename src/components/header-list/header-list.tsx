@@ -4,10 +4,14 @@ import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
 import { NoHeaders } from '@components/placeholders/no-headers';
 import { Text } from '@components/text/text';
-import { storage } from '@constants/index';
+import { SCOPES, storage } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/header.helper';
-import { filterHeadersByScope, getScopeErrorMessage } from '@helpers/scope.helper';
+import {
+  filterHeadersByScope,
+  getScopeErrorMessage,
+  groupHeadersByUrl,
+} from '@helpers/scope.helper';
 import classnames from 'clsx';
 
 import css from './header-list.module.scss';
@@ -186,23 +190,56 @@ export const HeaderList: FC<HeaderListProps> = () => {
             <th />
           </tr>
         </thead>
-        <tbody>
-          {visibleHeaders.map((header, index) => (
-            <HeaderItem
-              key={header.id}
-              index={index}
-              showLabel={useLabels}
-              isDragOver={dropIndex === index}
-              onDragStart={handleDragStart}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-              onDragEnd={handleDragEnd}
-              openDrawer={openDrawer}
-              currentUrl={currentUrl}
-              {...header}
-            />
-          ))}
-        </tbody>
+        {showHeadersFilter === SCOPES.SCOPED ? (
+          groupHeadersByUrl(visibleHeaders).map((group) => (
+            <tbody key={group.url}>
+              <tr className={css.groupRow}>
+                <td colSpan={useLabels ? 7 : 6}>
+                  <Text as="span" variant="body-small" textStyle="secondary">
+                    {group.url}
+                  </Text>
+                </td>
+              </tr>
+              {group.headers.map((header) => {
+                const index = visibleHeaders.findIndex(({ id }) => id === header.id);
+
+                return (
+                  <HeaderItem
+                    key={`${group.url}-${header.id}`}
+                    index={index}
+                    showLabel={useLabels}
+                    isDragOver={dropIndex === index}
+                    onDragStart={handleDragStart}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    onDragEnd={handleDragEnd}
+                    openDrawer={openDrawer}
+                    currentUrl={currentUrl}
+                    {...header}
+                  />
+                );
+              })}
+            </tbody>
+          ))
+        ) : (
+          <tbody>
+            {visibleHeaders.map((header, index) => (
+              <HeaderItem
+                key={header.id}
+                index={index}
+                showLabel={useLabels}
+                isDragOver={dropIndex === index}
+                onDragStart={handleDragStart}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onDragEnd={handleDragEnd}
+                openDrawer={openDrawer}
+                currentUrl={currentUrl}
+                {...header}
+              />
+            ))}
+          </tbody>
+        )}
       </table>
       <Drawer isOpen={open} title="Edit header" onClose={() => setOpen(false)}>
         {selectedHeader && <EditHeader closePanel={() => setOpen(false)} />}

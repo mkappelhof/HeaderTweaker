@@ -5,6 +5,7 @@ import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@components/tooltip/tooltip';
+import { SCOPES } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { matchesUrl } from '@helpers/header.helper';
 import { Bars3Icon, GlobeAltIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
@@ -43,7 +44,8 @@ export const HeaderItem: FC<HeaderItemProps> = ({
   onDragEnd,
 }: HeaderItemProps) => {
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
-  const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
+  const { isDisabled, setSelectedHeader, updateHeader, showHeadersFilter } =
+    useHeaderTweakerContext();
 
   const isScoped = urls && urls.length >= 1;
   const isCurrentUrl = !!(isScoped && currentUrl && matchesUrl(currentUrl, urls));
@@ -88,31 +90,35 @@ export const HeaderItem: FC<HeaderItemProps> = ({
           <HeaderContent content={value} />
         </td>
         <td className={css.scopedCell}>
-          <Tooltip align="center">
-            <TooltipTrigger>
-              <GlobeAltIcon
-                width={20}
-                height={20}
-                className={classnames(css.scopedIcon, {
-                  [css.active]: isScoped,
-                  [css.inactive]: !isScoped,
-                  [css.currentUrl]: isCurrentUrl,
-                })}
-              />
-            </TooltipTrigger>
+          {showHeadersFilter === SCOPES.ALL ? (
+            <Tooltip align="center">
+              <TooltipTrigger>
+                <GlobeAltIcon
+                  width={20}
+                  height={20}
+                  className={classnames(css.scopedIcon, {
+                    [css.active]: isScoped,
+                    [css.inactive]: !isScoped,
+                    [css.currentUrl]: isCurrentUrl,
+                  })}
+                />
+              </TooltipTrigger>
 
-            <TooltipContent>
-              {!isScoped && <Text>This header is not scoped to a specific url</Text>}
+              <TooltipContent>
+                {!isScoped && <Text>The header is not limited to a specific URL</Text>}
 
-              {isScoped ? (
-                isCurrentUrl ? (
-                  <Text>This header is scoped to the current url</Text>
-                ) : (
-                  <Text>The header is scoped to the following url's: {urls?.join(', ')}</Text>
-                )
-              ) : null}
-            </TooltipContent>
-          </Tooltip>
+                {isScoped ? (
+                  isCurrentUrl ? (
+                    <Text>The header will applied to the current URL</Text>
+                  ) : (
+                    <Text>
+                      The header will be applied to the following URL's: {urls?.join(', ')}
+                    </Text>
+                  )
+                ) : null}
+              </TooltipContent>
+            </Tooltip>
+          ) : null}
         </td>
         <td>
           <span className={css.buttonWrapper}>
