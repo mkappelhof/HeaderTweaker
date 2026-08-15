@@ -1,24 +1,24 @@
-import { type ComponentPropsWithoutRef, type FC, useId } from 'react';
+import { type ComponentPropsWithoutRef, forwardRef, useId } from 'react';
 
 import css from './input.module.scss';
 
-export const Input: FC<ComponentPropsWithoutRef<'input'>> = ({
-  type,
-  placeholder,
-  'aria-label': ariaLabel,
-  ...props
-}: ComponentPropsWithoutRef<'input'>) => {
-  const id = useId();
+export const Input = forwardRef<HTMLInputElement, ComponentPropsWithoutRef<'input'>>(
+  ({ type, placeholder, 'aria-label': ariaLabel, ...props }, ref) => {
+    const id = useId();
 
-  return (
-    <label htmlFor={id} className={css.root}>
-      <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        aria-label={ariaLabel || placeholder}
-        {...props}
-      />
-    </label>
-  );
-};
+    return (
+      <label htmlFor={id} className={css.root}>
+        <input
+          id={id}
+          ref={ref}
+          type={type}
+          placeholder={placeholder}
+          aria-label={ariaLabel || placeholder}
+          {...props}
+        />
+      </label>
+    );
+  }
+);
+
+Input.displayName = 'Input';

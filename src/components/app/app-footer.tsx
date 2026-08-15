@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '@components/button/button';
 import { Input } from '@components/input/input';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
@@ -13,6 +13,7 @@ type AppFooterProps = Record<never, never>;
 export const AppFooter: FC<AppFooterProps> = () => {
   const [header, setHeader] = useState<Header>();
   const [disabledButton, setDisabledButton] = useState(true);
+  const headerKeyRef = useRef<HTMLInputElement>(null);
   const { isDisabled, updateHeader } = useHeaderTweakerContext();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +49,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
     if (header) {
       await updateHeader({ header, action: 'add' });
       setHeader(undefined);
+      headerKeyRef.current?.focus();
     }
   };
 
@@ -62,6 +64,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
       <div className={css.inputWrapper}>
         <Input
           type="text"
+          ref={headerKeyRef}
           disabled={isDisabled}
           placeholder="Header key"
           data-type="name"
