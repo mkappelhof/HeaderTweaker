@@ -10,16 +10,18 @@ import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/header.helper';
 import {
   filterHeadersByScope,
-  getScopeErrorMessage,
+  getScopeErrorMessageKey,
   groupHeadersByUrl,
 } from '@helpers/scope.helper';
 import classnames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import css from './header-list.module.scss';
 
 type HeaderListProps = Record<never, never>;
 
 export const HeaderList: FC<HeaderListProps> = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [nameColWidth, setNameColWidth] = useState(275);
@@ -137,11 +139,11 @@ export const HeaderList: FC<HeaderListProps> = () => {
   };
 
   if (!headers.length) {
-    return <NoHeaders message="No headers to display yet, add your first one below" />;
+    return <NoHeaders message={t('headerList.empty')} />;
   }
 
   if (!visibleHeaders.length) {
-    return <NoHeaders message={getScopeErrorMessage(showHeadersFilter)} />;
+    return <NoHeaders message={t(getScopeErrorMessageKey(showHeadersFilter))} />;
   }
 
   return (
@@ -162,7 +164,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
             <th />
             {useLabels && (
               <th className={css.headerLabelTh}>
-                <Text as="span">Label</Text>
+                <Text as="span">{t('headerList.columnLabel')}</Text>
                 <div
                   className={classnames(css.columnResizeHandle, {
                     [css.columnResizeHandleActive]: isResizing,
@@ -174,7 +176,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
               </th>
             )}
             <th className={css.headerNameTh}>
-              <Text as="span">Key</Text>
+              <Text as="span">{t('headerList.columnKey')}</Text>
               <div
                 className={classnames(css.columnResizeHandle, {
                   [css.columnResizeHandleActive]: isResizing,
@@ -185,7 +187,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
               />
             </th>
             <th>
-              <Text as="span">Value</Text>
+              <Text as="span">{t('headerList.columnValue')}</Text>
             </th>
             <th />
             <th />
@@ -242,7 +244,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
           </tbody>
         )}
       </table>
-      <Drawer isOpen={open} title="Edit header" onClose={() => setOpen(false)}>
+      <Drawer isOpen={open} title={t('editHeader.title')} onClose={() => setOpen(false)}>
         {selectedHeader && <EditHeader closePanel={() => setOpen(false)} />}
       </Drawer>
     </div>

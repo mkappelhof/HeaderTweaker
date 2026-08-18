@@ -1,10 +1,11 @@
 import { type ComponentPropsWithoutRef, type FC, useEffect, useRef, useState } from 'react';
 import { Text } from '@components/text/text';
-import { SCOPE_LABELS, SCOPES, type Scope } from '@constants/scopes';
+import { SCOPE_LABEL_KEYS, SCOPES, type Scope } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/header.helper';
 import { filterHeadersByScope } from '@helpers/scope.helper';
 import classnames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import css from './header-filters.module.scss';
 
@@ -21,6 +22,7 @@ const getHost = (url?: string) => {
 };
 
 export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }) => {
+  const { t } = useTranslation();
   const { headers, showHeadersFilter, setShowHeadersFilter } = useHeaderTweakerContext();
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
@@ -66,7 +68,7 @@ export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }
             className={classnames(css.tab, { [css.active]: isActive })}
             onClick={() => setShowHeadersFilter(scope)}
           >
-            <Text as="span">{SCOPE_LABELS[scope]}</Text>
+            <Text as="span">{t(SCOPE_LABEL_KEYS[scope])}</Text>
             {scope === SCOPES.CURRENT_URL && currentHost && (
               <Text as="span" textStyle="secondary">
                 {currentHost}

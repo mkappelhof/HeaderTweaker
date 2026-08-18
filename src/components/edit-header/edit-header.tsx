@@ -9,6 +9,7 @@ import { getDuplicateUrlIndexes } from '@helpers/scope.helper';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
+import { useTranslation } from 'react-i18next';
 
 import css from './edit-header.module.scss';
 
@@ -17,6 +18,7 @@ type EditHeaderProps = {
 };
 
 export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
+  const { t } = useTranslation();
   const { updateHeader, selectedHeader, useLabels, setUseLabels } = useHeaderTweakerContext();
   const [header, setHeader] = useState<Header | null>(selectedHeader);
 
@@ -54,7 +56,7 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
     <div className={css.root}>
       <Switch
         isOn={header.enabled}
-        label={header.enabled ? 'Header is active' : 'Header is disabled'}
+        label={header.enabled ? t('editHeader.statusActive') : t('editHeader.statusDisabled')}
         onChange={(state) => setHeader((prev) => prev && { ...prev, enabled: state })}
       />
 
@@ -68,7 +70,7 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
       <TextInput value={header.value} data-type="value" onChange={handleInputChange} />
 
       <TextInput
-        placeholder="Label (optional)"
+        placeholder={t('editHeader.labelPlaceholder')}
         value={header.label ?? ''}
         data-type="label"
         onChange={handleInputChange}
@@ -96,7 +98,7 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
         }}
       >
         <CheckCircleIcon />
-        <Text as="span">Save header</Text>
+        <Text as="span">{t('editHeader.save')}</Text>
       </Button>
     </div>
   );

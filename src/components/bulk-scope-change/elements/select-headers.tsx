@@ -4,8 +4,10 @@ import { SCOPES } from '@constants/scopes';
 import { type PendingHeader, useBulkScopeChangeContext } from '@contexts/bulk-scope-change.context';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { filterHeadersByScope } from '@helpers/scope.helper';
+import { useTranslation } from 'react-i18next';
 
 export const SelectHeaders = () => {
+  const { t } = useTranslation();
   const { headers } = useHeaderTweakerContext();
   const { pendingHeaders, setPendingHeaders } = useBulkScopeChangeContext();
 
@@ -18,10 +20,10 @@ export const SelectHeaders = () => {
 
   return (
     <div>
-      <Text>Select the headers you want to restrict to a URL</Text>
+      <Text>{t('bulkScopeChange.selectHeadersDescription')}</Text>
       <Checkbox
-        aria-label="Select all headers"
-        label="Select all"
+        aria-label={t('bulkScopeChange.selectAllAriaLabel')}
+        label={t('bulkScopeChange.selectAll')}
         onChange={() => {
           setPendingHeaders(
             allHeadersSelected
@@ -37,7 +39,7 @@ export const SelectHeaders = () => {
       {headersWithoutScope.map(({ id, name }) => (
         <div key={`header-without-scope-${id}`}>
           <Checkbox
-            aria-label={`Select ${name}`}
+            aria-label={t('bulkScopeChange.selectHeaderAriaLabel', { name })}
             label={name}
             checked={!!pendingHeaders[id]}
             onChange={() =>

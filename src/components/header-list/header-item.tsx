@@ -11,6 +11,7 @@ import { matchesUrl } from '@helpers/header.helper';
 import { Bars3Icon, GlobeAltIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 import classnames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import css from './header-list.module.scss';
 
@@ -43,6 +44,7 @@ export const HeaderItem: FC<HeaderItemProps> = ({
   onDrop,
   onDragEnd,
 }: HeaderItemProps) => {
+  const { t } = useTranslation();
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
   const { isDisabled, setSelectedHeader, updateHeader, showHeadersFilter } =
     useHeaderTweakerContext();
@@ -105,15 +107,13 @@ export const HeaderItem: FC<HeaderItemProps> = ({
               </TooltipTrigger>
 
               <TooltipContent>
-                {!isScoped && <Text>The header has no URL restriction</Text>}
+                {!isScoped && <Text>{t('headerItem.tooltipUnrestricted')}</Text>}
 
                 {isScoped ? (
                   isCurrentUrl ? (
-                    <Text>The header will be applied to the current URL</Text>
+                    <Text>{t('headerItem.tooltipCurrentUrl')}</Text>
                   ) : (
-                    <Text>
-                      The header will be applied to the following URLs: {urls?.join(', ')}
-                    </Text>
+                    <Text>{t('headerItem.tooltipUrls', { urls: urls?.join(', ') ?? '' })}</Text>
                   )
                 ) : null}
               </TooltipContent>
@@ -124,30 +124,30 @@ export const HeaderItem: FC<HeaderItemProps> = ({
           <span className={css.buttonWrapper}>
             <IconButton
               disabled={isDisabled}
-              aria-label="Edit header"
+              aria-label={t('headerItem.edit')}
               onClick={() => {
                 setSelectedHeader({ id, name, value, enabled, urls, label });
                 openDrawer(true);
               }}
             >
-              <PencilSquareIcon aria-label="Edit" />
+              <PencilSquareIcon aria-label={t('headerItem.edit')} />
             </IconButton>
             <IconButton
               disabled={isDisabled}
-              aria-label="Delete header"
+              aria-label={t('headerItem.delete')}
               onClick={() => setHeaderToDelete({ id, name, value, enabled, urls, label })}
             >
-              <TrashIcon aria-label="Delete" />
+              <TrashIcon aria-label={t('headerItem.delete')} />
             </IconButton>
           </span>
         </td>
       </tr>
       <Confirm
         isOpen={!!headerToDelete}
-        title="Delete header"
-        message={`Are you sure you want to delete the "${headerToDelete?.name}" header? This action cannot be undone.`}
-        confirmText="Yes"
-        cancelText="No"
+        title={t('headerItem.deleteTitle')}
+        message={t('headerItem.deleteMessage', { name: headerToDelete?.name ?? '' })}
+        confirmText={t('headerItem.deleteConfirm')}
+        cancelText={t('headerItem.deleteCancel')}
         onConfirm={async () => {
           if (headerToDelete) {
             await updateHeader({ header: headerToDelete, action: 'remove' });

@@ -6,12 +6,14 @@ import { IMPORT_PARAM } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { exportHeaders } from '@helpers/header.helper';
 import { ArrowDownTrayIcon, ArrowUpTrayIcon } from '@heroicons/react/24/solid';
+import { useTranslation } from 'react-i18next';
 
 import css from './settings.module.scss';
 
 type SettingsProps = Record<never, never>;
 
 export const Settings: FC<SettingsProps> = () => {
+  const { t } = useTranslation();
   const { isDisabled, headers, setStatus, useLabels, setUseLabels } = useHeaderTweakerContext();
 
   const handleStatusChange = (newState: boolean) => {
@@ -36,18 +38,18 @@ export const Settings: FC<SettingsProps> = () => {
     <div className={css.root}>
       <Switch
         isOn={!isDisabled}
-        label={`HeaderTweaker is ${isDisabled ? 'disabled' : 'enabled'}`}
+        label={t('settings.status', {
+          status: isDisabled ? t('settings.statusDisabled') : t('settings.statusEnabled'),
+        })}
         onChange={handleStatusChange}
       />
-      <Switch isOn={useLabels} label="Use labels" onChange={setUseLabels} />
+      <Switch isOn={useLabels} label={t('settings.useLabels')} onChange={setUseLabels} />
       <Button onClick={openImportWindow}>
-        <ArrowUpTrayIcon /> Import new headers
+        <ArrowUpTrayIcon /> {t('settings.import')}
       </Button>
       <Button onClick={exportHeaders} disabled={headerCount < 1}>
         <ArrowDownTrayIcon />
-        <Text as="span">
-          Export {headerCount >= 1 ? headerCount : ''} header{headerCount !== 1 ? 's' : ''}
-        </Text>
+        <Text as="span">{t('settings.export', { count: headerCount })}</Text>
       </Button>
     </div>
   );

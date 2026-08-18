@@ -49,6 +49,7 @@ export default defineConfig({
       '@contexts': path.resolve(__dirname, 'src/contexts'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@helpers': path.resolve(__dirname, 'src/helpers'),
+      '@i18n': path.resolve(__dirname, 'src/i18n'),
       '@interfaces': path.resolve(__dirname, 'src/interfaces'),
       '@styles': path.resolve(__dirname, 'src/styles'),
     },

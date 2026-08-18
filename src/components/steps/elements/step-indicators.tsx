@@ -2,10 +2,12 @@ import type { FC } from 'react';
 import { Text } from '@components/text/text';
 import { useStepsContext } from '@contexts/steps.context';
 import classnames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import css from '../steps.module.scss';
 
 export const StepIndicators: FC = () => {
+  const { t } = useTranslation();
   const { currentStep, totalSteps, onStepChange, stepTitles } = useStepsContext();
 
   return (
@@ -25,7 +27,11 @@ export const StepIndicators: FC = () => {
               [css.active]: index === currentStep,
               [css.completed]: index < currentStep,
             })}
-            aria-label={`Go to step ${index + 1}${stepTitles[index] ? `: ${stepTitles[index]}` : ''}`}
+            aria-label={
+              stepTitles[index]
+                ? t('steps.goToStepTitled', { number: index + 1, title: stepTitles[index] })
+                : t('steps.goToStep', { number: index + 1 })
+            }
             aria-current={index === currentStep ? 'step' : undefined}
           >
             <span className={css.indicatorNumber}>{index + 1}</span>

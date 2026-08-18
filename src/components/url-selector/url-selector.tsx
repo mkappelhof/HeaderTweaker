@@ -10,6 +10,7 @@ import {
   normalizeUrlRestriction,
 } from '@helpers/scope.helper';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { useTranslation } from 'react-i18next';
 
 import css from './url-selector.module.scss';
 
@@ -19,6 +20,7 @@ export type UrlSelectorProps = {
 };
 
 export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
+  const { t } = useTranslation();
   const { headers } = useHeaderTweakerContext();
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
@@ -53,7 +55,7 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
   return (
     <div className={css.root}>
       <Text as="span" variant="body-small">
-        URL restrictions
+        {t('urlSelector.title')}
       </Text>
 
       {urls.map((url, index) => (
@@ -64,9 +66,9 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
               allowCreate
               value={url}
               options={getOptions(index)}
-              placeholder="Select a URL"
-              createLabel="Or add a new URL…"
-              createPlaceholder="example.com"
+              placeholder={t('urlSelector.placeholder')}
+              createLabel={t('urlSelector.createLabel')}
+              createPlaceholder={t('urlSelector.createPlaceholder')}
               autoFocus={focusedIndex === index}
               onChange={(value) =>
                 onChange(urls.map((current, i) => (i === index ? value : current)))
@@ -74,7 +76,7 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
               onInputKeyDown={(event) => handleKeyDown(event, index)}
             />
             <IconButton
-              aria-label="Remove URL"
+              aria-label={t('urlSelector.remove')}
               onClick={() => onChange(urls.filter((_, i) => i !== index))}
             >
               <XMarkIcon />
@@ -82,7 +84,7 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
           </div>
           {duplicateIndexes.includes(index) && (
             <Text as="span" variant="body-small" className={css.error}>
-              This URL is already added
+              {t('urlSelector.duplicate')}
             </Text>
           )}
         </div>
@@ -90,7 +92,7 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
 
       <Button variant="ghost" onClick={addUrl}>
         <PlusIcon />
-        <Text as="span">Add URL</Text>
+        <Text as="span">{t('urlSelector.add')}</Text>
       </Button>
     </div>
   );

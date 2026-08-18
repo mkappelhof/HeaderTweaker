@@ -1,8 +1,10 @@
 import { Button } from '@components/button/button';
 import { useBulkScopeChangeContext } from '@contexts/bulk-scope-change.context';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { useTranslation } from 'react-i18next';
 
 export const SaveButton = () => {
+  const { t } = useTranslation();
   const { headers, updateHeader } = useHeaderTweakerContext();
   const { pendingHeaders, setError, setIsCompleted } = useBulkScopeChangeContext();
 
@@ -15,12 +17,12 @@ export const SaveButton = () => {
       try {
         await updateHeader({ header: { ...header, urls }, action: 'update' });
       } catch {
-        setError('Unable to update headers');
+        setError(t('bulkScopeChange.error'));
       } finally {
         setIsCompleted(true);
       }
     }
   };
 
-  return <Button onClick={saveHeaders}>Save headers</Button>;
+  return <Button onClick={saveHeaders}>{t('bulkScopeChange.save')}</Button>;
 };

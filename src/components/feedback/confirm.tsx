@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { Button } from '@components/button/button';
 import { ButtonGroup } from '@components/button/button-group';
 import { Modal, ModalContent, ModalFooter, ModalTitle } from '@components/modal/modal';
+import { useTranslation } from 'react-i18next';
 import type { ConfirmProps } from './interfaces';
 
 export const Confirm: FC<ConfirmProps> = ({
@@ -9,20 +10,24 @@ export const Confirm: FC<ConfirmProps> = ({
   onConfirm,
   onCancel,
   title,
-  confirmText = 'OK',
-  cancelText = 'Cancel',
+  confirmText,
+  cancelText,
   ...modalProps
-}: ConfirmProps) => (
-  <Modal type="confirm" {...modalProps}>
-    <ModalTitle>{title}</ModalTitle>
-    <ModalContent>{message}</ModalContent>
-    <ModalFooter>
-      <ButtonGroup>
-        <Button onClick={onConfirm}>{confirmText}</Button>
-        <Button variant="ghost" onClick={onCancel}>
-          {cancelText}
-        </Button>
-      </ButtonGroup>
-    </ModalFooter>
-  </Modal>
-);
+}: ConfirmProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <Modal type="confirm" {...modalProps}>
+      <ModalTitle>{title}</ModalTitle>
+      <ModalContent>{message}</ModalContent>
+      <ModalFooter>
+        <ButtonGroup>
+          <Button onClick={onConfirm}>{confirmText ?? t('feedback.confirm')}</Button>
+          <Button variant="ghost" onClick={onCancel}>
+            {cancelText ?? t('feedback.cancel')}
+          </Button>
+        </ButtonGroup>
+      </ModalFooter>
+    </Modal>
+  );
+};

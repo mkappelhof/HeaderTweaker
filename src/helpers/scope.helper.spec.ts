@@ -11,7 +11,7 @@ import {
   filterHeadersByScope,
   getDuplicateUrlIndexes,
   getKnownUrls,
-  getScopeErrorMessage,
+  getScopeErrorMessageKey,
   groupHeadersByUrl,
   isDuplicateUrl,
   isScoped,
@@ -167,20 +167,18 @@ describe('groupHeadersByUrl', () => {
   });
 });
 
-describe('getScopeErrorMessage', () => {
-  it('returns a distinct message for every scope', () => {
-    const messages = Object.values(SCOPES).map(getScopeErrorMessage);
+describe('getScopeErrorMessageKey', () => {
+  it('returns a distinct key for every scope', () => {
+    const keys = Object.values(SCOPES).map(getScopeErrorMessageKey);
 
-    expect(new Set(messages).size).toBe(messages.length);
-    expect(messages.every(Boolean)).toBe(true);
+    expect(new Set(keys).size).toBe(keys.length);
+    expect(keys.every(Boolean)).toBe(true);
   });
 
-  it('explains why the selected scope is empty', () => {
-    expect(getScopeErrorMessage(SCOPES.ALL)).toBe('No headers match the selected filter');
-    expect(getScopeErrorMessage(SCOPES.SCOPED)).toBe('None of the headers have a URL restriction');
-    expect(getScopeErrorMessage(SCOPES.NO_SCOPE)).toBe('Every header has a URL restriction');
-    expect(getScopeErrorMessage(SCOPES.CURRENT_URL)).toBe(
-      'None of the headers are restricted to the current URL'
-    );
+  it('points at the message explaining why the selected scope is empty', () => {
+    expect(getScopeErrorMessageKey(SCOPES.ALL)).toBe('scopes.emptyAll');
+    expect(getScopeErrorMessageKey(SCOPES.SCOPED)).toBe('scopes.emptyScoped');
+    expect(getScopeErrorMessageKey(SCOPES.NO_SCOPE)).toBe('scopes.emptyNoScope');
+    expect(getScopeErrorMessageKey(SCOPES.CURRENT_URL)).toBe('scopes.emptyCurrentUrl');
   });
 });

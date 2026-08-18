@@ -30,13 +30,15 @@ pnpm format-n-lint:fix     # Auto-fix lint and format issues
 - **`src/helpers/`** — Pure utility functions
 - **`src/contexts/`** — React context providers
 - **`src/interfaces/`** — Shared TypeScript types (`Header`, `Status`)
+- **`src/i18n/`** — Localization: `config.ts` initializes i18next, `locales/en-US.json` holds the nested translation keys
 - **`public/manifest.json`** — Firefox manifest (base); `manifests/chrome.json` for Chrome overrides
 - The Vite `sync-manifest` plugin writes the current `package.json` version into the built manifests at bundle time
 
 ## Conventions
 
 - Use **path aliases** for cross-directory imports (never relative `../../`):
-  `@components/*`, `@helpers/*`, `@contexts/*`, `@interfaces/*`, `@constants/*`, `@styles/*`
+  `@components/*`, `@helpers/*`, `@contexts/*`, `@interfaces/*`, `@constants/*`, `@styles/*`, `@i18n/*`
+- **Localization**: never hardcode user-facing text (labels, placeholders, aria-labels, messages). Add a key to the matching group in `src/i18n/locales/en-US.json` and render it with `const { t } = useTranslation()` from `react-i18next`. Interpolate values with `t('group.key', { name })` matching `{{name}}` in the translation, and use i18next `_one` / `_other` suffixed keys with `{ count }` for plurals. Non-component code (helpers, constants) returns a `TranslationKey` instead of translated text, so the component can translate it.
 - **SCSS styling**: Use SCSS modules (`.module.scss`) co-located with each component. Import design tokens using `@use '@styles/variables' as vars;` and reference tokens via `vars.$colors-*`, `vars.$spacing-core-*`, `vars.$border-radius-primary`, etc. Never hardcode colors or spacing values — always use design tokens from `src/styles/variables.scss`.
 - Components use named arrow-function exports typed as `FC<Props>`.
 - Always render text through the `Text` component (`@components/text/text`); never place raw strings in bare DOM elements such as `<span>` or `<p>`.

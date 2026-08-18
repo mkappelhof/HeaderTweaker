@@ -1,5 +1,6 @@
 import { SCOPES, type Scope } from '@constants/scopes';
 import { matchesUrl } from '@helpers/header.helper';
+import type { TranslationKey } from '@i18n/config';
 import type { Header } from '@interfaces/index';
 
 export const normalizeUrlRestriction = (url: string) => {
@@ -108,15 +109,15 @@ export const groupHeadersByUrl = (headers: ReadonlyArray<Header>): HeaderGroup[]
     .map(([url, groupedHeaders]) => ({ url, headers: groupedHeaders }));
 };
 
-export const getScopeErrorMessage = (scope: Scope) => {
+export const getScopeErrorMessageKey = (scope: Scope): TranslationKey => {
   switch (scope) {
     case SCOPES.SCOPED:
-      return 'None of the headers have a URL restriction';
+      return 'scopes.emptyScoped';
     case SCOPES.NO_SCOPE:
-      return 'Every header has a URL restriction';
+      return 'scopes.emptyNoScope';
     case SCOPES.CURRENT_URL:
-      return 'None of the headers are restricted to the current URL';
+      return 'scopes.emptyCurrentUrl';
     default:
-      return 'No headers match the selected filter';
+      return 'scopes.emptyAll';
   }
 };

@@ -5,12 +5,14 @@ import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
+import { useTranslation } from 'react-i18next';
 
 import css from './app.module.scss';
 
 type AppFooterProps = Record<never, never>;
 
 export const AppFooter: FC<AppFooterProps> = () => {
+  const { t } = useTranslation();
   const [header, setHeader] = useState<Header>();
   const [disabledButton, setDisabledButton] = useState(true);
   const headerKeyRef = useRef<HTMLInputElement>(null);
@@ -65,7 +67,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
         <TextInput
           ref={headerKeyRef}
           disabled={isDisabled}
-          placeholder="Header key"
+          placeholder={t('app.headerKey')}
           data-type="name"
           value={header?.name ?? ''}
           onChange={handleInputChange}
@@ -76,7 +78,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
       <div className={css.inputWrapper}>
         <TextInput
           disabled={isDisabled}
-          placeholder="Header value"
+          placeholder={t('app.headerValue')}
           data-type="value"
           value={header?.value ?? ''}
           onChange={handleInputChange}
@@ -85,7 +87,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
       </div>
       <Button disabled={isDisabled || disabledButton} onClick={addHeader}>
         <PlusCircleIcon />
-        Add header
+        {t('app.addHeader')}
       </Button>
     </footer>
   );

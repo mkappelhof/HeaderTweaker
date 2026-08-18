@@ -1,17 +1,19 @@
 import { Text } from '@components/text/text';
 import { UrlSelector } from '@components/url-selector/url-selector';
 import { useBulkScopeChangeContext } from '@contexts/bulk-scope-change.context';
+import { useTranslation } from 'react-i18next';
 
 export const SelectUrls = () => {
+  const { t } = useTranslation();
   const { pendingHeaders, setPendingHeaders, isCompleted } = useBulkScopeChangeContext();
 
   const [urls = []] = Object.values(pendingHeaders);
 
   return isCompleted ? (
-    <Text>The selected headers are now restricted to the chosen URLs</Text>
+    <Text>{t('bulkScopeChange.completed')}</Text>
   ) : (
     <div>
-      <Text>Set the URL restrictions for the selected headers</Text>
+      <Text>{t('bulkScopeChange.setUrlsDescription')}</Text>
       <UrlSelector
         urls={urls}
         onChange={(updatedUrls) =>

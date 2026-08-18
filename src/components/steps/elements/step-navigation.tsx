@@ -2,6 +2,7 @@ import type { FC, ReactNode } from 'react';
 import { Button } from '@components/button/button';
 import { Text } from '@components/text/text';
 import { useStepsContext } from '@contexts/steps.context';
+import { useTranslation } from 'react-i18next';
 
 import css from '../steps.module.scss';
 
@@ -10,6 +11,7 @@ export type StepNavigationProps = {
 };
 
 export const StepNavigation: FC<StepNavigationProps> = ({ finalPageButton }) => {
+  const { t } = useTranslation();
   const { currentStep, totalSteps, onStepChange } = useStepsContext();
 
   const isFirstStep = currentStep === 0;
@@ -30,16 +32,16 @@ export const StepNavigation: FC<StepNavigationProps> = ({ finalPageButton }) => 
   return (
     <div className={css.navigation}>
       <Button onClick={handlePrevious} disabled={isFirstStep} variant="ghost">
-        Previous
+        {t('steps.previous')}
       </Button>
       <Text className={css.stepCounter}>
-        Step {currentStep + 1} of {totalSteps}
+        {t('steps.progress', { current: currentStep + 1, total: totalSteps })}
       </Text>
       {isLastStep && finalPageButton !== undefined ? (
         finalPageButton
       ) : (
         <Button onClick={handleNext} disabled={isLastStep} variant="ghost">
-          Next
+          {t('steps.next')}
         </Button>
       )}
     </div>

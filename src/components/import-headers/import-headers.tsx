@@ -4,12 +4,14 @@ import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { validateHeaderImport } from '@helpers/import.helper';
 import classnames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import css from './import-headers.module.scss';
 
 type ImportHeadersProps = Record<never, never>;
 
 export const ImportHeaders: FC<ImportHeadersProps> = () => {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [importedHeaders, setImportedHeaders] = useState(0);
   const [dragActive, setDragActive] = useState(false);
@@ -53,7 +55,7 @@ export const ImportHeaders: FC<ImportHeadersProps> = () => {
             handleFiles(e.dataTransfer.files);
           }
         }}
-        aria-label="File upload form"
+        aria-label={t('importHeaders.formLabel')}
         tabIndex={-1}
       >
         <button
@@ -78,16 +80,14 @@ export const ImportHeaders: FC<ImportHeadersProps> = () => {
             }}
           />
           <Text as="span">
-            {dragActive
-              ? 'Drop your file here...'
-              : 'Drag & drop a HeaderTweaker export file here, or click to select'}
+            {dragActive ? t('importHeaders.dropActive') : t('importHeaders.dropIdle')}
           </Text>
         </button>
       </form>
       <Success
         isOpen={importedHeaders > 0}
-        title="Headers imported"
-        message={`${importedHeaders} headers are successfully imported.`}
+        title={t('importHeaders.successTitle')}
+        message={t('importHeaders.successMessage', { count: importedHeaders })}
         onConfirm={() => window.close()}
         onClose={() => setImportedHeaders(0)}
       />

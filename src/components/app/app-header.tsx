@@ -9,6 +9,7 @@ import { Status } from '@components/status/status';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { Cog6ToothIcon } from '@heroicons/react/24/solid';
+import { useTranslation } from 'react-i18next';
 import packageJson from '../../../package.json';
 
 import css from './app.module.scss';
@@ -18,6 +19,7 @@ type AppHeaderProps = {
 };
 
 export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
+  const { t } = useTranslation();
   const [showSettings, setShowSettings] = useState(false);
   const [showBulkScopeChange, setShowBulkScopeChange] = useState(false);
   const { isDisabled, headers } = useHeaderTweakerContext();
@@ -34,7 +36,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
             <Text as="code">v{packageJson.version}</Text>
             <Status
               status={isDisabled ? 'disabled' : 'enabled'}
-              label={isDisabled ? 'HeaderTweaker is disabled' : undefined}
+              label={isDisabled ? t('app.statusDisabled') : undefined}
             />
           </div>
           {!withoutSettings && (
@@ -43,7 +45,11 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
                 <Cog6ToothIcon />
               </IconButton>
 
-              <Drawer isOpen={showSettings} onClose={() => setShowSettings(false)} title="Settings">
+              <Drawer
+                isOpen={showSettings}
+                onClose={() => setShowSettings(false)}
+                title={t('app.settings')}
+              >
                 <Settings />
               </Drawer>
             </>
@@ -59,7 +65,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
             disabled={!headers.length}
             onClick={() => setShowBulkScopeChange(true)}
           >
-            URL restrictions
+            {t('app.urlRestrictions')}
           </Button>
         </div>
       </header>

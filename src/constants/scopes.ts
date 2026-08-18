@@ -1,3 +1,5 @@
+import type { TranslationKey } from '@i18n/config';
+
 export const SCOPES = {
   ALL: 'all',
   SCOPED: 'scoped',
@@ -7,9 +9,9 @@ export const SCOPES = {
 
 export type Scope = (typeof SCOPES)[keyof typeof SCOPES];
 
-export const SCOPE_LABELS: Record<Scope, string> = {
-  [SCOPES.ALL]: 'All',
-  [SCOPES.SCOPED]: 'Restricted',
-  [SCOPES.NO_SCOPE]: 'Unrestricted',
-  [SCOPES.CURRENT_URL]: 'Current path',
+export const SCOPE_LABEL_KEYS: Record<Scope, TranslationKey> = {
+  [SCOPES.ALL]: 'scopes.all',
+  [SCOPES.SCOPED]: 'scopes.scoped',
+  [SCOPES.NO_SCOPE]: 'scopes.noScope',
+  [SCOPES.CURRENT_URL]: 'scopes.currentUrl',
 };

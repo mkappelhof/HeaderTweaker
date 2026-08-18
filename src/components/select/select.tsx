@@ -10,9 +10,10 @@ import {
 import { IconButton } from '@components/button/icon-button';
 import { TextInput } from '@components/input/text-input';
 import { Text } from '@components/text/text';
-import { SELECT_CREATE_VALUE, SELECT_LABELS } from '@constants/select';
+import { SELECT_CREATE_VALUE } from '@constants/select';
 import { ChevronDownIcon, ListBulletIcon } from '@heroicons/react/24/solid';
 import classnames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import css from './select.module.scss';
 
@@ -41,24 +42,27 @@ export const Select: FC<SelectProps> = ({
   allowCreate = false,
   autoFocus = false,
   className,
-  createLabel = SELECT_LABELS.CREATE,
+  createLabel,
   createPlaceholder,
   disabled = false,
-  placeholder = SELECT_LABELS.PLACEHOLDER,
+  placeholder,
   onChange,
   onInputKeyDown,
 }) => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const listboxId = useId();
 
+  const createLabelText = createLabel ?? t('select.create');
+  const placeholderText = placeholder ?? t('select.placeholder');
   const isCustomValue = Boolean(value) && !options.some((option) => option.value === value);
   const showInput = allowCreate && (isCreating || isCustomValue || options.length === 0);
   const selectedOption = options.find((option) => option.value === value);
   const items: SelectOption[] = allowCreate
-    ? [...options, { label: createLabel, value: SELECT_CREATE_VALUE }]
+    ? [...options, { label: createLabelText, value: SELECT_CREATE_VALUE }]
     : options;
 
   useEffect(() => {
@@ -124,14 +128,14 @@ export const Select: FC<SelectProps> = ({
         <TextInput
           value={value}
           disabled={disabled}
-          placeholder={createPlaceholder ?? placeholder}
+          placeholder={createPlaceholder ?? placeholderText}
           autoFocus={autoFocus}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={onInputKeyDown}
         />
         {options.length > 0 && (
           <IconButton
-            aria-label="Choose an existing option"
+            aria-label={t('select.chooseExisting')}
             disabled={disabled}
             onClick={() => {
               setIsCreating(false);
@@ -158,7 +162,7 @@ export const Select: FC<SelectProps> = ({
         onKeyDown={handleTriggerKeyDown}
       >
         <Text as="span" className={classnames(css.value, { [css.placeholder]: !selectedOption })}>
-          {selectedOption?.label ?? placeholder}
+          {selectedOption?.label ?? placeholderText}
         </Text>
         <ChevronDownIcon className={classnames(css.chevron, { [css.chevronOpen]: isOpen })} />
       </button>
