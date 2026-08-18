@@ -82,7 +82,7 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
           </div>
           {duplicateIndexes.includes(index) && (
             <Text as="span" variant="body-small" className={css.error}>
-              This scope already exists
+              This URL is already added
             </Text>
           )}
         </div>

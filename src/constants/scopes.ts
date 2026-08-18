@@ -9,7 +9,7 @@ export type Scope = (typeof SCOPES)[keyof typeof SCOPES];
 
 export const SCOPE_LABELS: Record<Scope, string> = {
   [SCOPES.ALL]: 'All',
-  [SCOPES.SCOPED]: 'URL-specific',
-  [SCOPES.NO_SCOPE]: 'Global',
-  [SCOPES.CURRENT_URL]: 'Current',
+  [SCOPES.SCOPED]: 'Restricted',
+  [SCOPES.NO_SCOPE]: 'Unrestricted',
+  [SCOPES.CURRENT_URL]: 'Current path',
 };

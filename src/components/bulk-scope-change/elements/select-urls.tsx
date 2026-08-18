@@ -8,10 +8,10 @@ export const SelectUrls = () => {
   const [urls = []] = Object.values(pendingHeaders);
 
   return isCompleted ? (
-    <div>DONE YO</div>
+    <Text>The selected headers are now restricted to the chosen URLs</Text>
   ) : (
     <div>
-      <Text>Set the URLs to apply to the selected headers</Text>
+      <Text>Set the URL restrictions for the selected headers</Text>
       <UrlSelector
         urls={urls}
         onChange={(updatedUrls) =>

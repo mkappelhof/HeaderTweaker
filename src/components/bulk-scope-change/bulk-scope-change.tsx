@@ -16,7 +16,7 @@ export const BulkScopeChange: FC<BulkScopeChangeProps> = ({ showModal, setShowMo
 
   return (
     <Modal withFullHeight type="modal" isOpen={showModal} onClose={closeModal}>
-      <ModalTitle>Set scopes</ModalTitle>
+      <ModalTitle>Set URL restrictions</ModalTitle>
       <ModalClose onClose={closeModal} />
       <ModalContent>
         <BulkScopeChangeProvider>
@@ -25,7 +25,7 @@ export const BulkScopeChange: FC<BulkScopeChangeProps> = ({ showModal, setShowMo
             <Step title="Select headers">
               <SelectHeaders />
             </Step>
-            <FinalStep title="Set URL's">
+            <FinalStep title="Set URLs">
               <SelectUrls />
             </FinalStep>
             <StepNavigation finalPageButton={<SaveButton />} />

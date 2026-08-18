@@ -59,7 +59,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
             disabled={!headers.length}
             onClick={() => setShowBulkScopeChange(true)}
           >
-            Scopes
+            URL restrictions
           </Button>
         </div>
       </header>

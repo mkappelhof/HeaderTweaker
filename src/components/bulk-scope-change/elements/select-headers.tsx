@@ -18,7 +18,7 @@ export const SelectHeaders = () => {
 
   return (
     <div>
-      <Text>Select headers to assign a URL to</Text>
+      <Text>Select the headers you want to restrict to a URL</Text>
       <Checkbox
         aria-label="Select all headers"
         label="Select all"

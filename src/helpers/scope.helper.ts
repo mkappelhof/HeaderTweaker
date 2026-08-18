@@ -111,11 +111,11 @@ export const groupHeadersByUrl = (headers: ReadonlyArray<Header>): HeaderGroup[]
 export const getScopeErrorMessage = (scope: Scope) => {
   switch (scope) {
     case SCOPES.SCOPED:
-      return 'None of the headers are limited to a URL';
+      return 'None of the headers have a URL restriction';
     case SCOPES.NO_SCOPE:
-      return 'Every header is limited to a URL, so none apply everywhere';
+      return 'Every header has a URL restriction';
     case SCOPES.CURRENT_URL:
-      return 'None of the headers apply to the current URL';
+      return 'None of the headers are restricted to the current URL';
     default:
       return 'No headers match the selected filter';
   }

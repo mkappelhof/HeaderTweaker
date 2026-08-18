@@ -177,12 +177,10 @@ describe('getScopeErrorMessage', () => {
 
   it('explains why the selected scope is empty', () => {
     expect(getScopeErrorMessage(SCOPES.ALL)).toBe('No headers match the selected filter');
-    expect(getScopeErrorMessage(SCOPES.SCOPED)).toBe('None of the headers are limited to a URL');
-    expect(getScopeErrorMessage(SCOPES.NO_SCOPE)).toBe(
-      'Every header is limited to a URL, so none apply everywhere'
-    );
+    expect(getScopeErrorMessage(SCOPES.SCOPED)).toBe('None of the headers have a URL restriction');
+    expect(getScopeErrorMessage(SCOPES.NO_SCOPE)).toBe('Every header has a URL restriction');
     expect(getScopeErrorMessage(SCOPES.CURRENT_URL)).toBe(
-      'None of the headers apply to the current URL'
+      'None of the headers are restricted to the current URL'
     );
   });
 });

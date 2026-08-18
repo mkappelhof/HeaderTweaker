@@ -105,14 +105,14 @@ export const HeaderItem: FC<HeaderItemProps> = ({
               </TooltipTrigger>
 
               <TooltipContent>
-                {!isScoped && <Text>The header is not limited to a specific URL</Text>}
+                {!isScoped && <Text>The header has no URL restriction</Text>}
 
                 {isScoped ? (
                   isCurrentUrl ? (
-                    <Text>The header will applied to the current URL</Text>
+                    <Text>The header will be applied to the current URL</Text>
                   ) : (
                     <Text>
-                      The header will be applied to the following URL's: {urls?.join(', ')}
+                      The header will be applied to the following URLs: {urls?.join(', ')}
                     </Text>
                   )
                 ) : null}

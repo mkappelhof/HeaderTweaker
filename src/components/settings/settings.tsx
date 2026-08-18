@@ -36,7 +36,7 @@ export const Settings: FC<SettingsProps> = () => {
     <div className={css.root}>
       <Switch
         isOn={!isDisabled}
-        label={`HeaderTweaker is ${isDisabled ? 'Disabled' : 'Enabled'}`}
+        label={`HeaderTweaker is ${isDisabled ? 'disabled' : 'enabled'}`}
         onChange={handleStatusChange}
       />
       <Switch isOn={useLabels} label="Use labels" onChange={setUseLabels} />
