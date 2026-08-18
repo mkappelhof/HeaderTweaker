@@ -1,6 +1,6 @@
-import { type FC, useEffect, useRef, useState } from 'react';
+import { type ComponentPropsWithoutRef, type FC, useEffect, useRef, useState } from 'react';
 import { Text } from '@components/text/text';
-import { SCOPE_LABELS, SCOPES, type Scope } from '@constants/index';
+import { SCOPE_LABELS, SCOPES, type Scope } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/header.helper';
 import { filterHeadersByScope } from '@helpers/scope.helper';
@@ -20,7 +20,7 @@ const getHost = (url?: string) => {
   }
 };
 
-export const HeaderFilters: FC = () => {
+export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }) => {
   const { headers, showHeadersFilter, setShowHeadersFilter } = useHeaderTweakerContext();
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
@@ -43,7 +43,7 @@ export const HeaderFilters: FC = () => {
 
   return (
     <div
-      className={classnames(css.root, { [css.disabled]: isDisabled })}
+      className={classnames(css.root, className, { [css.disabled]: isDisabled })}
       ref={listRef}
       role="tablist"
     >

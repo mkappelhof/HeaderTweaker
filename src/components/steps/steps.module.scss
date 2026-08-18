@@ -1,0 +1,145 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-2;
+  height: 100%;
+}
+
+.indicators {
+  display: flex;
+  gap: vars.$spacing-core-4;
+  align-items: center;
+  overflow-x: auto;
+  padding: vars.$spacing-core-2 0;
+
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: vars.$colors-secondary-foreground;
+    border-radius: 2px;
+
+    &:hover {
+      background: vars.$colors-tertiary-foreground;
+    }
+  }
+}
+
+.indicatorWithLine {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-core-4;
+  flex: 1;
+}
+
+.line {
+  flex: 1;
+  height: 2px;
+  background: vars.$colors-secondary-foreground;
+  min-width: 2rem;
+}
+
+.indicatorWithLine:last-child .line {
+  display: none;
+}
+
+.indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: vars.$spacing-core-2;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.indicator:disabled {
+  cursor: not-allowed;
+}
+
+.indicator:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+.indicator.active ~ .line {
+  background: vars.$colors-primary-action;
+}
+
+.indicator.completed ~ .line {
+  background: vars.$colors-primary-action;
+}
+
+.indicatorNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: vars.$colors-secondary-foreground;
+  background: transparent;
+  border: 2px solid vars.$colors-secondary-foreground;
+  transition: all 0.2s ease;
+}
+
+.indicator.active .indicatorNumber {
+  color: vars.$colors-primary-action;
+  border-color: vars.$colors-primary-action;
+  background: transparent;
+}
+
+.indicator.completed .indicatorNumber {
+  color: vars.$colors-primary-foreground;
+  background: vars.$colors-primary-success;
+  border-color: vars.$colors-primary-success;
+}
+
+.indicatorTitle {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: vars.$colors-secondary-foreground;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.indicator.active .indicatorTitle {
+  color: vars.$colors-primary-foreground;
+}
+
+.indicator.completed .indicatorTitle {
+  color: vars.$colors-primary-success;
+}
+
+.content {
+  height: 250px;
+  max-height: 250px;
+  overflow-y: auto;
+  padding: vars.$spacing-core-6 0;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: vars.$spacing-core-4;
+  padding-top: vars.$spacing-core-4;
+  border-top: 1px solid vars.$colors-secondary-foreground;
+}
+
+.stepCounter {
+  text-align: center;
+  font-size: 0.875rem;
+  color: vars.$colors-tertiary-foreground;
+  flex: 1;
+}

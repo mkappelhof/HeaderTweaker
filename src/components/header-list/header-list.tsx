@@ -4,7 +4,8 @@ import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
 import { NoHeaders } from '@components/placeholders/no-headers';
 import { Text } from '@components/text/text';
-import { SCOPES, storage } from '@constants/index';
+import { storage } from '@constants/index';
+import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/header.helper';
 import {

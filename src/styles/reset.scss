@@ -21,6 +21,8 @@ input, textarea, select, button {
   outline: none;
 }
 
+label { cursor: pointer }
+
 input, button {
   border-style: solid;
   border-width: 2px;

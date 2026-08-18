@@ -1,6 +1,6 @@
 import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '@components/button/button';
-import { Input } from '@components/input/input';
+import { TextInput } from '@components/input/text-input';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
@@ -62,8 +62,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
   return (
     <footer className={css.footer}>
       <div className={css.inputWrapper}>
-        <Input
-          type="text"
+        <TextInput
           ref={headerKeyRef}
           disabled={isDisabled}
           placeholder="Header key"
@@ -75,8 +74,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
         />
       </div>
       <div className={css.inputWrapper}>
-        <Input
-          type="text"
+        <TextInput
           disabled={isDisabled}
           placeholder="Header value"
           data-type="value"

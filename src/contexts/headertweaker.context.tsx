@@ -7,7 +7,8 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { SCOPES, type Scope, storage } from '@constants/index';
+import { storage } from '@constants/index';
+import { SCOPES, type Scope } from '@constants/scopes';
 import {
   activateHeader,
   addHeader,
@@ -31,7 +32,7 @@ type HeaderFn = {
 
 type HeaderTweakerContextValue = {
   loading: boolean;
-  headers: Header[];
+  headers: ReadonlyArray<Header>;
   isDisabled: boolean;
   useLabels: boolean;
   selectedHeader: Header | null;

@@ -23,9 +23,16 @@ export type ModalProps = PropsWithChildren<{
   isOpen: boolean;
   onClose: () => void;
   type: 'modal' | 'drawer' | 'alert' | 'confirm' | 'success';
+  withFullHeight?: boolean;
 }>;
 
-export const Modal: FC<ModalProps> = ({ type, isOpen, onClose, children }) => {
+export const Modal: FC<ModalProps> = ({
+  type,
+  isOpen,
+  onClose,
+  withFullHeight = false,
+  children,
+}) => {
   const modalRoot = document.body;
 
   const backdropRef = useRef<HTMLDivElement>(null);
@@ -92,7 +99,7 @@ export const Modal: FC<ModalProps> = ({ type, isOpen, onClose, children }) => {
           onClick={handleBackdropClick}
           aria-hidden={!isOpen}
         >
-          <div className={css.modal}>
+          <div className={classnames(css.modal, { [css.fullHeight]: withFullHeight })}>
             <div className={css.header}>
               {Children.map(children, (child) => {
                 if (isValidElement(child) && (child.type as FC).displayName === 'ModalIcon') {

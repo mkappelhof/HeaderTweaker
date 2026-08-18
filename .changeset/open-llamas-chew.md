@@ -8,3 +8,4 @@ changes:
 - Improve empty header-list states
 - Place focus on header key input field after creating a header
 - Group headers on the URL-specific tab by their exact scoped url
+- Add a Select component and reuse previously used URLs when scoping a header

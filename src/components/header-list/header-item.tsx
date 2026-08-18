@@ -5,7 +5,7 @@ import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@components/tooltip/tooltip';
-import { SCOPES } from '@constants/index';
+import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { matchesUrl } from '@helpers/header.helper';
 import { Bars3Icon, GlobeAltIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';

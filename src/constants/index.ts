@@ -4,5 +4,3 @@ export const webRequest = isFirefox ? browser.webRequest : chrome.webRequest;
 export const tabs = isFirefox ? browser.tabs : chrome.tabs;
 
 export const IMPORT_PARAM = 'import';
-
-export * from './scopes';

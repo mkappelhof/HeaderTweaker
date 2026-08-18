@@ -9,6 +9,8 @@ vi.mock('@constants/index', () => ({
 
 import {
   filterHeadersByScope,
+  getDuplicateUrlIndexes,
+  getKnownUrls,
   getScopeErrorMessage,
   groupHeadersByUrl,
   isDuplicateUrl,
@@ -61,6 +63,30 @@ describe('isDuplicateUrl', () => {
 
   it('does not treat distinct normalized hostnames as duplicates', () => {
     expect(isDuplicateUrl(header(['example.com', 'api.example.com']), 1)).toBe(false);
+  });
+});
+
+describe('getDuplicateUrlIndexes', () => {
+  it('ignores empty entries and reports every repeated normalized URL', () => {
+    expect(
+      getDuplicateUrlIndexes(['example.com', '  ', 'https://www.example.com', 'other.com'])
+    ).toEqual([2]);
+  });
+
+  it('returns an empty list when all URLs are unique', () => {
+    expect(getDuplicateUrlIndexes(['example.com', 'api.example.com'])).toEqual([]);
+  });
+});
+
+describe('getKnownUrls', () => {
+  it('collects unique URLs from all headers in alphabetical order', () => {
+    expect(
+      getKnownUrls([header(['https://www.example.com', 'b.com']), header(['example.com'])])
+    ).toEqual(['b.com', 'https://www.example.com']);
+  });
+
+  it('returns an empty list when no header is scoped', () => {
+    expect(getKnownUrls([header(), header([])])).toEqual([]);
   });
 });
 

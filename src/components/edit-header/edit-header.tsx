@@ -1,13 +1,13 @@
-import { type ChangeEvent, type FC, type KeyboardEvent, useState } from 'react';
+import { type ChangeEvent, type FC, useState } from 'react';
 import { Button } from '@components/button/button';
-import { IconButton } from '@components/button/icon-button';
-import { Input } from '@components/input/input';
+import { TextInput } from '@components/input/text-input';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
+import { UrlSelector } from '@components/url-selector/url-selector';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { isDuplicateUrl, normalizeUrlRestriction } from '@helpers/scope.helper';
+import { getDuplicateUrlIndexes } from '@helpers/scope.helper';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
-import { CheckCircleIcon, PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 
 import css from './edit-header.module.scss';
@@ -19,13 +19,8 @@ type EditHeaderProps = {
 export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
   const { updateHeader, selectedHeader, useLabels, setUseLabels } = useHeaderTweakerContext();
   const [header, setHeader] = useState<Header | null>(selectedHeader);
-  const [focusedUrlIndex, setFocusedUrlIndex] = useState<number | null>(null);
-  const [duplicateUrlIndex, setDuplicateUrlIndex] = useState<number | null>(null);
 
-  const hasDuplicateUrls = (() => {
-    const urls = (header?.urls ?? []).map(normalizeUrlRestriction).filter(Boolean);
-    return new Set(urls).size !== urls.length;
-  })();
+  const hasDuplicateUrls = getDuplicateUrlIndexes(header?.urls ?? []).length > 0;
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -53,46 +48,6 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
     }));
   };
 
-  const handleUrlChange = (index: number, value: string) => {
-    setDuplicateUrlIndex((currentIndex) => (currentIndex === index ? null : currentIndex));
-    setHeader((prev) => {
-      if (!prev) return prev;
-      const urls = [...(prev.urls ?? [])];
-      urls[index] = value;
-      return { ...prev, urls };
-    });
-  };
-
-  const addUrl = () => {
-    setHeader((prev) => {
-      if (!prev) return prev;
-
-      const urls = [...(prev.urls ?? []), ''];
-      setFocusedUrlIndex(urls.length - 1);
-      return { ...prev, urls };
-    });
-  };
-
-  const handleUrlKeyDown = (event: KeyboardEvent<HTMLInputElement>, index: number) => {
-    if (event.key !== 'Enter') return;
-
-    event.preventDefault();
-    if (isDuplicateUrl(header, index)) {
-      setDuplicateUrlIndex(index);
-      return;
-    }
-
-    setDuplicateUrlIndex(null);
-    addUrl();
-  };
-
-  const removeUrl = (index: number) => {
-    setHeader((prev) => {
-      if (!prev) return prev;
-      return { ...prev, urls: (prev.urls ?? []).filter((_, i) => i !== index) };
-    });
-  };
-
   if (!header) return null;
 
   return (
@@ -103,57 +58,26 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
         onChange={(state) => setHeader((prev) => prev && { ...prev, enabled: state })}
       />
 
-      <Input
-        type="text"
+      <TextInput
         value={header.name}
         data-type="name"
         onChange={handleInputChange}
         onBlur={validateHeaderKey}
       />
 
-      <Input type="text" value={header.value} data-type="value" onChange={handleInputChange} />
+      <TextInput value={header.value} data-type="value" onChange={handleInputChange} />
 
-      <Input
-        type="text"
+      <TextInput
         placeholder="Label (optional)"
         value={header.label ?? ''}
         data-type="label"
         onChange={handleInputChange}
       />
 
-      <div className={css.urlSection}>
-        <Text as="span" variant="body-small">
-          URL restrictions
-        </Text>
-        {(header.urls ?? []).map((url, index) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: order is stable, no reordering
-          <div key={`edit-header-${index}`} className={css.urlEntry}>
-            <div className={css.urlRow}>
-              <Input
-                type="text"
-                placeholder="example.com"
-                value={url}
-                onChange={(e) => handleUrlChange(index, e.target.value)}
-                onKeyDown={(event) => handleUrlKeyDown(event, index)}
-                autoFocus={focusedUrlIndex === index}
-                onFocus={() => setFocusedUrlIndex(null)}
-              />
-              <IconButton aria-label="Remove URL" onClick={() => removeUrl(index)}>
-                <XMarkIcon />
-              </IconButton>
-            </div>
-            {duplicateUrlIndex === index && (
-              <Text as="span" variant="body-small" className={css.urlError}>
-                This scope already exists
-              </Text>
-            )}
-          </div>
-        ))}
-        <Button variant="ghost" onClick={addUrl}>
-          <PlusIcon />
-          <Text as="span">Add URL</Text>
-        </Button>
-      </div>
+      <UrlSelector
+        urls={header.urls ?? []}
+        onChange={(urls) => setHeader((prev) => prev && { ...prev, urls })}
+      />
 
       <Button
         disabled={hasDuplicateUrls}

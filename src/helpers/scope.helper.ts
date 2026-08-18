@@ -30,9 +30,46 @@ export const isDuplicateUrl = (header: Header | null, index: number) => {
   );
 };
 
+export const getDuplicateUrlIndexes = (urls: string[]) => {
+  const seen = new Set<string>();
+
+  return urls.reduce<number[]>((duplicates, url, index) => {
+    const normalized = normalizeUrlRestriction(url);
+    if (!normalized) return duplicates;
+
+    if (seen.has(normalized)) {
+      duplicates.push(index);
+      return duplicates;
+    }
+
+    seen.add(normalized);
+    return duplicates;
+  }, []);
+};
+
+export const getKnownUrls = (headers: ReadonlyArray<Header>) => {
+  const seen = new Set<string>();
+
+  return headers
+    .flatMap((header) => header.urls ?? [])
+    .filter((url) => {
+      const normalized = normalizeUrlRestriction(url);
+      if (!normalized || seen.has(normalized)) return false;
+
+      seen.add(normalized);
+      return true;
+    })
+    .map((url) => url.trim())
+    .sort((a, b) => a.localeCompare(b));
+};
+
 export const isScoped = (header: Header) => Boolean(header.urls?.length);
 
-export const filterHeadersByScope = (headers: Header[], scope: Scope, currentUrl?: string) => {
+export const filterHeadersByScope = (
+  headers: ReadonlyArray<Header>,
+  scope: Scope,
+  currentUrl?: string
+) => {
   switch (scope) {
     case SCOPES.SCOPED:
       return headers.filter(isScoped);
@@ -52,7 +89,7 @@ export type HeaderGroup = {
   headers: Header[];
 };
 
-export const groupHeadersByUrl = (headers: Header[]): HeaderGroup[] => {
+export const groupHeadersByUrl = (headers: ReadonlyArray<Header>): HeaderGroup[] => {
   const groups = new Map<string, Header[]>();
 
   for (const header of headers) {

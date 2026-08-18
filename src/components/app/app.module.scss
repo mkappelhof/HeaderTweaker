@@ -38,6 +38,11 @@
 
 .scopes {
   padding: vars.$spacing-core-2 vars.$spacing-core-4;
+  display: flex;
+  align-items: center;
+
+  .filters { flex-grow: 1 }
+  .scopeButton { width: auto }
 }
 
 .content {
