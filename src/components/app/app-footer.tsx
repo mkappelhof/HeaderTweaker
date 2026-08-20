@@ -67,7 +67,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
         <TextInput
           ref={headerKeyRef}
           disabled={isDisabled}
-          placeholder={t('app.headerKey')}
+          placeholder={t('placeholder.header.create.key')}
           data-type="name"
           value={header?.name ?? ''}
           onChange={handleInputChange}
@@ -78,7 +78,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
       <div className={css.inputWrapper}>
         <TextInput
           disabled={isDisabled}
-          placeholder={t('app.headerValue')}
+          placeholder={t('placeholder.header.create.value')}
           data-type="value"
           value={header?.value ?? ''}
           onChange={handleInputChange}
@@ -87,7 +87,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
       </div>
       <Button disabled={isDisabled || disabledButton} onClick={addHeader}>
         <PlusCircleIcon />
-        {t('app.addHeader')}
+        {t('button.header.add')}
       </Button>
     </footer>
   );

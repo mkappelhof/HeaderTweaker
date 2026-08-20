@@ -176,9 +176,9 @@ describe('getScopeErrorMessageKey', () => {
   });
 
   it('points at the message explaining why the selected scope is empty', () => {
-    expect(getScopeErrorMessageKey(SCOPES.ALL)).toBe('scopes.emptyAll');
-    expect(getScopeErrorMessageKey(SCOPES.SCOPED)).toBe('scopes.emptyScoped');
-    expect(getScopeErrorMessageKey(SCOPES.NO_SCOPE)).toBe('scopes.emptyNoScope');
-    expect(getScopeErrorMessageKey(SCOPES.CURRENT_URL)).toBe('scopes.emptyCurrentUrl');
+    expect(getScopeErrorMessageKey(SCOPES.ALL)).toBe('label.scope.emptyAll');
+    expect(getScopeErrorMessageKey(SCOPES.SCOPED)).toBe('label.scope.emptyScoped');
+    expect(getScopeErrorMessageKey(SCOPES.NO_SCOPE)).toBe('label.scope.emptyNoScope');
+    expect(getScopeErrorMessageKey(SCOPES.CURRENT_URL)).toBe('label.scope.emptyCurrentUrl');
   });
 });

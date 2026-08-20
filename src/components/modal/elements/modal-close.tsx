@@ -15,7 +15,7 @@ const ModalClose: FC<ModalCloseProps> = ({ onClose, size = 'large' }) => {
 
   return (
     <div className={css.actions}>
-      <IconButton onClick={onClose} aria-label={t('modal.close')} size={size}>
+      <IconButton onClick={onClose} aria-label={t('a11y.ariaLabel.modal.close')} size={size}>
         <XCircleIcon />
       </IconButton>
     </div>

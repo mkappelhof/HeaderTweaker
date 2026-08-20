@@ -139,7 +139,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
   };
 
   if (!headers.length) {
-    return <NoHeaders message={t('headerList.empty')} />;
+    return <NoHeaders message={t('feedback.empty.headers')} />;
   }
 
   if (!visibleHeaders.length) {
@@ -164,7 +164,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
             <th />
             {useLabels && (
               <th className={css.headerLabelTh}>
-                <Text as="span">{t('headerList.columnLabel')}</Text>
+                <Text as="span">{t('label.header.label')}</Text>
                 <div
                   className={classnames(css.columnResizeHandle, {
                     [css.columnResizeHandleActive]: isResizing,
@@ -176,7 +176,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
               </th>
             )}
             <th className={css.headerNameTh}>
-              <Text as="span">{t('headerList.columnKey')}</Text>
+              <Text as="span">{t('label.header.key')}</Text>
               <div
                 className={classnames(css.columnResizeHandle, {
                   [css.columnResizeHandleActive]: isResizing,
@@ -187,7 +187,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
               />
             </th>
             <th>
-              <Text as="span">{t('headerList.columnValue')}</Text>
+              <Text as="span">{t('label.header.value')}</Text>
             </th>
             <th />
             <th />
@@ -244,7 +244,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
           </tbody>
         )}
       </table>
-      <Drawer isOpen={open} title={t('editHeader.title')} onClose={() => setOpen(false)}>
+      <Drawer isOpen={open} title={t('title.header.edit')} onClose={() => setOpen(false)}>
         {selectedHeader && <EditHeader closePanel={() => setOpen(false)} />}
       </Drawer>
     </div>

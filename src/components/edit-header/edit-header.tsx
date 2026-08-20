@@ -1,9 +1,9 @@
 import { type ChangeEvent, type FC, useState } from 'react';
 import { Button } from '@components/button/button';
 import { TextInput } from '@components/input/text-input';
+import { ScopeSelector } from '@components/scope-selector/scope-selector';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
-import { UrlSelector } from '@components/url-selector/url-selector';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getDuplicateUrlIndexes } from '@helpers/scope.helper';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
@@ -56,7 +56,7 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
     <div className={css.root}>
       <Switch
         isOn={header.enabled}
-        label={header.enabled ? t('editHeader.statusActive') : t('editHeader.statusDisabled')}
+        label={t(header.enabled ? 'label.status.enabledHeader' : 'label.status.disabledHeader')}
         onChange={(state) => setHeader((prev) => prev && { ...prev, enabled: state })}
       />
 
@@ -70,13 +70,13 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
       <TextInput value={header.value} data-type="value" onChange={handleInputChange} />
 
       <TextInput
-        placeholder={t('editHeader.labelPlaceholder')}
+        placeholder={t('placeholder.header.label')}
         value={header.label ?? ''}
         data-type="label"
         onChange={handleInputChange}
       />
 
-      <UrlSelector
+      <ScopeSelector
         urls={header.urls ?? []}
         onChange={(urls) => setHeader((prev) => prev && { ...prev, urls })}
       />
@@ -98,7 +98,7 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
         }}
       >
         <CheckCircleIcon />
-        <Text as="span">{t('editHeader.save')}</Text>
+        <Text as="span">{t('button.header.save')}</Text>
       </Button>
     </div>
   );

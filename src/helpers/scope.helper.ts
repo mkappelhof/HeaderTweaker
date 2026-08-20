@@ -112,12 +112,12 @@ export const groupHeadersByUrl = (headers: ReadonlyArray<Header>): HeaderGroup[]
 export const getScopeErrorMessageKey = (scope: Scope): TranslationKey => {
   switch (scope) {
     case SCOPES.SCOPED:
-      return 'scopes.emptyScoped';
+      return 'label.scope.emptyScoped';
     case SCOPES.NO_SCOPE:
-      return 'scopes.emptyNoScope';
+      return 'label.scope.emptyNoScope';
     case SCOPES.CURRENT_URL:
-      return 'scopes.emptyCurrentUrl';
+      return 'label.scope.emptyCurrentUrl';
     default:
-      return 'scopes.emptyAll';
+      return 'label.scope.emptyAll';
   }
 };

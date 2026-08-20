@@ -18,16 +18,16 @@ export const BulkScopeChange: FC<BulkScopeChangeProps> = ({ showModal, setShowMo
 
   return (
     <Modal withFullHeight type="modal" isOpen={showModal} onClose={closeModal}>
-      <ModalTitle>{t('bulkScopeChange.title')}</ModalTitle>
+      <ModalTitle>{t('title.scope.wizard')}</ModalTitle>
       <ModalClose onClose={closeModal} />
       <ModalContent>
         <BulkScopeChangeProvider>
           <Steps>
             <StepIndicators />
-            <Step title={t('bulkScopeChange.stepSelectHeaders')}>
+            <Step title={t('title.scope.steps.headerSelect')}>
               <SelectHeaders />
             </Step>
-            <FinalStep title={t('bulkScopeChange.stepSetUrls')}>
+            <FinalStep title={t('title.scope.steps.scopeSelect')}>
               <SelectUrls />
             </FinalStep>
             <StepNavigation finalPageButton={<SaveButton />} />

@@ -29,8 +29,11 @@ export const StepIndicators: FC = () => {
             })}
             aria-label={
               stepTitles[index]
-                ? t('steps.goToStepTitled', { number: index + 1, title: stepTitles[index] })
-                : t('steps.goToStep', { number: index + 1 })
+                ? t('a11y.ariaLabel.steps.goToStepTitled', {
+                    number: index + 1,
+                    title: stepTitles[index],
+                  })
+                : t('a11y.ariaLabel.steps.goToStep', { number: index + 1 })
             }
             aria-current={index === currentStep ? 'step' : undefined}
           >

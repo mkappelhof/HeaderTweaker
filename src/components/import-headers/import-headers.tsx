@@ -55,7 +55,7 @@ export const ImportHeaders: FC<ImportHeadersProps> = () => {
             handleFiles(e.dataTransfer.files);
           }
         }}
-        aria-label={t('importHeaders.formLabel')}
+        aria-label={t('a11y.ariaLabel.import.form')}
         tabIndex={-1}
       >
         <button
@@ -80,14 +80,14 @@ export const ImportHeaders: FC<ImportHeadersProps> = () => {
             }}
           />
           <Text as="span">
-            {dragActive ? t('importHeaders.dropActive') : t('importHeaders.dropIdle')}
+            {dragActive ? t('feedback.form.dropActive') : t('feedback.form.dropIdle')}
           </Text>
         </button>
       </form>
       <Success
         isOpen={importedHeaders > 0}
-        title={t('importHeaders.successTitle')}
-        message={t('importHeaders.successMessage', { count: importedHeaders })}
+        title={t('title.feedback.success.import')}
+        message={t('feedback.success.import.successMessage', { count: importedHeaders })}
         onConfirm={() => window.close()}
         onClose={() => setImportedHeaders(0)}
       />

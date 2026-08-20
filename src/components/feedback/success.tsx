@@ -19,11 +19,11 @@ export const Success: FC<SuccessProps> = ({
       <ModalIcon>
         <CheckCircleIcon />
       </ModalIcon>
-      <ModalTitle>{t('feedback.successTitle')}</ModalTitle>
+      <ModalTitle>{t('title.feedback.success.default')}</ModalTitle>
       <ModalContent>{message}</ModalContent>
       <ModalFooter>
         <ButtonGroup>
-          <Button onClick={onConfirm}>{confirmText ?? t('feedback.confirm')}</Button>
+          <Button onClick={onConfirm}>{confirmText ?? t('button.feedback.confirm')}</Button>
         </ButtonGroup>
       </ModalFooter>
     </Modal>

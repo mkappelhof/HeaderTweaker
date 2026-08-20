@@ -107,13 +107,13 @@ export const HeaderItem: FC<HeaderItemProps> = ({
               </TooltipTrigger>
 
               <TooltipContent>
-                {!isScoped && <Text>{t('headerItem.tooltipUnrestricted')}</Text>}
+                {!isScoped && <Text>{t('tooltip.scope.noScope')}</Text>}
 
                 {isScoped ? (
                   isCurrentUrl ? (
-                    <Text>{t('headerItem.tooltipCurrentUrl')}</Text>
+                    <Text>{t('tooltip.scope.currentUrl')}</Text>
                   ) : (
-                    <Text>{t('headerItem.tooltipUrls', { urls: urls?.join(', ') ?? '' })}</Text>
+                    <Text>{t('tooltip.scope.scope', { urls: urls?.join(', ') ?? '' })}</Text>
                   )
                 ) : null}
               </TooltipContent>
@@ -124,30 +124,30 @@ export const HeaderItem: FC<HeaderItemProps> = ({
           <span className={css.buttonWrapper}>
             <IconButton
               disabled={isDisabled}
-              aria-label={t('headerItem.edit')}
+              aria-label={t('a11y.ariaLabel.header.edit')}
               onClick={() => {
                 setSelectedHeader({ id, name, value, enabled, urls, label });
                 openDrawer(true);
               }}
             >
-              <PencilSquareIcon aria-label={t('headerItem.edit')} />
+              <PencilSquareIcon aria-label={t('a11y.ariaLabel.header.edit')} />
             </IconButton>
             <IconButton
               disabled={isDisabled}
-              aria-label={t('headerItem.delete')}
+              aria-label={t('a11y.ariaLabel.header.delete')}
               onClick={() => setHeaderToDelete({ id, name, value, enabled, urls, label })}
             >
-              <TrashIcon aria-label={t('headerItem.delete')} />
+              <TrashIcon aria-label={t('a11y.ariaLabel.header.delete')} />
             </IconButton>
           </span>
         </td>
       </tr>
       <Confirm
         isOpen={!!headerToDelete}
-        title={t('headerItem.deleteTitle')}
-        message={t('headerItem.deleteMessage', { name: headerToDelete?.name ?? '' })}
-        confirmText={t('headerItem.deleteConfirm')}
-        cancelText={t('headerItem.deleteCancel')}
+        title={t('title.header.delete')}
+        message={t('feedback.confirm.delete', { name: headerToDelete?.name ?? '' })}
+        confirmText={t('button.feedback.confirmDelete')}
+        cancelText={t('button.feedback.cancelDelete')}
         onConfirm={async () => {
           if (headerToDelete) {
             await updateHeader({ header: headerToDelete, action: 'remove' });

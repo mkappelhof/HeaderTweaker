@@ -22,7 +22,7 @@ import {
   isDisabledGlobally,
   setStatus as setHeaderTweakerStatus,
 } from '@helpers/headertweaker.helper';
-import type { Header, Status } from '@interfaces/index';
+import type { Header } from '@interfaces/index';
 
 type HeaderFn = {
   header: Header;
@@ -40,7 +40,7 @@ type HeaderTweakerContextValue = {
   updateHeader: (args: HeaderFn) => Promise<void>;
   importHeaders: (headers: Header[]) => Promise<void>;
   reorderHeaders: (headers: Header[]) => Promise<void>;
-  setStatus: (status: Status) => Promise<void>;
+  setStatus: (status: string) => Promise<void>;
   setUseLabels: (show: boolean) => void;
   setShowHeadersFilter: Dispatch<SetStateAction<Scope>>;
   setSelectedHeader: Dispatch<SetStateAction<Header | null>>;
@@ -93,7 +93,7 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
 
   const getStatus = async () => setIsDisabled(await isDisabledGlobally());
 
-  const setStatus = async (status: Status) => {
+  const setStatus = async (status: string) => {
     const newStatus = await setHeaderTweakerStatus(status);
     setIsDisabled(newStatus === 'disabled');
   };

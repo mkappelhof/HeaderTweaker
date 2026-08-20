@@ -10,8 +10,8 @@ export const SCOPES = {
 export type Scope = (typeof SCOPES)[keyof typeof SCOPES];
 
 export const SCOPE_LABEL_KEYS: Record<Scope, TranslationKey> = {
-  [SCOPES.ALL]: 'scopes.all',
-  [SCOPES.SCOPED]: 'scopes.scoped',
-  [SCOPES.NO_SCOPE]: 'scopes.noScope',
-  [SCOPES.CURRENT_URL]: 'scopes.currentUrl',
+  [SCOPES.ALL]: 'label.scope.all',
+  [SCOPES.SCOPED]: 'label.scope.scoped',
+  [SCOPES.NO_SCOPE]: 'label.scope.noScope',
+  [SCOPES.CURRENT_URL]: 'label.scope.currentUrl',
 };

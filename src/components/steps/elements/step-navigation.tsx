@@ -32,16 +32,16 @@ export const StepNavigation: FC<StepNavigationProps> = ({ finalPageButton }) => 
   return (
     <div className={css.navigation}>
       <Button onClick={handlePrevious} disabled={isFirstStep} variant="ghost">
-        {t('steps.previous')}
+        {t('label.previous')}
       </Button>
       <Text className={css.stepCounter}>
-        {t('steps.progress', { current: currentStep + 1, total: totalSteps })}
+        {t('label.wizard.progress', { current: currentStep + 1, total: totalSteps })}
       </Text>
       {isLastStep && finalPageButton !== undefined ? (
         finalPageButton
       ) : (
         <Button onClick={handleNext} disabled={isLastStep} variant="ghost">
-          {t('steps.next')}
+          {t('label.next')}
         </Button>
       )}
     </div>

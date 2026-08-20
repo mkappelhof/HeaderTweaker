@@ -38,18 +38,18 @@ export const Settings: FC<SettingsProps> = () => {
     <div className={css.root}>
       <Switch
         isOn={!isDisabled}
-        label={t('settings.status', {
-          status: isDisabled ? t('settings.statusDisabled') : t('settings.statusEnabled'),
+        label={t('app.status', {
+          status: t(isDisabled ? 'label.status.disabled' : 'label.status.enabled'),
         })}
         onChange={handleStatusChange}
       />
-      <Switch isOn={useLabels} label={t('settings.useLabels')} onChange={setUseLabels} />
+      <Switch isOn={useLabels} label={t('label.settings.useLabels')} onChange={setUseLabels} />
       <Button onClick={openImportWindow}>
-        <ArrowUpTrayIcon /> {t('settings.import')}
+        <ArrowUpTrayIcon /> {t('label.settings.import')}
       </Button>
       <Button onClick={exportHeaders} disabled={headerCount < 1}>
         <ArrowDownTrayIcon />
-        <Text as="span">{t('settings.export', { count: headerCount })}</Text>
+        <Text as="span">{t('label.settings.export', { count: headerCount })}</Text>
       </Button>
     </div>
   );

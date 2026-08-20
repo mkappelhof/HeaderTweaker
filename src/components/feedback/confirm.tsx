@@ -22,9 +22,9 @@ export const Confirm: FC<ConfirmProps> = ({
       <ModalContent>{message}</ModalContent>
       <ModalFooter>
         <ButtonGroup>
-          <Button onClick={onConfirm}>{confirmText ?? t('feedback.confirm')}</Button>
+          <Button onClick={onConfirm}>{confirmText ?? t('button.feedback.confirm')}</Button>
           <Button variant="ghost" onClick={onCancel}>
-            {cancelText ?? t('feedback.cancel')}
+            {cancelText ?? t('button.feedback.cancel')}
           </Button>
         </ButtonGroup>
       </ModalFooter>

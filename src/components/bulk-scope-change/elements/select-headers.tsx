@@ -20,10 +20,14 @@ export const SelectHeaders = () => {
 
   return (
     <div>
-      <Text>{t('bulkScopeChange.selectHeadersDescription')}</Text>
+      <Text>{t('description.scope.headerSelect')}</Text>
       <Checkbox
-        aria-label={t('bulkScopeChange.selectAllAriaLabel')}
-        label={t('bulkScopeChange.selectAll')}
+        aria-label={t(
+          allHeadersSelected
+            ? 'a11y.ariaLabel.header.deselectAll'
+            : 'a11y.ariaLabel.header.selectAll'
+        )}
+        label={t(allHeadersSelected ? 'label.deselectAll' : 'label.selectAll')}
         onChange={() => {
           setPendingHeaders(
             allHeadersSelected
@@ -39,7 +43,7 @@ export const SelectHeaders = () => {
       {headersWithoutScope.map(({ id, name }) => (
         <div key={`header-without-scope-${id}`}>
           <Checkbox
-            aria-label={t('bulkScopeChange.selectHeaderAriaLabel', { name })}
+            aria-label={t('a11y.ariaLabel.header.select', { name })}
             label={name}
             checked={!!pendingHeaders[id]}
             onChange={() =>

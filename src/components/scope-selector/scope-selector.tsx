@@ -12,20 +12,21 @@ import {
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 
-import css from './url-selector.module.scss';
+import css from './scope-selector.module.scss';
 
-export type UrlSelectorProps = {
+export type ScopeSelectorProps = {
   urls: string[];
   onChange: (urls: string[]) => void;
 };
 
-export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
+export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, onChange }) => {
   const { t } = useTranslation();
   const { headers } = useHeaderTweakerContext();
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
   const knownUrls = getKnownUrls(headers);
   const duplicateIndexes = getDuplicateUrlIndexes(urls);
+  const hasEmptyUrl = urls.some((url) => !url.trim());
 
   const getOptions = (index: number) =>
     knownUrls
@@ -39,6 +40,8 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
       .map((url) => ({ label: url, value: url }));
 
   const addUrl = () => {
+    if (hasEmptyUrl) return;
+
     setFocusedIndex(urls.length);
     onChange([...urls, '']);
   };
@@ -47,7 +50,7 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
     if (event.key !== 'Enter') return;
 
     event.preventDefault();
-    if (duplicateIndexes.includes(index)) return;
+    if (duplicateIndexes.includes(index) || !urls[index]?.trim()) return;
 
     addUrl();
   };
@@ -55,7 +58,7 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
   return (
     <div className={css.root}>
       <Text as="span" variant="body-small">
-        {t('urlSelector.title')}
+        {t('label.scope.selector')}
       </Text>
 
       {urls.map((url, index) => (
@@ -66,9 +69,10 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
               allowCreate
               value={url}
               options={getOptions(index)}
-              placeholder={t('urlSelector.placeholder')}
-              createLabel={t('urlSelector.createLabel')}
-              createPlaceholder={t('urlSelector.createPlaceholder')}
+              placeholder={t('placeholder.scope.url.select')}
+              createLabel={t('label.scope.addNewUrl')}
+              createPlaceholder={t('placeholder.scope.url.add')}
+              createInputType="url"
               autoFocus={focusedIndex === index}
               onChange={(value) =>
                 onChange(urls.map((current, i) => (i === index ? value : current)))
@@ -76,7 +80,7 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
               onInputKeyDown={(event) => handleKeyDown(event, index)}
             />
             <IconButton
-              aria-label={t('urlSelector.remove')}
+              aria-label={t('a11y.ariaLabel.scope.remove')}
               onClick={() => onChange(urls.filter((_, i) => i !== index))}
             >
               <XMarkIcon />
@@ -84,15 +88,15 @@ export const UrlSelector: FC<UrlSelectorProps> = ({ urls, onChange }) => {
           </div>
           {duplicateIndexes.includes(index) && (
             <Text as="span" variant="body-small" className={css.error}>
-              {t('urlSelector.duplicate')}
+              {t('feedback.error.url.exists')}
             </Text>
           )}
         </div>
       ))}
 
-      <Button variant="ghost" onClick={addUrl}>
+      <Button variant="ghost" disabled={hasEmptyUrl} onClick={addUrl}>
         <PlusIcon />
-        <Text as="span">{t('urlSelector.add')}</Text>
+        <Text as="span">{t('button.scope.addUrl')}</Text>
       </Button>
     </div>
   );

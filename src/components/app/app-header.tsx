@@ -35,8 +35,8 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
             </Text>
             <Text as="code">v{packageJson.version}</Text>
             <Status
-              status={isDisabled ? 'disabled' : 'enabled'}
-              label={isDisabled ? t('app.statusDisabled') : undefined}
+              status={isDisabled ? t('label.status.disabled') : t('label.status.enabled')}
+              label={isDisabled ? t('app.disabled') : undefined}
             />
           </div>
           {!withoutSettings && (
@@ -48,7 +48,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
               <Drawer
                 isOpen={showSettings}
                 onClose={() => setShowSettings(false)}
-                title={t('app.settings')}
+                title={t('title.settings')}
               >
                 <Settings />
               </Drawer>
@@ -65,7 +65,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
             disabled={!headers.length}
             onClick={() => setShowBulkScopeChange(true)}
           >
-            {t('app.urlRestrictions')}
+            {t('button.scope.wizard')}
           </Button>
         </div>
       </header>

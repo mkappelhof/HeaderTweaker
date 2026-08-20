@@ -1,103 +1,160 @@
 {
   "app": {
-    "statusDisabled": "HeaderTweaker is disabled",
+    "name": "HeaderTweaker",
+    "disabled": "HeaderTweaker is disabled",
+    "status": "HeaderTweaker is {{status}}"
+  },
+  "title": {
     "settings": "Settings",
-    "urlRestrictions": "URL restrictions",
-    "headerKey": "Header key",
-    "headerValue": "Header value",
-    "addHeader": "Add header"
+    "header": { "edit": "Edit header", "delete": "Delete header" },
+    "scope": {
+      "wizard": "Bulk URL target change",
+      "steps": {
+        "headerSelect": "Select headers",
+        "scopeSelect": "Choose URLs"
+      }
+    },
+    "feedback": {
+      "success": {
+        "default": "Success",
+        "import": "Headers imported"
+      }
+    }
   },
-  "settings": {
-    "status": "HeaderTweaker is {{status}}",
-    "statusEnabled": "enabled",
-    "statusDisabled": "disabled",
-    "useLabels": "Use labels",
-    "import": "Import new headers",
-    "export_one": "Export {{count}} header",
-    "export_other": "Export {{count}} headers"
+  "description": {
+    "scope": {
+      "headerSelect": "Select the headers you want to apply to specific URLs."
+    }
   },
-  "importHeaders": {
-    "formLabel": "File upload form",
-    "dropActive": "Drop your file here...",
-    "dropIdle": "Drag & drop a HeaderTweaker export file here, or click to select",
-    "successTitle": "Headers imported",
-    "successMessage_one": "{{count}} header is successfully imported.",
-    "successMessage_other": "{{count}} headers are successfully imported."
-  },
-  "editHeader": {
-    "title": "Edit header",
-    "statusActive": "Header is active",
-    "statusDisabled": "Header is disabled",
-    "labelPlaceholder": "Label (optional)",
-    "save": "Save header"
-  },
-  "headerList": {
-    "columnLabel": "Label",
-    "columnKey": "Key",
-    "columnValue": "Value",
-    "empty": "No headers to display yet, add your first one below"
-  },
-  "headerItem": {
-    "edit": "Edit header",
-    "delete": "Delete header",
-    "deleteTitle": "Delete header",
-    "deleteMessage": "Are you sure you want to delete the \"{{name}}\" header? This action cannot be undone.",
-    "deleteConfirm": "Yes",
-    "deleteCancel": "No",
-    "tooltipUnrestricted": "The header has no URL restriction",
-    "tooltipCurrentUrl": "The header will be applied to the current URL",
-    "tooltipUrls": "The header will be applied to the following URLs: {{urls}}"
-  },
-  "scopes": {
-    "all": "All",
-    "scoped": "Restricted",
-    "noScope": "Unrestricted",
-    "currentUrl": "Current path",
-    "emptyAll": "No headers match the selected filter",
-    "emptyScoped": "None of the headers have a URL restriction",
-    "emptyNoScope": "Every header has a URL restriction",
-    "emptyCurrentUrl": "None of the headers are restricted to the current URL"
-  },
-  "bulkScopeChange": {
-    "title": "Set URL restrictions",
-    "stepSelectHeaders": "Select headers",
-    "stepSetUrls": "Set URLs",
-    "selectHeadersDescription": "Select the headers you want to restrict to a URL",
+  "label": {
     "selectAll": "Select all",
-    "selectAllAriaLabel": "Select all headers",
-    "selectHeaderAriaLabel": "Select {{name}}",
-    "setUrlsDescription": "Set the URL restrictions for the selected headers",
-    "completed": "The selected headers are now restricted to the chosen URLs",
-    "error": "Unable to update headers",
-    "save": "Save headers"
-  },
-  "urlSelector": {
-    "title": "URL restrictions",
-    "placeholder": "Select a URL",
-    "createLabel": "Or add a new URL…",
-    "createPlaceholder": "example.com",
-    "remove": "Remove URL",
-    "duplicate": "This URL is already added",
-    "add": "Add URL"
-  },
-  "select": {
-    "placeholder": "Select an option",
-    "create": "Or create new…",
-    "chooseExisting": "Choose an existing option"
-  },
-  "steps": {
-    "previous": "Previous",
+    "deselectAll": "Deselect all",
     "next": "Next",
-    "progress": "Step {{current}} of {{total}}",
-    "goToStep": "Go to step {{number}}",
-    "goToStepTitled": "Go to step {{number}}: {{title}}"
+    "previous": "Previous",
+    "header": {
+      "key": "Key",
+      "value": "Value",
+      "label": "Label"
+    },
+    "status": {
+      "enabled": "enabled",
+      "disabled": "disabled",
+      "enabledHeader": "Header is active",
+      "disabledHeader": "Header is disabled"
+    },
+    "scope": {
+      "all": "All",
+      "scoped": "Targeted",
+      "noScope": "Global",
+      "currentUrl": "Current",
+      "selector": "Choose the URLs where the selected headers should be applied",
+      "addNewUrl": "Or add a new URL…",
+      "emptyAll": "No headers match the selected filter",
+      "emptyScoped": "None of the headers have a URL target",
+      "emptyNoScope": "Every header is applied to all requests",
+      "emptyCurrentUrl": "None of the headers are restricted to the current URL"
+    },
+    "select": {
+      "chooseExisting": "Choose an existing option",
+      "createNew": "Or create new…"
+    },
+    "settings": {
+      "useLabels": "Use labels",
+      "import": "Import new headers",
+      "export_one": "Export {{count}} header",
+      "export_other": "Export {{count}} headers"
+    },
+    "wizard": {
+      "progress": "Step {{current}} of {{total}}"
+    }
   },
-  "modal": {
-    "close": "Close modal"
+  "button": {
+    "header": {
+      "add": "Add header",
+      "save": "Save header"
+    },
+    "scope": {
+      "wizard": "URL targetting",
+      "save": "Save headers",
+      "addUrl": "Add URL"
+    },
+    "feedback": {
+      "confirm": "OK",
+      "cancel": "Success",
+      "confirmDelete": "Yes",
+      "cancelDelete": "No"
+    }
+  },
+  "placeholder": {
+    "header": {
+      "create": {
+        "key": "Header key",
+        "value": "Header value"
+      },
+      "label": "Optional label for the header"
+    },
+    "scope": {
+      "url": {
+        "select": "Select URL",
+        "add": "example.com",
+        "option": "Select an option"
+      }
+    }
   },
   "feedback": {
-    "confirm": "OK",
-    "cancel": "Cancel",
-    "successTitle": "Success"
+    "error": {
+      "scopeChange": "There was an error changing the URL targets of the selected headers. Nothing is saved/lost.",
+      "url": {
+        "exists": "This URL is already added"
+      }
+    },
+    "confirm": {
+      "delete": "Are you sure you want to delete the \"{{name}}\" header? This action cannot be undone."
+    },
+    "success": {
+      "scopeChange": "The selected headers are now applied to the chosen URLs",
+      "import": {
+        "successMessage_one": "{{count}} header is successfully imported.",
+        "successMessage_other": "{{count}} headers are successfully imported."
+      }
+    },
+    "empty": {
+      "headers": "No headers to display yet, add your first one below"
+    },
+    "form": {
+      "dropActive": "Drop your file here...",
+      "dropIdle": "Drag & drop a HeaderTweaker export file here, or click to select"
+    }
+  },
+  "tooltip": {
+    "scope": {
+      "scope": "The header will be applied to the following URLs: {{urls}}",
+      "currentUrl": "The header will be applied to the current URL",
+      "noScope": "The header is not targeted to a specific URL"
+    }
+  },
+  "a11y": {
+    "ariaLabel": {
+      "header": {
+        "select": "Select {{name}}",
+        "selectAll": "Select all headers",
+        "deselectAll": "Deselect all headers",
+        "edit": "Edit header",
+        "delete": "Delete header"
+      },
+      "scope": {
+        "remove": "Remove URL"
+      },
+      "import": {
+        "form": "File upload form"
+      },
+      "modal": {
+        "close": "Close modal"
+      },
+      "steps": {
+        "goToStep": "Go to step {{number}}",
+        "goToStepTitled": "Go to step {{number}}: {{title}}"
+      }
+    }
   }
 }

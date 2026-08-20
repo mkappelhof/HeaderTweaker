@@ -1,5 +1,6 @@
 import {
   type FC,
+  type HTMLInputTypeAttribute,
   type KeyboardEvent,
   type MouseEvent,
   useEffect,
@@ -32,6 +33,7 @@ export type SelectProps = {
   createPlaceholder?: string;
   disabled?: boolean;
   placeholder?: string;
+  createInputType?: HTMLInputTypeAttribute;
   onChange: (value: string) => void;
   onInputKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
 };
@@ -48,6 +50,7 @@ export const Select: FC<SelectProps> = ({
   placeholder,
   onChange,
   onInputKeyDown,
+  createInputType,
 }) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -56,8 +59,8 @@ export const Select: FC<SelectProps> = ({
   const rootRef = useRef<HTMLDivElement>(null);
   const listboxId = useId();
 
-  const createLabelText = createLabel ?? t('select.create');
-  const placeholderText = placeholder ?? t('select.placeholder');
+  const createLabelText = createLabel ?? t('label.select.createNew');
+  const placeholderText = placeholder ?? t('placeholder.scope.url.select');
   const isCustomValue = Boolean(value) && !options.some((option) => option.value === value);
   const showInput = allowCreate && (isCreating || isCustomValue || options.length === 0);
   const selectedOption = options.find((option) => option.value === value);
@@ -126,6 +129,7 @@ export const Select: FC<SelectProps> = ({
     return (
       <div ref={rootRef} className={classnames(css.root, css.inputRow, className)}>
         <TextInput
+          type={createInputType}
           value={value}
           disabled={disabled}
           placeholder={createPlaceholder ?? placeholderText}
@@ -135,7 +139,7 @@ export const Select: FC<SelectProps> = ({
         />
         {options.length > 0 && (
           <IconButton
-            aria-label={t('select.chooseExisting')}
+            aria-label={t('label.select.chooseExisting')}
             disabled={disabled}
             onClick={() => {
               setIsCreating(false);

@@ -7,6 +7,9 @@ export const SaveButton = () => {
   const { t } = useTranslation();
   const { headers, updateHeader } = useHeaderTweakerContext();
   const { pendingHeaders, setError, setIsCompleted } = useBulkScopeChangeContext();
+  const hasUrl = Object.values(pendingHeaders).some((urls) =>
+    urls.some((url) => url.trim().length > 0)
+  );
 
   const saveHeaders = async () => {
     for (const [id, urls] of Object.entries(pendingHeaders)) {
@@ -17,12 +20,16 @@ export const SaveButton = () => {
       try {
         await updateHeader({ header: { ...header, urls }, action: 'update' });
       } catch {
-        setError(t('bulkScopeChange.error'));
+        setError(t('feedback.error.scopeChange'));
       } finally {
         setIsCompleted(true);
       }
     }
   };
 
-  return <Button onClick={saveHeaders}>{t('bulkScopeChange.save')}</Button>;
+  return (
+    <Button disabled={!hasUrl} onClick={saveHeaders}>
+      {t('button.scope.save')}
+    </Button>
+  );
 };
