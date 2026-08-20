@@ -193,37 +193,42 @@ export const HeaderList: FC<HeaderListProps> = () => {
             <th />
           </tr>
         </thead>
-        {showHeadersFilter === SCOPES.SCOPED ? (
-          groupHeadersByUrl(visibleHeaders).map((group) => (
-            <tbody key={group.url}>
-              <tr className={css.groupRow}>
-                <td colSpan={useLabels ? 7 : 6}>
-                  <Text as="span" variant="body-small" textStyle="secondary">
-                    {group.url}
-                  </Text>
-                </td>
-              </tr>
-              {group.headers.map((header) => {
-                const index = visibleHeaders.findIndex(({ id }) => id === header.id);
+        {showHeadersFilter === SCOPES.ALL ? (
+          groupHeadersByUrl(visibleHeaders).map((group) => {
+            const groupKey = group.urls.length ? group.urls.join(',') : 'global';
+            const groupLabel = group.urls.length ? group.urls.join(', ') : t('label.scope.noScope');
 
-                return (
-                  <HeaderItem
-                    key={`${group.url}-${header.id}`}
-                    index={index}
-                    showLabel={useLabels}
-                    isDragOver={dropIndex === index}
-                    onDragStart={handleDragStart}
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                    onDragEnd={handleDragEnd}
-                    openDrawer={openDrawer}
-                    currentUrl={currentUrl}
-                    {...header}
-                  />
-                );
-              })}
-            </tbody>
-          ))
+            return (
+              <tbody key={groupKey}>
+                <tr className={css.groupRow}>
+                  <td colSpan={useLabels ? 7 : 6}>
+                    <Text as="span" variant="body-small" textStyle="secondary">
+                      {groupLabel}
+                    </Text>
+                  </td>
+                </tr>
+                {group.headers.map((header) => {
+                  const index = visibleHeaders.findIndex(({ id }) => id === header.id);
+
+                  return (
+                    <HeaderItem
+                      key={`${groupKey}-${header.id}`}
+                      index={index}
+                      showLabel={useLabels}
+                      isDragOver={dropIndex === index}
+                      onDragStart={handleDragStart}
+                      onDragOver={handleDragOver}
+                      onDrop={handleDrop}
+                      onDragEnd={handleDragEnd}
+                      openDrawer={openDrawer}
+                      currentUrl={currentUrl}
+                      {...header}
+                    />
+                  );
+                })}
+              </tbody>
+            );
+          })
         ) : (
           <tbody>
             {visibleHeaders.map((header, index) => (

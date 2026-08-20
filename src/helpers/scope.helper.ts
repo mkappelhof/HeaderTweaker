@@ -72,8 +72,8 @@ export const filterHeadersByScope = (
   currentUrl?: string
 ) => {
   switch (scope) {
-    case SCOPES.SCOPED:
-      return headers.filter(isScoped);
+    // case SCOPES.SCOPED:
+    //   return headers.filter(isScoped);
     case SCOPES.NO_SCOPE:
       return headers.filter((header) => !isScoped(header));
     case SCOPES.CURRENT_URL:
@@ -86,33 +86,51 @@ export const filterHeadersByScope = (
 };
 
 export type HeaderGroup = {
-  url: string;
+  urls: string[];
   headers: Header[];
 };
 
 export const groupHeadersByUrl = (headers: ReadonlyArray<Header>): HeaderGroup[] => {
-  const groups = new Map<string, Header[]>();
+  const groups = new Map<string, HeaderGroup>();
+  const globalHeaders: Header[] = [];
 
   for (const header of headers) {
-    for (const url of header.urls ?? []) {
-      const group = groups.get(url);
-      if (group) {
-        group.push(header);
-      } else {
-        groups.set(url, [header]);
-      }
+    const urls = header.urls ?? [];
+    if (!urls.length) {
+      globalHeaders.push(header);
+      continue;
+    }
+
+    // Headers scoped to the exact same set of urls are grouped together.
+    const sortedUrls = [...urls].sort((a, b) => a.localeCompare(b));
+    const key = sortedUrls.join('\u0000');
+
+    const group = groups.get(key);
+    if (group) {
+      group.headers.push(header);
+    } else {
+      groups.set(key, { urls: sortedUrls, headers: [header] });
     }
   }
 
-  return Array.from(groups.entries())
-    .sort(([a], [b]) => a.localeCompare(b))
-    .map(([url, groupedHeaders]) => ({ url, headers: groupedHeaders }));
+  // Groups scoped to multiple urls are listed before single-url groups, both sorted alphabetically.
+  const sortedGroups = Array.from(groups.values()).sort((a, b) => {
+    if (a.urls.length > 1 !== b.urls.length > 1) {
+      return a.urls.length > 1 ? -1 : 1;
+    }
+    return a.urls.join(', ').localeCompare(b.urls.join(', '));
+  });
+
+  // Unscoped headers are surfaced last, under a "Global" group.
+  return globalHeaders.length
+    ? [...sortedGroups, { urls: [], headers: globalHeaders }]
+    : sortedGroups;
 };
 
 export const getScopeErrorMessageKey = (scope: Scope): TranslationKey => {
   switch (scope) {
-    case SCOPES.SCOPED:
-      return 'label.scope.emptyScoped';
+    // case SCOPES.SCOPED:
+    //   return 'label.scope.emptyScoped';
     case SCOPES.NO_SCOPE:
       return 'label.scope.emptyNoScope';
     case SCOPES.CURRENT_URL:

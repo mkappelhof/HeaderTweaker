@@ -108,8 +108,7 @@ describe('filterHeadersByScope', () => {
     expect(filterHeadersByScope(headers, SCOPES.ALL)).toEqual(headers);
   });
 
-  it('returns only headers with or without URLs', () => {
-    expect(filterHeadersByScope(headers, SCOPES.SCOPED)).toEqual([scoped, other]);
+  it('returns only unscoped headers for the "no scope" filter', () => {
     expect(filterHeadersByScope(headers, SCOPES.NO_SCOPE)).toEqual([unscoped]);
   });
 
@@ -125,33 +124,51 @@ describe('filterHeadersByScope', () => {
 });
 
 describe('groupHeadersByUrl', () => {
-  it('groups headers by each exact scoped url', () => {
+  it('groups headers by their exact combined set of urls', () => {
     const a = { ...header(['example.com/a']), id: 'a' };
     const b = { ...header(['example.com/b']), id: 'b' };
     const c = { ...header(['example.com/a']), id: 'c' };
 
     expect(groupHeadersByUrl([a, b, c])).toEqual([
-      { url: 'example.com/a', headers: [a, c] },
-      { url: 'example.com/b', headers: [b] },
+      { urls: ['example.com/a'], headers: [a, c] },
+      { urls: ['example.com/b'], headers: [b] },
     ]);
   });
 
-  it('lists a header under every url it is scoped to', () => {
+  it('groups a header with multiple urls into a single combined group', () => {
     const multi = { ...header(['example.com/a', 'example.com/b']), id: 'multi' };
 
     expect(groupHeadersByUrl([multi])).toEqual([
-      { url: 'example.com/a', headers: [multi] },
-      { url: 'example.com/b', headers: [multi] },
+      { urls: ['example.com/a', 'example.com/b'], headers: [multi] },
     ]);
   });
 
-  it('sorts groups alphabetically by url', () => {
+  it('groups headers that share the same urls regardless of their order', () => {
+    const one = { ...header(['example.com', 'example.net']), id: 'one' };
+    const two = { ...header(['example.net', 'example.com']), id: 'two' };
+
+    expect(groupHeadersByUrl([one, two])).toEqual([
+      { urls: ['example.com', 'example.net'], headers: [one, two] },
+    ]);
+  });
+
+  it('sorts groups alphabetically by their combined urls', () => {
     const b = { ...header(['example.com/b']), id: 'b' };
     const a = { ...header(['example.com/a']), id: 'a' };
 
-    expect(groupHeadersByUrl([b, a]).map((group) => group.url)).toEqual([
+    expect(groupHeadersByUrl([b, a]).map((group) => group.urls.join(', '))).toEqual([
       'example.com/a',
       'example.com/b',
+    ]);
+  });
+
+  it('lists groups scoped to multiple urls before single-url groups', () => {
+    const single = { ...header(['z.com']), id: 'single' };
+    const joined = { ...header(['a.com', 'b.com']), id: 'joined' };
+
+    expect(groupHeadersByUrl([single, joined]).map((group) => group.urls)).toEqual([
+      ['a.com', 'b.com'],
+      ['z.com'],
     ]);
   });
 
@@ -162,8 +179,19 @@ describe('groupHeadersByUrl', () => {
     expect(groupHeadersByUrl([a, b])).toHaveLength(2);
   });
 
-  it('returns no groups for unscoped headers', () => {
-    expect(groupHeadersByUrl([header()])).toEqual([]);
+  it('groups unscoped headers under a single "Global" group placed last', () => {
+    const global1 = { ...header(), id: 'global1' };
+    const global2 = { ...header([]), id: 'global2' };
+    const scoped = { ...header(['example.com/a']), id: 'scoped' };
+
+    expect(groupHeadersByUrl([global1, scoped, global2])).toEqual([
+      { urls: ['example.com/a'], headers: [scoped] },
+      { urls: [], headers: [global1, global2] },
+    ]);
+  });
+
+  it('returns no groups for an empty list of headers', () => {
+    expect(groupHeadersByUrl([])).toEqual([]);
   });
 });
 
@@ -177,7 +205,6 @@ describe('getScopeErrorMessageKey', () => {
 
   it('points at the message explaining why the selected scope is empty', () => {
     expect(getScopeErrorMessageKey(SCOPES.ALL)).toBe('label.scope.emptyAll');
-    expect(getScopeErrorMessageKey(SCOPES.SCOPED)).toBe('label.scope.emptyScoped');
     expect(getScopeErrorMessageKey(SCOPES.NO_SCOPE)).toBe('label.scope.emptyNoScope');
     expect(getScopeErrorMessageKey(SCOPES.CURRENT_URL)).toBe('label.scope.emptyCurrentUrl');
   });
