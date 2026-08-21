@@ -158,14 +158,13 @@ export const HeaderList: FC<HeaderListProps> = () => {
         </Alert>
       )}
 
-      <table ref={tableRef} className={classnames({ [css.resizing]: isResizing })}>
+      <table ref={tableRef} className={classnames(css.tableFixed, { [css.resizing]: isResizing })}>
         <colgroup>
           <col className={css.headerDragHandle} />
           <col className={css.headerSwitch} />
           {useLabels && <col style={{ width: labelColWidth }} />}
           <col style={{ width: nameColWidth }} />
           <col />
-          <col className={css.headerScope} />
           <col className={css.headerActions} />
         </colgroup>
         <thead>
@@ -200,7 +199,6 @@ export const HeaderList: FC<HeaderListProps> = () => {
               <Text as="span">{t('label.header.value')}</Text>
             </th>
             <th />
-            <th />
           </tr>
         </thead>
         {scope === SCOPES.ALL ? (
@@ -211,7 +209,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
             return (
               <tbody key={groupKey}>
                 <tr className={css.groupRow}>
-                  <td colSpan={useLabels ? 7 : 6}>
+                  <td colSpan={useLabels ? 6 : 5}>
                     <Text as="span" variant="body-small" textStyle="secondary">
                       {groupLabel}
                     </Text>
@@ -231,7 +229,6 @@ export const HeaderList: FC<HeaderListProps> = () => {
                       onDrop={handleDrop}
                       onDragEnd={handleDragEnd}
                       openDrawer={openDrawer}
-                      currentUrl={currentUrl}
                       {...header}
                     />
                   );
@@ -252,7 +249,6 @@ export const HeaderList: FC<HeaderListProps> = () => {
                 onDrop={handleDrop}
                 onDragEnd={handleDragEnd}
                 openDrawer={openDrawer}
-                currentUrl={currentUrl}
                 {...header}
               />
             ))}

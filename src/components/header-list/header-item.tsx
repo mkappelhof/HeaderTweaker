@@ -3,12 +3,8 @@ import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
 import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
-import { Text } from '@components/text/text';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@components/tooltip/tooltip';
-import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { matchUrlRestriction } from '@helpers/scope/match-url-restriction.helper';
-import { Bars3Icon, GlobeAltIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { Bars3Icon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 import classnames from 'clsx';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +16,6 @@ type HeaderItemProps = Header & {
   index: number;
   isDragOver: boolean;
   showLabel: boolean;
-  currentUrl?: string;
   onDragStart: (index: number) => void;
   onDragOver: (e: React.DragEvent, index: number) => void;
   onDrop: (index: number) => void;
@@ -38,7 +33,6 @@ export const HeaderItem: FC<HeaderItemProps> = ({
   index,
   isDragOver,
   showLabel,
-  currentUrl,
   onDragStart,
   onDragOver,
   onDrop,
@@ -46,14 +40,7 @@ export const HeaderItem: FC<HeaderItemProps> = ({
 }: HeaderItemProps) => {
   const { t } = useTranslation();
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
-  const { isDisabled, setSelectedHeader, updateHeader, scope } = useHeaderTweakerContext();
-
-  const isScoped = urls && urls.length >= 1;
-  const isCurrentUrl = !!(
-    isScoped &&
-    currentUrl &&
-    urls.some((url) => matchUrlRestriction(currentUrl, url))
-  );
+  const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
   return (
     <>
@@ -93,35 +80,6 @@ export const HeaderItem: FC<HeaderItemProps> = ({
         </td>
         <td>
           <HeaderContent content={value} />
-        </td>
-        <td className={css.scopedCell}>
-          {scope === SCOPES.ALL ? (
-            <Tooltip align="center">
-              <TooltipTrigger>
-                <GlobeAltIcon
-                  width={20}
-                  height={20}
-                  className={classnames(css.scopedIcon, {
-                    [css.active]: isScoped,
-                    [css.inactive]: !isScoped,
-                    [css.currentUrl]: isCurrentUrl,
-                  })}
-                />
-              </TooltipTrigger>
-
-              <TooltipContent>
-                {!isScoped && <Text>{t('tooltip.scope.noScope')}</Text>}
-
-                {isScoped ? (
-                  isCurrentUrl ? (
-                    <Text>{t('tooltip.scope.currentUrl')}</Text>
-                  ) : (
-                    <Text>{t('tooltip.scope.scope', { urls: urls?.join(', ') ?? '' })}</Text>
-                  )
-                ) : null}
-              </TooltipContent>
-            </Tooltip>
-          ) : null}
         </td>
         <td>
           <span className={css.buttonWrapper}>
