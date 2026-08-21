@@ -19,6 +19,9 @@ import css from './header-list.module.scss';
 
 type HeaderListProps = Record<never, never>;
 
+const DRAG_HANDLE_WIDTH = 28;
+const SWITCH_WIDTH = 70;
+
 export const HeaderList: FC<HeaderListProps> = () => {
   const { t } = useTranslation();
   const [open, setOpen] = useState(false);
@@ -87,7 +90,8 @@ export const HeaderList: FC<HeaderListProps> = () => {
     const startX = e.clientX;
     const startWidth = nameColWidth;
     const tableWidth = tableRef.current?.offsetWidth ?? 600;
-    const maxWidth = tableWidth - 218 - 80;
+    const maxWidth =
+      tableWidth - DRAG_HANDLE_WIDTH - SWITCH_WIDTH - (useLabels ? labelColWidth : 0) - 180;
     let currentWidth = startWidth;
 
     setIsResizing(true);
@@ -114,7 +118,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
     const startX = e.clientX;
     const startWidth = labelColWidth;
     const tableWidth = tableRef.current?.offsetWidth ?? 600;
-    const maxWidth = tableWidth - nameColWidth - 218 - 80;
+    const maxWidth = tableWidth - nameColWidth - DRAG_HANDLE_WIDTH - SWITCH_WIDTH - 180;
     let currentWidth = startWidth;
 
     setIsResizing(true);
@@ -144,6 +148,10 @@ export const HeaderList: FC<HeaderListProps> = () => {
     return <NoHeaders message={t(getScopeErrorMessageKey(scope))} />;
   }
 
+  const dividerBaseOffset = DRAG_HANDLE_WIDTH + SWITCH_WIDTH + (useLabels ? labelColWidth : 0);
+  const labelDividerOffset = DRAG_HANDLE_WIDTH + SWITCH_WIDTH + labelColWidth;
+  const nameDividerOffset = dividerBaseOffset + nameColWidth;
+
   return (
     <div className={css.root}>
       {scope === SCOPES.NO_SCOPE && (
@@ -158,103 +166,94 @@ export const HeaderList: FC<HeaderListProps> = () => {
         </Alert>
       )}
 
-      <table ref={tableRef} className={classnames(css.tableFixed, { [css.resizing]: isResizing })}>
-        <colgroup>
-          <col className={css.headerDragHandle} />
-          <col className={css.headerSwitch} />
-          {useLabels && <col style={{ width: labelColWidth }} />}
-          <col style={{ width: nameColWidth }} />
-          <col />
-          <col className={css.headerActions} />
-        </colgroup>
-        <thead>
-          <tr>
-            <th />
-            <th />
-            {useLabels && (
-              <th className={css.headerLabelTh}>
-                <Text as="span">{t('label.header.label')}</Text>
-                <div
-                  className={classnames(css.columnResizeHandle, {
-                    [css.columnResizeHandleActive]: isResizing,
-                    [css.hidden]: !headers.length,
+      <div className={css.tableWrapper}>
+        <table
+          ref={tableRef}
+          className={classnames(css.tableFixed, { [css.resizing]: isResizing })}
+        >
+          <colgroup>
+            <col className={css.headerDragHandle} />
+            <col className={css.headerSwitch} />
+            {useLabels && <col style={{ width: labelColWidth }} />}
+            <col style={{ width: nameColWidth }} />
+            <col />
+            <col className={css.headerActions} />
+          </colgroup>
+          {scope === SCOPES.ALL ? (
+            groupHeaders(visibleHeaders).map((group) => {
+              const groupKey = group.urls.length ? group.urls.join(',') : 'global';
+              const groupLabel = group.urls.length
+                ? group.urls.join(', ')
+                : t('label.scope.noScope');
+
+              return (
+                <tbody key={groupKey}>
+                  <tr className={css.groupRow}>
+                    <td colSpan={useLabels ? 6 : 5}>
+                      <Text as="span" variant="body-small" textStyle="secondary">
+                        {groupLabel}
+                      </Text>
+                    </td>
+                  </tr>
+                  {group.headers.map((header) => {
+                    const index = visibleHeaders.findIndex(({ id }) => id === header.id);
+
+                    return (
+                      <HeaderItem
+                        key={`${groupKey}-${header.id}`}
+                        index={index}
+                        showLabel={useLabels}
+                        isDragOver={dropIndex === index}
+                        onDragStart={handleDragStart}
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
+                        onDragEnd={handleDragEnd}
+                        openDrawer={openDrawer}
+                        {...header}
+                      />
+                    );
                   })}
-                  onMouseDown={handleLabelResizeMouseDown}
-                  aria-hidden="true"
+                </tbody>
+              );
+            })
+          ) : (
+            <tbody>
+              {visibleHeaders.map((header, index) => (
+                <HeaderItem
+                  key={header.id}
+                  index={index}
+                  showLabel={useLabels}
+                  isDragOver={dropIndex === index}
+                  onDragStart={handleDragStart}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onDragEnd={handleDragEnd}
+                  openDrawer={openDrawer}
+                  {...header}
                 />
-              </th>
-            )}
-            <th className={css.headerNameTh}>
-              <Text as="span">{t('label.header.key')}</Text>
-              <div
-                className={classnames(css.columnResizeHandle, {
-                  [css.columnResizeHandleActive]: isResizing,
-                  [css.hidden]: !headers.length,
-                })}
-                onMouseDown={handleResizeMouseDown}
-                aria-hidden="true"
-              />
-            </th>
-            <th>
-              <Text as="span">{t('label.header.value')}</Text>
-            </th>
-            <th />
-          </tr>
-        </thead>
-        {scope === SCOPES.ALL ? (
-          groupHeaders(visibleHeaders).map((group) => {
-            const groupKey = group.urls.length ? group.urls.join(',') : 'global';
-            const groupLabel = group.urls.length ? group.urls.join(', ') : t('label.scope.noScope');
-
-            return (
-              <tbody key={groupKey}>
-                <tr className={css.groupRow}>
-                  <td colSpan={useLabels ? 6 : 5}>
-                    <Text as="span" variant="body-small" textStyle="secondary">
-                      {groupLabel}
-                    </Text>
-                  </td>
-                </tr>
-                {group.headers.map((header) => {
-                  const index = visibleHeaders.findIndex(({ id }) => id === header.id);
-
-                  return (
-                    <HeaderItem
-                      key={`${groupKey}-${header.id}`}
-                      index={index}
-                      showLabel={useLabels}
-                      isDragOver={dropIndex === index}
-                      onDragStart={handleDragStart}
-                      onDragOver={handleDragOver}
-                      onDrop={handleDrop}
-                      onDragEnd={handleDragEnd}
-                      openDrawer={openDrawer}
-                      {...header}
-                    />
-                  );
-                })}
-              </tbody>
-            );
-          })
-        ) : (
-          <tbody>
-            {visibleHeaders.map((header, index) => (
-              <HeaderItem
-                key={header.id}
-                index={index}
-                showLabel={useLabels}
-                isDragOver={dropIndex === index}
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onDragEnd={handleDragEnd}
-                openDrawer={openDrawer}
-                {...header}
-              />
-            ))}
-          </tbody>
+              ))}
+            </tbody>
+          )}
+        </table>
+        {useLabels && (
+          <div
+            className={classnames(css.columnResizeHandle, {
+              [css.columnResizeHandleActive]: isResizing,
+            })}
+            style={{ left: labelDividerOffset }}
+            onMouseDown={handleLabelResizeMouseDown}
+            aria-hidden="true"
+          />
         )}
-      </table>
+        <div
+          className={classnames(css.columnResizeHandle, {
+            [css.columnResizeHandleActive]: isResizing,
+          })}
+          style={{ left: nameDividerOffset }}
+          onMouseDown={handleResizeMouseDown}
+          aria-hidden="true"
+        />
+      </div>
       <Drawer isOpen={open} title={t('title.header.edit')} onClose={() => setOpen(false)}>
         {selectedHeader && <EditHeader closePanel={() => setOpen(false)} />}
       </Drawer>
