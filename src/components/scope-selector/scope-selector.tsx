@@ -4,11 +4,9 @@ import { IconButton } from '@components/button/icon-button';
 import { Select } from '@components/select/select';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import {
-  getDuplicateUrlIndexes,
-  getKnownUrls,
-  normalizeUrlRestriction,
-} from '@helpers/scope.helper';
+import { getDuplicateUrlIndexes } from '@helpers/scope/get-duplicate-url.helper';
+import { getKnownUrls } from '@helpers/scope/get-known-urls.helper';
+import { normalizeUrlRestriction } from '@helpers/scope/normalize-url-restriction.helper';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 
@@ -72,7 +70,7 @@ export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, onChange }) => {
               placeholder={t('placeholder.scope.url.select')}
               createLabel={t('label.scope.addNewUrl')}
               createPlaceholder={t('placeholder.scope.url.add')}
-              createInputType="url"
+              createInputType="text"
               autoFocus={focusedIndex === index}
               onChange={(value) =>
                 onChange(urls.map((current, i) => (i === index ? value : current)))

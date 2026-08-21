@@ -7,7 +7,7 @@ import { Text } from '@components/text/text';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@components/tooltip/tooltip';
 import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { matchesUrl } from '@helpers/header.helper';
+import { matchUrlRestriction } from '@helpers/scope/match-url-restriction.helper';
 import { Bars3Icon, GlobeAltIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 import classnames from 'clsx';
@@ -50,7 +50,11 @@ export const HeaderItem: FC<HeaderItemProps> = ({
     useHeaderTweakerContext();
 
   const isScoped = urls && urls.length >= 1;
-  const isCurrentUrl = !!(isScoped && currentUrl && matchesUrl(currentUrl, urls));
+  const isCurrentUrl = !!(
+    isScoped &&
+    currentUrl &&
+    urls.some((url) => matchUrlRestriction(currentUrl, url))
+  );
 
   return (
     <>

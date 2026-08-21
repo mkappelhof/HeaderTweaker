@@ -27,7 +27,7 @@ pnpm format-n-lint:fix     # Auto-fix lint and format issues
 - **`src/background.ts`** — Extension background script (service worker)
 - **`src/headertweaker.tsx`** — Main UI entry point
 - **`src/components/`** — Feature components, each co-located with its `.module.scss`
-- **`src/helpers/`** — Pure utility functions
+- **`src/helpers/`** — Pure utility functions; every function must live in its own dedicated helper file
 - **`src/contexts/`** — React context providers
 - **`src/interfaces/`** — Shared TypeScript types (`Header`, `Status`)
 - **`src/i18n/`** — Localization: `config.ts` initializes i18next, `locales/en-US.json` holds the nested translation keys

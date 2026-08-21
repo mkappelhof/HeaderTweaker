@@ -2,7 +2,7 @@ import { type FC, useRef, useState } from 'react';
 import { Success } from '@components/feedback/success';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { validateHeaderImport } from '@helpers/import.helper';
+import { validateHeaderImport } from '@helpers/validate-header-import.helper';
 import classnames from 'clsx';
 import { useTranslation } from 'react-i18next';
 

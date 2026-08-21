@@ -2,8 +2,8 @@ import { type ComponentPropsWithoutRef, type FC, useEffect, useRef, useState } f
 import { Text } from '@components/text/text';
 import { SCOPE_LABEL_KEYS, SCOPES, type Scope } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { getCurrentTabUrl } from '@helpers/header.helper';
-import { filterHeadersByScope } from '@helpers/scope.helper';
+import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
+import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
 import classnames from 'clsx';
 import { useTranslation } from 'react-i18next';
 

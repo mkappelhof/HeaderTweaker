@@ -4,7 +4,7 @@ import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
 import { IMPORT_PARAM } from '@constants/index';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { exportHeaders } from '@helpers/header.helper';
+import { exportHeaders } from '@helpers/header/export-headers.helper';
 import { ArrowDownTrayIcon, ArrowUpTrayIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 

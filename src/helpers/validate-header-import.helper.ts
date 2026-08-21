@@ -1,5 +1,5 @@
-import { getHeaders } from '@helpers/header.helper';
 import type { Header } from '@interfaces/index';
+import { getHeaders } from './header/get-headers.helper';
 
 type HeaderImportCallbacks = {
   onSuccess: (headers: Header[]) => void | Promise<void>;

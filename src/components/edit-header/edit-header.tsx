@@ -5,7 +5,7 @@ import { ScopeSelector } from '@components/scope-selector/scope-selector';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { getDuplicateUrlIndexes } from '@helpers/scope.helper';
+import { getDuplicateUrlIndexes } from '@helpers/scope/get-duplicate-url.helper';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';

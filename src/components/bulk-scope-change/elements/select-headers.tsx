@@ -3,7 +3,7 @@ import { Text } from '@components/text/text';
 import { SCOPES } from '@constants/scopes';
 import { type PendingHeader, useBulkScopeChangeContext } from '@contexts/bulk-scope-change.context';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { filterHeadersByScope } from '@helpers/scope.helper';
+import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
 import { useTranslation } from 'react-i18next';
 
 export const SelectHeaders = () => {

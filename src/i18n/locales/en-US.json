@@ -96,7 +96,7 @@
     "scope": {
       "url": {
         "select": "Select URL",
-        "add": "example.com",
+        "add": "ah.nl/producten",
         "option": "Select an option"
       }
     }

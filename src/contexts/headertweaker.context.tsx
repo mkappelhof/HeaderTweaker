@@ -9,15 +9,13 @@ import {
 } from 'react';
 import { storage } from '@constants/index';
 import { SCOPES, type Scope } from '@constants/scopes';
-import {
-  activateHeader,
-  addHeader,
-  getHeaders,
-  importHeaders,
-  removeHeader,
-  reorderHeaders,
-  updateHeader,
-} from '@helpers/header.helper';
+import { activateHeader } from '@helpers/header/activate-header.helper';
+import { addHeader } from '@helpers/header/add-header.helper';
+import { getHeaders } from '@helpers/header/get-headers.helper';
+import { importHeaders } from '@helpers/header/import-headers.helper';
+import { removeHeader } from '@helpers/header/remove-header.helper';
+import { saveHeaders } from '@helpers/header/save-headers.helper';
+import { updateHeader } from '@helpers/header/update-headers.helper';
 import {
   isDisabledGlobally,
   setStatus as setHeaderTweakerStatus,
@@ -113,7 +111,7 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
   };
 
   const reorderHeadersFn = async (headers: Header[]) => {
-    await reorderHeaders(headers);
+    await saveHeaders(headers);
     setHeaderList(headers);
   };
 

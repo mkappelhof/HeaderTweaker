@@ -7,12 +7,10 @@ import { Text } from '@components/text/text';
 import { storage } from '@constants/index';
 import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { getCurrentTabUrl } from '@helpers/header.helper';
-import {
-  filterHeadersByScope,
-  getScopeErrorMessageKey,
-  groupHeadersByUrl,
-} from '@helpers/scope.helper';
+import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
+import { groupHeaders } from '@helpers/header/group-headers.helper';
+import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
+import { getScopeErrorMessageKey } from '@helpers/scope/get-scoped-error.helper';
 import classnames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -194,7 +192,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
           </tr>
         </thead>
         {showHeadersFilter === SCOPES.ALL ? (
-          groupHeadersByUrl(visibleHeaders).map((group) => {
+          groupHeaders(visibleHeaders).map((group) => {
             const groupKey = group.urls.length ? group.urls.join(',') : 'global';
             const groupLabel = group.urls.length ? group.urls.join(', ') : t('label.scope.noScope');
 
