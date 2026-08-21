@@ -21,7 +21,7 @@ const VariantTags: { [key in TextVariant]: HTMLElementType } = {
   [TextVariant.BODY_SMALL]: 'small',
 };
 
-type TextProps = ComponentPropsWithoutRef<'span'> & {
+export type TextProps = ComponentPropsWithoutRef<'span'> & {
   children: ReactNode;
   variant?: TextVariant;
   textStyle?: 'primary' | 'secondary';

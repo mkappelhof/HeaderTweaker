@@ -1,4 +1,5 @@
 import { type FC, useEffect, useRef, useState } from 'react';
+import { Alert, AlertContent } from '@components/alert/alert';
 import { Drawer } from '@components/drawer/drawer';
 import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
@@ -28,10 +29,9 @@ export const HeaderList: FC<HeaderListProps> = () => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const dragIndexRef = useRef<number | null>(null);
   const tableRef = useRef<HTMLTableElement>(null);
-  const { headers, selectedHeader, reorderHeaders, useLabels, showHeadersFilter } =
-    useHeaderTweakerContext();
+  const { headers, selectedHeader, reorderHeaders, useLabels, scope } = useHeaderTweakerContext();
 
-  const visibleHeaders = filterHeadersByScope(headers, showHeadersFilter, currentUrl);
+  const visibleHeaders = filterHeadersByScope(headers, scope, currentUrl);
 
   useEffect(() => {
     storage.local.get(['nameColWidth', 'labelColWidth']).then((result) => {
@@ -141,11 +141,23 @@ export const HeaderList: FC<HeaderListProps> = () => {
   }
 
   if (!visibleHeaders.length) {
-    return <NoHeaders message={t(getScopeErrorMessageKey(showHeadersFilter))} />;
+    return <NoHeaders message={t(getScopeErrorMessageKey(scope))} />;
   }
 
   return (
     <div className={css.root}>
+      {scope === SCOPES.NO_SCOPE && (
+        <Alert variant="warning">
+          <AlertContent>
+            <AlertContent>
+              <Text variant="body-small">
+                {t('label.scope.noScopeWarning', { count: visibleHeaders.length })}
+              </Text>
+            </AlertContent>
+          </AlertContent>
+        </Alert>
+      )}
+
       <table ref={tableRef} className={classnames({ [css.resizing]: isResizing })}>
         <colgroup>
           <col className={css.headerDragHandle} />
@@ -191,7 +203,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
             <th />
           </tr>
         </thead>
-        {showHeadersFilter === SCOPES.ALL ? (
+        {scope === SCOPES.ALL ? (
           groupHeaders(visibleHeaders).map((group) => {
             const groupKey = group.urls.length ? group.urls.join(',') : 'global';
             const groupLabel = group.urls.length ? group.urls.join(', ') : t('label.scope.noScope');

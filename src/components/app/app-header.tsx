@@ -7,7 +7,9 @@ import { HeaderFilters } from '@components/header-filters/header-filters';
 import { Settings } from '@components/settings/settings';
 import { Status } from '@components/status/status';
 import { Text } from '@components/text/text';
+import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
 import { Cog6ToothIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import packageJson from '../../../package.json';
@@ -23,6 +25,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
   const [showSettings, setShowSettings] = useState(false);
   const [showBulkScopeChange, setShowBulkScopeChange] = useState(false);
   const { isDisabled, headers } = useHeaderTweakerContext();
+  const headersWithoutScope = filterHeadersByScope(headers, SCOPES.NO_SCOPE);
 
   return (
     <>
@@ -62,7 +65,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
           <Button
             variant="ghost"
             className={css.scopeButton}
-            disabled={!headers.length}
+            disabled={!headers.length || !headersWithoutScope.length}
             onClick={() => setShowBulkScopeChange(true)}
           >
             {t('button.scope.wizard')}

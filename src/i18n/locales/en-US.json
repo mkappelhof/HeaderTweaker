@@ -52,7 +52,9 @@
       "emptyAll": "No headers match the selected filter",
       "emptyScoped": "None of the headers have a URL target",
       "emptyNoScope": "Every header is applied to all requests",
-      "emptyCurrentUrl": "None of the headers are restricted to the current URL"
+      "emptyCurrentUrl": "None of the headers are applied to the current URL",
+      "noScopeWarning_one": "This header is global and will be added to all requests. Add a URL target to apply it only to specific URLs.",
+      "noScopeWarning_other": "These headers are global and will be added to all requests. Add a URL target to apply them only to specific URLs."
     },
     "select": {
       "chooseExisting": "Choose an existing option",

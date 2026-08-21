@@ -4,6 +4,7 @@ import { SCOPE_LABEL_KEYS, SCOPES, type Scope } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
 import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import classnames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -23,7 +24,7 @@ const getHost = (url?: string) => {
 
 export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }) => {
   const { t } = useTranslation();
-  const { headers, showHeadersFilter, setShowHeadersFilter } = useHeaderTweakerContext();
+  const { headers, scope, setscope } = useHeaderTweakerContext();
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const listRef = useRef<HTMLDivElement>(null);
@@ -41,7 +42,7 @@ export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }
     if (!active) return;
 
     setIndicator({ left: active.offsetLeft, width: active.offsetWidth });
-  }, [showHeadersFilter, currentHost, headers]);
+  }, [scope, currentHost, headers]);
 
   return (
     <div
@@ -53,23 +54,23 @@ export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }
         className={css.indicator}
         style={{ transform: `translateX(${indicator.left}px)`, width: indicator.width }}
       />
-      {scopes.map((scope: Scope) => {
-        const isActive = showHeadersFilter === scope;
-        const count = filterHeadersByScope(headers, scope, currentUrl).length;
+      {scopes.map((currentScope: Scope) => {
+        const isActive = currentScope === scope;
+        const count = filterHeadersByScope(headers, currentScope, currentUrl).length;
 
         return (
           <button
-            key={scope}
+            key={currentScope}
             type="button"
             role="tab"
             disabled={isDisabled}
             aria-selected={isActive}
             data-active={isActive}
             className={classnames(css.tab, { [css.active]: isActive })}
-            onClick={() => setShowHeadersFilter(scope)}
+            onClick={() => setscope(currentScope)}
           >
-            <Text as="span">{t(SCOPE_LABEL_KEYS[scope])}</Text>
-            {scope === SCOPES.CURRENT_URL && currentHost && (
+            <Text as="span">{t(SCOPE_LABEL_KEYS[currentScope])}</Text>
+            {currentScope === SCOPES.CURRENT_URL && currentHost && (
               <Text as="span" textStyle="secondary">
                 {currentHost}
               </Text>
@@ -77,6 +78,9 @@ export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }
             <Text variant="body-small" textStyle="secondary">
               ({count})
             </Text>
+            {currentScope === SCOPES.NO_SCOPE && count > 0 && (
+              <InformationCircleIcon className={css.icon} />
+            )}
           </button>
         );
       })}

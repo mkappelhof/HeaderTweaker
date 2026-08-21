@@ -34,9 +34,20 @@
   color: vars.$colors-tertiary-foreground;
   transition: color 0.25s ease;
 
+  .icon {
+    color: rgba(vars.$colors-primary-warning, .5);
+    width: 20px;
+    height: 20px;
+    transition: color 0.25s ease;
+  }
+
   &:hover { color: vars.$colors-primary-foreground }
 
-  &.active { color: vars.$colors-primary-foreground }
+  &.active { 
+    color: vars.$colors-primary-foreground;
+
+    .icon { color: vars.$colors-primary-warning }
+  }
 
   &:disabled {
     cursor: not-allowed;

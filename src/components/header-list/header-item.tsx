@@ -46,8 +46,7 @@ export const HeaderItem: FC<HeaderItemProps> = ({
 }: HeaderItemProps) => {
   const { t } = useTranslation();
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
-  const { isDisabled, setSelectedHeader, updateHeader, showHeadersFilter } =
-    useHeaderTweakerContext();
+  const { isDisabled, setSelectedHeader, updateHeader, scope } = useHeaderTweakerContext();
 
   const isScoped = urls && urls.length >= 1;
   const isCurrentUrl = !!(
@@ -96,7 +95,7 @@ export const HeaderItem: FC<HeaderItemProps> = ({
           <HeaderContent content={value} />
         </td>
         <td className={css.scopedCell}>
-          {showHeadersFilter === SCOPES.ALL ? (
+          {scope === SCOPES.ALL ? (
             <Tooltip align="center">
               <TooltipTrigger>
                 <GlobeAltIcon
