@@ -47,6 +47,8 @@
       "scoped": "Targeted",
       "noScope": "Global",
       "currentUrl": "Current",
+      "target_one": "Target",
+      "target_other": "Targets",
       "selector": "Choose the URLs where the selected headers should be applied",
       "addNewUrl": "Or add a new URL…",
       "emptyAll": "No headers match the selected filter",

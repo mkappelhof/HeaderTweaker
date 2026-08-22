@@ -3,6 +3,7 @@ import { Alert, AlertContent } from '@components/alert/alert';
 import { Drawer } from '@components/drawer/drawer';
 import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
+import { Pill } from '@components/pill/pill';
 import { NoHeaders } from '@components/placeholders/no-headers';
 import { Text } from '@components/text/text';
 import { storage } from '@constants/index';
@@ -182,17 +183,23 @@ export const HeaderList: FC<HeaderListProps> = () => {
           {scope === SCOPES.ALL ? (
             groupHeaders(visibleHeaders).map((group) => {
               const groupKey = group.urls.length ? group.urls.join(',') : 'global';
-              const groupLabel = group.urls.length
-                ? group.urls.join(', ')
-                : t('label.scope.noScope');
 
               return (
                 <tbody key={groupKey}>
                   <tr className={css.groupRow}>
                     <td colSpan={useLabels ? 6 : 5}>
-                      <Text as="span" variant="body-small" textStyle="secondary">
-                        {groupLabel}
-                      </Text>
+                      {group.urls.length ? (
+                        <div className={css.groupItems}>
+                          <Text variant="body-small">
+                            {t('label.scope.target', { count: group.urls.length })}
+                          </Text>
+                          {group.urls.map((url) => (
+                            <Pill key={`header-group-pill-${url}`}>{url}</Pill>
+                          ))}
+                        </div>
+                      ) : (
+                        <Text variant="body-small">{t('label.scope.noScope')}</Text>
+                      )}
                     </td>
                   </tr>
                   {group.headers.map((header) => {

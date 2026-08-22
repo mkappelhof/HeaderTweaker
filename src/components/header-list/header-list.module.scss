@@ -124,3 +124,9 @@
     padding-bottom: vars.$spacing-core-2;
   }
 }
+
+.groupItems {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-core-2;
+}
