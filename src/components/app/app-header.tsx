@@ -10,6 +10,7 @@ import { Text } from '@components/text/text';
 import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
+import { CursorArrowRippleIcon } from '@heroicons/react/16/solid';
 import { Cog6ToothIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 import packageJson from '../../../package.json';
@@ -24,7 +25,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
   const { t } = useTranslation();
   const [showSettings, setShowSettings] = useState(false);
   const [showBulkScopeChange, setShowBulkScopeChange] = useState(false);
-  const { isDisabled, headers } = useHeaderTweakerContext();
+  const { scope, isDisabled, headers } = useHeaderTweakerContext();
   const headersWithoutScope = filterHeadersByScope(headers, SCOPES.NO_SCOPE);
 
   return (
@@ -58,18 +59,22 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
             </>
           )}
         </div>
+
         <div className={css.scopes}>
           <div className={css.filters}>
             <HeaderFilters />
           </div>
-          <Button
-            variant="ghost"
-            className={css.scopeButton}
-            disabled={!headers.length || !headersWithoutScope.length}
-            onClick={() => setShowBulkScopeChange(true)}
-          >
-            {t('button.scope.wizard')}
-          </Button>
+          {scope === SCOPES.NO_SCOPE ? (
+            <Button
+              variant="ghost"
+              className={css.scopeButton}
+              disabled={!headers.length || !headersWithoutScope.length}
+              onClick={() => setShowBulkScopeChange(true)}
+            >
+              <CursorArrowRippleIcon />
+              {t('button.scope.wizard')}
+            </Button>
+          ) : null}
         </div>
       </header>
       <BulkScopeChange showModal={showBulkScopeChange} setShowModal={setShowBulkScopeChange} />

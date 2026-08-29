@@ -30,7 +30,7 @@ export const BulkScopeChange: FC<BulkScopeChangeProps> = ({ showModal, setShowMo
             <FinalStep title={t('title.scope.steps.scopeSelect')}>
               <SelectUrls />
             </FinalStep>
-            <StepNavigation finalPageButton={<SaveButton />} />
+            <StepNavigation finalPageButton={<SaveButton closeModal={closeModal} />} />
           </Steps>
         </BulkScopeChangeProvider>
       </ModalContent>

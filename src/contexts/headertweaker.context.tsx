@@ -35,6 +35,7 @@ type HeaderTweakerContextValue = {
   useLabels: boolean;
   selectedHeader: Header | null;
   scope: Scope;
+  showBulkScopeChange: boolean;
   updateHeader: (args: HeaderFn) => Promise<void>;
   importHeaders: (headers: Header[]) => Promise<void>;
   reorderHeaders: (headers: Header[]) => Promise<void>;
@@ -42,6 +43,7 @@ type HeaderTweakerContextValue = {
   setUseLabels: (show: boolean) => void;
   setscope: Dispatch<SetStateAction<Scope>>;
   setSelectedHeader: Dispatch<SetStateAction<Header | null>>;
+  setShowBulkScopeChange: Dispatch<SetStateAction<boolean>>;
 };
 
 const initialState: HeaderTweakerContextValue = {
@@ -51,6 +53,7 @@ const initialState: HeaderTweakerContextValue = {
   isDisabled: false,
   useLabels: false,
   scope: SCOPES.ALL,
+  showBulkScopeChange: false,
   updateHeader: async () => {},
   importHeaders: async () => {},
   reorderHeaders: async () => {},
@@ -58,6 +61,7 @@ const initialState: HeaderTweakerContextValue = {
   setUseLabels: () => {},
   setscope: () => {},
   setStatus: async () => {},
+  setShowBulkScopeChange: () => {},
 };
 
 export const HeaderTweakerContext = createContext<HeaderTweakerContextValue>({
@@ -77,6 +81,7 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
   const [isDisabled, setIsDisabled] = useState(false);
   const [useLabels, setUseLabels] = useState(false);
   const [headerList, setHeaderList] = useState<Header[]>([]);
+  const [showBulkScopeChange, setShowBulkScopeChange] = useState(false);
   const [selectedHeader, setSelectedHeaderRaw] = useState<Header | null>(null);
   const [scope, setscope] = useState<Scope>(SCOPES.ALL);
 
@@ -157,9 +162,11 @@ export const HeaderTweakerProvider = ({ children }: HeaderTweakerContextProps) =
     useLabels,
     selectedHeader,
     scope,
+    showBulkScopeChange,
     setscope,
     setSelectedHeader,
     setStatus,
+    setShowBulkScopeChange,
     headers: headerList,
     setUseLabels: setUseLabelsFn,
     updateHeader: updateHeaderFn,

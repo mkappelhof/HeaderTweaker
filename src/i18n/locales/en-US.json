@@ -78,7 +78,7 @@
       "save": "Save header"
     },
     "scope": {
-      "wizard": "URL targetting",
+      "wizard": "Bulk target URL's",
       "save": "Save headers",
       "addUrl": "Add URL"
     },
@@ -100,7 +100,7 @@
     "scope": {
       "url": {
         "select": "Select URL",
-        "add": "ah.nl/producten",
+        "add": "example.com",
         "option": "Select an option"
       }
     }
