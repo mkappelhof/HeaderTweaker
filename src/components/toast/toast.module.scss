@@ -1,0 +1,24 @@
+.root {
+  position: fixed;
+  bottom: vars.$spacing-core-4;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-2;
+  transform: translateX(-50%);
+  z-index: 1100;
+  pointer-events: none;
+}
+
+.wrapper {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: transform 0.3s cubic-bezier(.4, 0, .2, 1), opacity 0.3s cubic-bezier(.4, 0, .2, 1);
+  pointer-events: auto;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

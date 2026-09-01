@@ -3,7 +3,9 @@ import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
 import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
+import { ToastItem } from '@components/toast/toast-item';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { useToastContext } from '@contexts/toast.context';
 import { Bars3Icon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 import classnames from 'clsx';
@@ -40,6 +42,8 @@ export const HeaderItem: FC<HeaderItemProps> = ({
 }: HeaderItemProps) => {
   const { t } = useTranslation();
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
+
+  const { addToast } = useToastContext();
   const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
   return (
@@ -114,6 +118,13 @@ export const HeaderItem: FC<HeaderItemProps> = ({
             await updateHeader({ header: headerToDelete, action: 'remove' });
             setSelectedHeader(null);
             setHeaderToDelete(null);
+            addToast(
+              <ToastItem
+                isCloseable
+                variant="positive"
+                message={t('feedback.success.header.delete')}
+              />
+            );
           }
         }}
         onCancel={() => setHeaderToDelete(null)}

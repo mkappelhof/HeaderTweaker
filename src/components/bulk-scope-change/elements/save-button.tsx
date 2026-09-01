@@ -1,7 +1,9 @@
 import { type Dispatch, type FC, type SetStateAction, useState } from 'react';
 import { Button } from '@components/button/button';
+import { ToastItem } from '@components/toast/toast-item';
 import { useBulkScopeChangeContext } from '@contexts/bulk-scope-change.context';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { useToastContext } from '@contexts/toast.context';
 import { useTranslation } from 'react-i18next';
 
 type SaveButtonProps = {
@@ -10,6 +12,7 @@ type SaveButtonProps = {
 
 export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
   const { t } = useTranslation();
+  const { addToast } = useToastContext();
   const { headers, updateHeader } = useHeaderTweakerContext();
   const { pendingHeaders, setError, setIsCompleted } = useBulkScopeChangeContext();
 
@@ -20,21 +23,30 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
   );
 
   const saveHeaders = async () => {
-    for (const [id, urls] of Object.entries(pendingHeaders)) {
-      const header = headers.find((header) => header.id === id);
+    try {
+      for (const [id, urls] of Object.entries(pendingHeaders)) {
+        const header = headers.find((header) => header.id === id);
 
-      if (!header) continue;
+        if (!header) continue;
 
-      try {
         setLoading(true);
         await updateHeader({ header: { ...header, urls }, action: 'update' });
-      } catch {
-        setError(t('feedback.error.scopeChange'));
-      } finally {
-        setIsCompleted(true);
-        setLoading(false);
-        closeModal(true);
       }
+    } catch {
+      setError(t('feedback.error.scopeChange'));
+    } finally {
+      setIsCompleted(true);
+      setLoading(false);
+      closeModal(true);
+      addToast(
+        <ToastItem
+          isCloseable
+          variant="positive"
+          message={t('feedback.success.header.bulkUpdate', {
+            urls: [...new Set(Object.values(pendingHeaders).flat())].join(',·'),
+          })}
+        />
+      );
     }
   };
 

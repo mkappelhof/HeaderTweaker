@@ -10,8 +10,10 @@ export { AlertTitle } from './elements/alert-title';
 import css from './alert.module.scss';
 
 type AlertProps = {
-  variant?: 'positive' | 'neutral' | 'negative' | 'warning';
+  variant?: AlertVariant;
 };
+
+export type AlertVariant = 'positive' | 'neutral' | 'negative' | 'warning';
 
 const getIcon = (variant: AlertProps['variant']) => {
   switch (variant) {

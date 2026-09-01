@@ -82,6 +82,9 @@
       "save": "Save headers",
       "addUrl": "Add URL"
     },
+    "toast": {
+      "close": "Close"
+    },
     "feedback": {
       "confirm": "OK",
       "cancel": "Success",
@@ -116,6 +119,12 @@
       "delete": "Are you sure you want to delete the \"{{name}}\" header? This action cannot be undone."
     },
     "success": {
+      "header": {
+        "create": "{{header}} header successfully created",
+        "update": "Header successfully updated",
+        "bulkUpdate": "The selected headers will only be applied to {{urls}}",
+        "delete": "Header successfully removed"
+      },
       "scopeChange": "The selected headers are now applied to the chosen URLs",
       "import": {
         "successMessage_one": "{{count}} header is successfully imported.",

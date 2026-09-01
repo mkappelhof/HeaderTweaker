@@ -1,7 +1,9 @@
 import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '@components/button/button';
 import { TextInput } from '@components/input/text-input';
+import { ToastItem } from '@components/toast/toast-item';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { useToastContext } from '@contexts/toast.context';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
@@ -16,6 +18,8 @@ export const AppFooter: FC<AppFooterProps> = () => {
   const [header, setHeader] = useState<Header>();
   const [disabledButton, setDisabledButton] = useState(true);
   const headerKeyRef = useRef<HTMLInputElement>(null);
+
+  const { addToast } = useToastContext();
   const { isDisabled, updateHeader } = useHeaderTweakerContext();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +56,13 @@ export const AppFooter: FC<AppFooterProps> = () => {
       await updateHeader({ header, action: 'add' });
       setHeader(undefined);
       headerKeyRef.current?.focus();
+      addToast(
+        <ToastItem
+          isCloseable
+          variant="positive"
+          message={t('feedback.success.header.create', { header: header.name })}
+        />
+      );
     }
   };
 

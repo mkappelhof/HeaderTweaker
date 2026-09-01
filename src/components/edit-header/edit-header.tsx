@@ -4,7 +4,9 @@ import { TextInput } from '@components/input/text-input';
 import { ScopeSelector } from '@components/scope-selector/scope-selector';
 import { Switch } from '@components/switch/switch';
 import { Text } from '@components/text/text';
+import { ToastItem } from '@components/toast/toast-item';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { useToastContext } from '@contexts/toast.context';
 import { getDuplicateUrlIndexes } from '@helpers/scope/get-duplicate-url.helper';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { CheckCircleIcon } from '@heroicons/react/24/solid';
@@ -19,6 +21,7 @@ type EditHeaderProps = {
 
 export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
   const { t } = useTranslation();
+  const { addToast } = useToastContext();
   const { updateHeader, selectedHeader, useLabels, setUseLabels } = useHeaderTweakerContext();
   const [header, setHeader] = useState<Header | null>(selectedHeader);
 
@@ -94,6 +97,15 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
             header: { ...header, urls: header.urls?.filter((u) => u.trim() !== '') },
             action: 'update',
           });
+
+          addToast(
+            <ToastItem
+              isCloseable
+              variant="positive"
+              message={t('feedback.success.header.update')}
+            />
+          );
+
           closePanel();
         }}
       >
