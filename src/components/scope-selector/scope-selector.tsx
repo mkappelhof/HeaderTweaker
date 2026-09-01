@@ -1,6 +1,7 @@
 import { type FC, type KeyboardEvent, useState } from 'react';
 import { Button } from '@components/button/button';
 import { IconButton } from '@components/button/icon-button';
+import { TextInput } from '@components/input/text-input';
 import { Select } from '@components/select/select';
 import { Text } from '@components/text/text';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
@@ -59,38 +60,55 @@ export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, onChange }) => {
         {t('label.scope.selector')}
       </Text>
 
-      {urls.map((url, index) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: order is stable, no reordering
-        <div key={`url-selector-${index}`} className={css.entry}>
-          <div className={css.row}>
-            <Select
-              allowCreate
-              value={url}
-              options={getOptions(index)}
-              placeholder={t('placeholder.scope.url.select')}
-              createLabel={t('label.scope.addNewUrl')}
-              createPlaceholder={t('placeholder.scope.url.add')}
-              createInputType="text"
-              autoFocus={focusedIndex === index}
-              onChange={(value) =>
-                onChange(urls.map((current, i) => (i === index ? value : current)))
-              }
-              onInputKeyDown={(event) => handleKeyDown(event, index)}
-            />
-            <IconButton
-              aria-label={t('a11y.ariaLabel.scope.remove')}
-              onClick={() => onChange(urls.filter((_, i) => i !== index))}
-            >
-              <XMarkIcon />
-            </IconButton>
+      {urls.map((url, index) => {
+        const options = getOptions(index);
+
+        return (
+          // biome-ignore lint/suspicious/noArrayIndexKey: order is stable, no reordering
+          <div key={`url-selector-${index}`} className={css.entry}>
+            <div className={css.row}>
+              {options.every((option) => option.label === url) ? (
+                <TextInput
+                  value={url}
+                  placeholder={!url ? t('placeholder.scope.url.add') : undefined}
+                  autoFocus={focusedIndex === index}
+                  onChange={(event) =>
+                    onChange(urls.map((current, i) => (i === index ? event.target.value : current)))
+                  }
+                  onKeyDown={(event) => handleKeyDown(event, index)}
+                />
+              ) : (
+                <Select
+                  allowCreate
+                  value={url}
+                  options={getOptions(index)}
+                  placeholder={t('placeholder.scope.url.select')}
+                  createLabel={t('label.scope.addNewUrl')}
+                  createPlaceholder={t('placeholder.scope.url.add')}
+                  createInputType="text"
+                  autoFocus={focusedIndex === index}
+                  onChange={(value) =>
+                    onChange(urls.map((current, i) => (i === index ? value : current)))
+                  }
+                  onInputKeyDown={(event) => handleKeyDown(event, index)}
+                />
+              )}
+              <IconButton
+                aria-label={t('a11y.ariaLabel.scope.remove')}
+                onClick={() => onChange(urls.filter((_, i) => i !== index))}
+              >
+                <XMarkIcon />
+              </IconButton>
+            </div>
+
+            {duplicateIndexes.includes(index) && (
+              <Text as="span" variant="body-small" className={css.error}>
+                {t('feedback.error.url.exists')}
+              </Text>
+            )}
           </div>
-          {duplicateIndexes.includes(index) && (
-            <Text as="span" variant="body-small" className={css.error}>
-              {t('feedback.error.url.exists')}
-            </Text>
-          )}
-        </div>
-      ))}
+        );
+      })}
 
       <Button variant="ghost" disabled={hasEmptyUrl} onClick={addUrl}>
         <PlusIcon />

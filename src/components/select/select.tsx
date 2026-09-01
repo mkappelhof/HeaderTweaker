@@ -8,11 +8,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import { IconButton } from '@components/button/icon-button';
 import { TextInput } from '@components/input/text-input';
 import { Text } from '@components/text/text';
 import { SELECT_CREATE_VALUE } from '@constants/select';
-import { ChevronDownIcon, ListBulletIcon } from '@heroicons/react/24/solid';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import classnames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
@@ -137,18 +136,6 @@ export const Select: FC<SelectProps> = ({
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={onInputKeyDown}
         />
-        {options.length > 0 && (
-          <IconButton
-            aria-label={t('label.select.chooseExisting')}
-            disabled={disabled}
-            onClick={() => {
-              setIsCreating(false);
-              onChange('');
-            }}
-          >
-            <ListBulletIcon />
-          </IconButton>
-        )}
       </div>
     );
   }
