@@ -17,8 +17,8 @@ type HeaderItemProps = Header & {
   isDragOver: boolean;
   showLabel: boolean;
   onDragStart: (index: number) => void;
-  onDragOver: (e: React.DragEvent, index: number) => void;
-  onDrop: (index: number) => void;
+  onDragOver: (e: React.DragEvent, index: number, urls?: string[]) => void;
+  onDrop: (index: number, urls?: string[]) => void;
   onDragEnd: () => void;
 };
 
@@ -48,8 +48,8 @@ export const HeaderItem: FC<HeaderItemProps> = ({
         draggable
         className={classnames({ [css.disabled]: isDisabled, [css.dragOver]: isDragOver })}
         onDragStart={() => onDragStart(index)}
-        onDragOver={(e) => onDragOver(e, index)}
-        onDrop={() => onDrop(index)}
+        onDragOver={(e) => onDragOver(e, index, urls ?? [])}
+        onDrop={() => onDrop(index, urls ?? [])}
         onDragEnd={onDragEnd}
       >
         <td className={css.dragHandleCell}>

@@ -19,6 +19,7 @@ import { useTranslation } from 'react-i18next';
 import css from './header-list.module.scss';
 
 type HeaderListProps = Record<never, never>;
+type DropTargetUrls = string[] | undefined;
 
 const DRAG_HANDLE_WIDTH = 28;
 const SWITCH_WIDTH = 70;
@@ -36,6 +37,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
   const { headers, selectedHeader, reorderHeaders, useLabels, scope } = useHeaderTweakerContext();
 
   const visibleHeaders = filterHeadersByScope(headers, scope, currentUrl);
+  const groupedHeaders = groupHeaders(visibleHeaders);
 
   useEffect(() => {
     storage.local.get(['nameColWidth', 'labelColWidth']).then((result) => {
@@ -58,6 +60,21 @@ export const HeaderList: FC<HeaderListProps> = () => {
     dragIndexRef.current = index;
   };
 
+  const moveHeader = async (from: number, insertIndex: number, targetUrls: DropTargetUrls) => {
+    const fromIndex = headers.findIndex(({ id }) => id === visibleHeaders[from]?.id);
+    if (fromIndex === -1 || insertIndex === -1) return;
+
+    const newHeaders = [...headers];
+    const [moved] = newHeaders.splice(fromIndex, 1);
+    const nextHeader =
+      targetUrls === undefined
+        ? moved
+        : { ...moved, urls: targetUrls.length ? targetUrls : undefined };
+
+    newHeaders.splice(insertIndex, 0, nextHeader);
+    await reorderHeaders(newHeaders);
+  };
+
   const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault();
     if (dragIndexRef.current !== index) {
@@ -65,20 +82,30 @@ export const HeaderList: FC<HeaderListProps> = () => {
     }
   };
 
-  const handleDrop = async (index: number) => {
+  const handleDrop = async (index: number, targetUrls?: string[]) => {
     const from = dragIndexRef.current;
     dragIndexRef.current = null;
     setDropIndex(null);
     if (from === null || from === index) return;
 
-    const fromIndex = headers.findIndex(({ id }) => id === visibleHeaders[from]?.id);
     const toIndex = headers.findIndex(({ id }) => id === visibleHeaders[index]?.id);
-    if (fromIndex === -1 || toIndex === -1) return;
+    await moveHeader(from, toIndex, scope === SCOPES.ALL ? targetUrls : undefined);
+  };
 
-    const newHeaders = [...headers];
-    const [moved] = newHeaders.splice(fromIndex, 1);
-    newHeaders.splice(toIndex, 0, moved);
-    await reorderHeaders(newHeaders);
+  const handleGroupDrop = async (
+    targetUrls: string[],
+    targetHeaders: ReadonlyArray<{ id: string }>
+  ) => {
+    const from = dragIndexRef.current;
+    dragIndexRef.current = null;
+    setDropIndex(null);
+    if (from === null) return;
+
+    const targetIndexes = targetHeaders.map((header) =>
+      headers.findIndex(({ id }) => id === header.id)
+    );
+    const insertIndex = Math.max(...targetIndexes) + 1;
+    await moveHeader(from, insertIndex, targetUrls);
   };
 
   const handleDragEnd = () => {
@@ -181,12 +208,20 @@ export const HeaderList: FC<HeaderListProps> = () => {
             <col className={css.headerActions} />
           </colgroup>
           {scope === SCOPES.ALL ? (
-            groupHeaders(visibleHeaders).map((group) => {
+            groupedHeaders.map((group) => {
               const groupKey = group.urls.length ? group.urls.join(',') : 'global';
 
               return (
                 <tbody key={groupKey}>
-                  <tr className={css.groupRow}>
+                  <tr
+                    className={classnames(css.groupRow, {
+                      [css.dragOver]: group.headers.some(
+                        (header) => visibleHeaders[dropIndex ?? -1]?.id === header.id
+                      ),
+                    })}
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={() => handleGroupDrop(group.urls, group.headers)}
+                  >
                     <td colSpan={useLabels ? 6 : 5}>
                       {group.urls.length ? (
                         <div className={css.groupItems}>

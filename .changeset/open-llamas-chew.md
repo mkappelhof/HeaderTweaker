@@ -12,3 +12,4 @@ changes:
 - Add a Select component and reuse previously used URLs when scoping a header
 - Externalize all UI copy to `src/i18n` (English only for now)
 - Match scoped headers against domains, subdomains, paths, and wildcards consistently
+- Drag & drop support for changing url targets
