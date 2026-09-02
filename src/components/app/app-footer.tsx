@@ -58,7 +58,6 @@ export const AppFooter: FC<AppFooterProps> = () => {
       headerKeyRef.current?.focus();
       addToast(
         <ToastItem
-          isCloseable
           variant="positive"
           message={t('feedback.success.header.create', { header: header.name })}
         />

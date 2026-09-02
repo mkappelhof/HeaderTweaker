@@ -119,11 +119,7 @@ export const HeaderItem: FC<HeaderItemProps> = ({
             setSelectedHeader(null);
             setHeaderToDelete(null);
             addToast(
-              <ToastItem
-                isCloseable
-                variant="positive"
-                message={t('feedback.success.header.delete')}
-              />
+              <ToastItem variant="positive" message={t('feedback.success.header.delete')} />
             );
           }
         }}

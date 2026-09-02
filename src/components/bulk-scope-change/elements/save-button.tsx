@@ -4,6 +4,7 @@ import { ToastItem } from '@components/toast/toast-item';
 import { useBulkScopeChangeContext } from '@contexts/bulk-scope-change.context';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { useToastContext } from '@contexts/toast.context';
+import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 
 type SaveButtonProps = {
@@ -17,6 +18,8 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
   const { pendingHeaders, setError, setIsCompleted } = useBulkScopeChangeContext();
 
   const [loading, setLoading] = useState(false);
+
+  const newScopeUrls = [...new Set(Object.values(pendingHeaders).flat())];
 
   const hasUrl = Object.values(pendingHeaders).some((urls) =>
     urls.some((url) => url.trim().length > 0)
@@ -40,10 +43,9 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
       closeModal(true);
       addToast(
         <ToastItem
-          isCloseable
           variant="positive"
           message={t('feedback.success.header.bulkUpdate', {
-            urls: [...new Set(Object.values(pendingHeaders).flat())].join(',·'),
+            urls: newScopeUrls.join(',·'),
           })}
         />
       );
@@ -52,6 +54,7 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
 
   return (
     <Button disabled={!hasUrl} loading={loading} onClick={saveHeaders}>
+      <CheckCircleIcon />
       {t('button.scope.save')}
     </Button>
   );

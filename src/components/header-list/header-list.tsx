@@ -22,7 +22,7 @@ type HeaderListProps = Record<never, never>;
 type DropTargetUrls = string[] | undefined;
 
 const DRAG_HANDLE_WIDTH = 28;
-const SWITCH_WIDTH = 70;
+const SWITCH_WIDTH = 54;
 
 export const HeaderList: FC<HeaderListProps> = () => {
   const { t } = useTranslation();

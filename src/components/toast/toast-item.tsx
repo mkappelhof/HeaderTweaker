@@ -1,21 +1,21 @@
 import type { FC } from 'react';
 import type { AlertVariant } from '@components/alert/alert';
-import { Button } from '@components/button/button';
+import { IconButton } from '@components/button/icon-button';
 import { Text } from '@components/text/text';
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
   InformationCircleIcon,
-  XCircleIcon,
 } from '@heroicons/react/24/outline';
+import { XCircleIcon } from '@heroicons/react/24/solid';
 import classnames from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-import css from './toast-item.module.scss';
+import css from './toast.module.scss';
 
 export type ToastItemProps = {
   message: string;
-  isCloseable?: boolean;
+  isNotClosable?: boolean;
   variant?: AlertVariant;
   onClose?: () => void;
 };
@@ -35,33 +35,34 @@ const getIcon = (variant: AlertVariant) => {
 
 export const ToastItem: FC<ToastItemProps> = ({
   message,
-  isCloseable = false,
-  variant = 'neutral',
   onClose,
+  isNotClosable = false,
+  variant = 'neutral',
 }) => {
   const { t } = useTranslation();
   const Icon = getIcon(variant);
 
   return (
     <div
-      className={classnames(css.root, {
+      className={classnames(css.item, {
         [css.positive]: variant === 'positive',
         [css.negative]: variant === 'negative',
         [css.warning]: variant === 'warning',
+        [css.notClosable]: isNotClosable,
       })}
     >
       <div className={css.icon}>
         <Icon />
       </div>
 
-      <Text variant="body-small" className={css.message}>
-        {message}
-      </Text>
+      <Text className={css.message}>{message}</Text>
 
-      {isCloseable && (
-        <Button variant="ghost" className={css.close} onClick={onClose}>
-          {t('button.toast.close')}
-        </Button>
+      {!isNotClosable && (
+        <div className={css.close}>
+          <IconButton onClick={onClose} aria-label={t('button.toast.close')}>
+            <XCircleIcon />
+          </IconButton>
+        </div>
       )}
     </div>
   );

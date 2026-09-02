@@ -98,13 +98,7 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
             action: 'update',
           });
 
-          addToast(
-            <ToastItem
-              isCloseable
-              variant="positive"
-              message={t('feedback.success.header.update')}
-            />
-          );
+          addToast(<ToastItem variant="positive" message={t('feedback.success.header.update')} />);
 
           closePanel();
         }}

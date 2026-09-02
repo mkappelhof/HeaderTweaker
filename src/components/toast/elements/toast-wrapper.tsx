@@ -5,9 +5,7 @@ import css from '../toast.module.scss';
 
 const TOAST_DURATION_MS = 5000;
 
-type ToastWrapperProps = PropsWithChildren<{
-  onDismiss: () => void;
-}>;
+type ToastWrapperProps = PropsWithChildren<{ onDismiss: () => void }>;
 
 export const ToastWrapper: FC<ToastWrapperProps> = ({ onDismiss, children }) => {
   const [isVisible, setIsVisible] = useState(false);

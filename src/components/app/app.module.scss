@@ -37,9 +37,10 @@
 }
 
 .scopes {
-  padding: vars.$spacing-core-2 vars.$spacing-core-4;
+  padding: 0 vars.$spacing-core-4;
   display: flex;
   align-items: center;
+  margin-bottom: vars.$spacing-core-1;
 
   .filters { flex-grow: 1 }
   .scopeButton { width: auto }
@@ -54,9 +55,10 @@
   display: flex;
   align-items: center;
   margin: 0;
-  gap: vars.$spacing-core-3;
+  gap: vars.$spacing-core-2;
   padding: 0 vars.$spacing-core-4;
   height: 72px;
+  flex-shrink: 0;
 
   .inputWrapper { flex-grow: 1 }
   button { width: auto }

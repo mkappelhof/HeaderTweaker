@@ -79,7 +79,7 @@
     },
     "scope": {
       "wizard": "Bulk target URL's",
-      "save": "Save headers",
+      "save": "Save targets",
       "addUrl": "Add URL"
     },
     "toast": {
