@@ -1,14 +1,13 @@
 import { storage } from '@constants/index';
-import type { Status } from '@interfaces/index';
 
 const STATUS_KEY = 'isDisabled';
 
-export const setStatus = async (status: Status) => {
+export const setStatus = async (status: string) => {
   await storage.local.set({ [STATUS_KEY]: status === 'disabled' });
   return status;
 };
 
-export const getStatus = async (): Promise<Status> => {
+export const getStatus = async (): Promise<string> => {
   const result = await storage.local.get(STATUS_KEY);
   return result[STATUS_KEY] ? 'disabled' : 'enabled';
 };

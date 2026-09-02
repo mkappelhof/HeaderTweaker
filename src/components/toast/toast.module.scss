@@ -1,0 +1,76 @@
+.root {
+  position: fixed;
+  bottom: vars.$spacing-core-4;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-2;
+  transform: translateX(-50%);
+  z-index: 1100;
+  pointer-events: none;
+}
+
+.wrapper {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: transform 0.3s cubic-bezier(.4, 0, .2, 1), opacity 0.3s cubic-bezier(.4, 0, .2, 1);
+  pointer-events: auto;
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-core-3;
+  min-width: 240px;
+  max-width: 360px;
+  padding: vars.$spacing-core-2 vars.$spacing-core-2 vars.$spacing-core-2 vars.$spacing-core-4;
+  background-color: vars.$colors-primary-background;
+  color: vars.$colors-primary-foreground;
+  border: 1px solid vars.$colors-secondary-foreground;
+  border-radius: vars.$border-radius-primary;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 25%);
+
+  .icon {
+    flex: 0 0 auto;
+    display: flex;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  &.notClosable { padding-right: vars.$spacing-core-4 }
+
+  &.positive {
+    border-color: rgba(vars.$colors-primary-success, .5);
+
+    .icon svg { color: vars.$colors-primary-success; }
+  }
+
+  &.negative {
+    border-color: rgba(vars.$colors-primary-error, .5);
+
+    .icon svg { color: vars.$colors-primary-error; }
+  }
+
+  &.warning {
+    border-color: rgba(vars.$colors-primary-warning, .5);
+
+    .icon svg { color: vars.$colors-primary-warning; }
+  }
+}
+
+
+
+.message { flex: 1 1 auto }
+
+.close {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}

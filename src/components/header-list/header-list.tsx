@@ -1,18 +1,31 @@
 import { type FC, useEffect, useRef, useState } from 'react';
+import { Alert, AlertContent } from '@components/alert/alert';
 import { Drawer } from '@components/drawer/drawer';
 import { EditHeader } from '@components/edit-header/edit-header';
 import { HeaderItem } from '@components/header-list/header-item';
+import { Pill } from '@components/pill/pill';
+import { NoHeaders } from '@components/placeholders/no-headers';
 import { Text } from '@components/text/text';
 import { storage } from '@constants/index';
+import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { getCurrentTabUrl } from '@helpers/header.helper';
+import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
+import { groupHeaders } from '@helpers/header/group-headers.helper';
+import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
+import { getScopeErrorMessageKey } from '@helpers/scope/get-scoped-error.helper';
 import classnames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import css from './header-list.module.scss';
 
 type HeaderListProps = Record<never, never>;
+type DropTargetUrls = string[] | undefined;
+
+const DRAG_HANDLE_WIDTH = 28;
+const SWITCH_WIDTH = 54;
 
 export const HeaderList: FC<HeaderListProps> = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [dropIndex, setDropIndex] = useState<number | null>(null);
   const [nameColWidth, setNameColWidth] = useState(275);
@@ -21,7 +34,10 @@ export const HeaderList: FC<HeaderListProps> = () => {
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
   const dragIndexRef = useRef<number | null>(null);
   const tableRef = useRef<HTMLTableElement>(null);
-  const { headers, selectedHeader, reorderHeaders, useLabels } = useHeaderTweakerContext();
+  const { headers, selectedHeader, reorderHeaders, useLabels, scope } = useHeaderTweakerContext();
+
+  const visibleHeaders = filterHeadersByScope(headers, scope, currentUrl);
+  const groupedHeaders = groupHeaders(visibleHeaders);
 
   useEffect(() => {
     storage.local.get(['nameColWidth', 'labelColWidth']).then((result) => {
@@ -44,6 +60,21 @@ export const HeaderList: FC<HeaderListProps> = () => {
     dragIndexRef.current = index;
   };
 
+  const moveHeader = async (from: number, insertIndex: number, targetUrls: DropTargetUrls) => {
+    const fromIndex = headers.findIndex(({ id }) => id === visibleHeaders[from]?.id);
+    if (fromIndex === -1 || insertIndex === -1) return;
+
+    const newHeaders = [...headers];
+    const [moved] = newHeaders.splice(fromIndex, 1);
+    const nextHeader =
+      targetUrls === undefined
+        ? moved
+        : { ...moved, urls: targetUrls.length ? targetUrls : undefined };
+
+    newHeaders.splice(insertIndex, 0, nextHeader);
+    await reorderHeaders(newHeaders);
+  };
+
   const handleDragOver = (e: React.DragEvent, index: number) => {
     e.preventDefault();
     if (dragIndexRef.current !== index) {
@@ -51,15 +82,30 @@ export const HeaderList: FC<HeaderListProps> = () => {
     }
   };
 
-  const handleDrop = async (index: number) => {
+  const handleDrop = async (index: number, targetUrls?: string[]) => {
     const from = dragIndexRef.current;
     dragIndexRef.current = null;
     setDropIndex(null);
     if (from === null || from === index) return;
-    const newHeaders = [...headers];
-    const [moved] = newHeaders.splice(from, 1);
-    newHeaders.splice(index, 0, moved);
-    await reorderHeaders(newHeaders);
+
+    const toIndex = headers.findIndex(({ id }) => id === visibleHeaders[index]?.id);
+    await moveHeader(from, toIndex, scope === SCOPES.ALL ? targetUrls : undefined);
+  };
+
+  const handleGroupDrop = async (
+    targetUrls: string[],
+    targetHeaders: ReadonlyArray<{ id: string }>
+  ) => {
+    const from = dragIndexRef.current;
+    dragIndexRef.current = null;
+    setDropIndex(null);
+    if (from === null) return;
+
+    const targetIndexes = targetHeaders.map((header) =>
+      headers.findIndex(({ id }) => id === header.id)
+    );
+    const insertIndex = Math.max(...targetIndexes) + 1;
+    await moveHeader(from, insertIndex, targetUrls);
   };
 
   const handleDragEnd = () => {
@@ -72,7 +118,8 @@ export const HeaderList: FC<HeaderListProps> = () => {
     const startX = e.clientX;
     const startWidth = nameColWidth;
     const tableWidth = tableRef.current?.offsetWidth ?? 600;
-    const maxWidth = tableWidth - 218 - 80;
+    const maxWidth =
+      tableWidth - DRAG_HANDLE_WIDTH - SWITCH_WIDTH - (useLabels ? labelColWidth : 0) - 180;
     let currentWidth = startWidth;
 
     setIsResizing(true);
@@ -99,7 +146,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
     const startX = e.clientX;
     const startWidth = labelColWidth;
     const tableWidth = tableRef.current?.offsetWidth ?? 600;
-    const maxWidth = tableWidth - nameColWidth - 218 - 80;
+    const maxWidth = tableWidth - nameColWidth - DRAG_HANDLE_WIDTH - SWITCH_WIDTH - 180;
     let currentWidth = startWidth;
 
     setIsResizing(true);
@@ -121,80 +168,135 @@ export const HeaderList: FC<HeaderListProps> = () => {
     document.addEventListener('mouseup', handleMouseUp);
   };
 
+  if (!headers.length) {
+    return <NoHeaders message={t('feedback.empty.headers')} />;
+  }
+
+  if (!visibleHeaders.length) {
+    return <NoHeaders message={t(getScopeErrorMessageKey(scope))} />;
+  }
+
+  const dividerBaseOffset = DRAG_HANDLE_WIDTH + SWITCH_WIDTH + (useLabels ? labelColWidth : 0);
+  const labelDividerOffset = DRAG_HANDLE_WIDTH + SWITCH_WIDTH + labelColWidth;
+  const nameDividerOffset = dividerBaseOffset + nameColWidth;
+
   return (
     <div className={css.root}>
-      <table ref={tableRef} className={classnames({ [css.resizing]: isResizing })}>
-        <colgroup>
-          <col className={css.headerDragHandle} />
-          <col className={css.headerSwitch} />
-          {useLabels && <col style={{ width: labelColWidth }} />}
-          <col style={{ width: nameColWidth }} />
-          <col />
-          <col className={css.headerScope} />
-          <col className={css.headerActions} />
-        </colgroup>
-        <thead>
-          <tr>
-            <th />
-            <th />
-            {useLabels && (
-              <th className={css.headerLabelTh}>
-                <Text as="span">Label</Text>
-                <div
-                  className={classnames(css.columnResizeHandle, {
-                    [css.columnResizeHandleActive]: isResizing,
-                    [css.hidden]: !headers.length,
+      {scope === SCOPES.NO_SCOPE && (
+        <Alert variant="warning">
+          <AlertContent>
+            <AlertContent>
+              <Text variant="body-small">
+                {t('label.scope.noScopeWarning', { count: visibleHeaders.length })}
+              </Text>
+            </AlertContent>
+          </AlertContent>
+        </Alert>
+      )}
+
+      <div className={css.tableWrapper}>
+        <table
+          ref={tableRef}
+          className={classnames(css.tableFixed, { [css.resizing]: isResizing })}
+        >
+          <colgroup>
+            <col className={css.headerDragHandle} />
+            <col className={css.headerSwitch} />
+            {useLabels && <col style={{ width: labelColWidth }} />}
+            <col style={{ width: nameColWidth }} />
+            <col />
+            <col className={css.headerActions} />
+          </colgroup>
+          {scope === SCOPES.ALL ? (
+            groupedHeaders.map((group) => {
+              const groupKey = group.urls.length ? group.urls.join(',') : 'global';
+
+              return (
+                <tbody key={groupKey}>
+                  <tr
+                    className={classnames(css.groupRow, {
+                      [css.dragOver]: group.headers.some(
+                        (header) => visibleHeaders[dropIndex ?? -1]?.id === header.id
+                      ),
+                    })}
+                    onDragOver={(event) => event.preventDefault()}
+                    onDrop={() => handleGroupDrop(group.urls, group.headers)}
+                  >
+                    <td colSpan={useLabels ? 6 : 5}>
+                      {group.urls.length ? (
+                        <div className={css.groupItems}>
+                          <Text variant="body-small">
+                            {t('label.scope.target', { count: group.urls.length })}
+                          </Text>
+                          {group.urls.map((url) => (
+                            <Pill key={`header-group-pill-${url}`}>{url}</Pill>
+                          ))}
+                        </div>
+                      ) : (
+                        <Text variant="body-small">{t('label.scope.noScope')}</Text>
+                      )}
+                    </td>
+                  </tr>
+                  {group.headers.map((header) => {
+                    const index = visibleHeaders.findIndex(({ id }) => id === header.id);
+
+                    return (
+                      <HeaderItem
+                        key={`${groupKey}-${header.id}`}
+                        index={index}
+                        showLabel={useLabels}
+                        isDragOver={dropIndex === index}
+                        onDragStart={handleDragStart}
+                        onDragOver={handleDragOver}
+                        onDrop={handleDrop}
+                        onDragEnd={handleDragEnd}
+                        openDrawer={openDrawer}
+                        {...header}
+                      />
+                    );
                   })}
-                  onMouseDown={handleLabelResizeMouseDown}
-                  aria-hidden="true"
-                />
-              </th>
-            )}
-            <th className={css.headerNameTh}>
-              <Text as="span">Key</Text>
-              <div
-                className={classnames(css.columnResizeHandle, {
-                  [css.columnResizeHandleActive]: isResizing,
-                  [css.hidden]: !headers.length,
-                })}
-                onMouseDown={handleResizeMouseDown}
-                aria-hidden="true"
-              />
-            </th>
-            <th>
-              <Text as="span">Value</Text>
-            </th>
-            <th />
-            <th />
-          </tr>
-        </thead>
-        <tbody>
-          {!headers.length ? (
-            <tr>
-              <td colSpan={useLabels ? 6 : 5} className={css.notFound}>
-                <Text>No headers to display yet</Text>
-              </td>
-            </tr>
+                </tbody>
+              );
+            })
           ) : (
-            headers.map((header, index) => (
-              <HeaderItem
-                key={header.id}
-                index={index}
-                showLabel={useLabels}
-                isDragOver={dropIndex === index}
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onDragEnd={handleDragEnd}
-                openDrawer={openDrawer}
-                currentUrl={currentUrl}
-                {...header}
-              />
-            ))
+            <tbody>
+              {visibleHeaders.map((header, index) => (
+                <HeaderItem
+                  key={header.id}
+                  index={index}
+                  showLabel={useLabels}
+                  isDragOver={dropIndex === index}
+                  onDragStart={handleDragStart}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onDragEnd={handleDragEnd}
+                  openDrawer={openDrawer}
+                  {...header}
+                />
+              ))}
+            </tbody>
           )}
-        </tbody>
-      </table>
-      <Drawer isOpen={open} title="Edit header" onClose={() => setOpen(false)}>
+        </table>
+        {useLabels && (
+          <div
+            className={classnames(css.columnResizeHandle, {
+              [css.columnResizeHandleActive]: isResizing,
+            })}
+            style={{ left: labelDividerOffset }}
+            onMouseDown={handleLabelResizeMouseDown}
+            aria-hidden="true"
+          />
+        )}
+        <div
+          className={classnames(css.columnResizeHandle, {
+            [css.columnResizeHandleActive]: isResizing,
+          })}
+          style={{ left: nameDividerOffset }}
+          onMouseDown={handleResizeMouseDown}
+          aria-hidden="true"
+        />
+      </div>
+      <Drawer isOpen={open} title={t('title.header.edit')} onClose={() => setOpen(false)}>
         {selectedHeader && <EditHeader closePanel={() => setOpen(false)} />}
       </Drawer>
     </div>

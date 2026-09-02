@@ -1,11 +1,14 @@
 import type { Header } from '@interfaces/index';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const { getHeaders } = vi.hoisted(() => ({ getHeaders: vi.fn() }));
+const { getHeaders } = vi.hoisted(() => ({
+  uuid: vi.fn(),
+  getHeaders: vi.fn(),
+}));
 
-vi.mock('@helpers/header.helper', () => ({ getHeaders }));
+vi.mock('@helpers/header/get-headers.helper', () => ({ getHeaders }));
 
-import { validateHeaderImport } from './import.helper';
+import { validateHeaderImport } from './validate-header-import.helper';
 
 class MockFileReader {
   static instance: MockFileReader;

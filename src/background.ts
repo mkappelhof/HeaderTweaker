@@ -1,4 +1,7 @@
 // Keep in sync with STATUS_KEY in headertweaker.helper.ts
+import { createChromeUrlRestriction } from '@helpers/scope/chrome-url-restriction.helper';
+import { matchUrlRestriction } from '@helpers/scope/match-url-restriction.helper';
+
 const STATUS_KEY = 'isDisabled';
 
 type Header = { name: string; value: string; enabled: boolean; urls?: string[] };
@@ -14,6 +17,8 @@ const getHeaders = async (): Promise<Header[]> => {
   const result = await storageLocal.get('headers');
   return (result.headers as Header[]) || [];
 };
+
+const isString = (value: string | null): value is string => value !== null;
 
 if (__BROWSER__ === 'chrome') {
   // Chrome MV3: use declarativeNetRequest to modify outgoing request headers
@@ -46,9 +51,9 @@ if (__BROWSER__ === 'chrome') {
       const enabledHeaders = headers.filter(({ enabled }) => enabled);
       let ruleId = 1;
       enabledHeaders.forEach(({ name, value, urls }) => {
-        const hasUrls = urls && urls.length > 0;
-        if (hasUrls) {
-          urls.forEach((urlFilter) => {
+        const urlRestrictions = urls?.map(createChromeUrlRestriction).filter(isString) ?? [];
+        if (urlRestrictions.length) {
+          urlRestrictions.forEach((regexFilter) => {
             addRules.push({
               id: ruleId++,
               priority: 1,
@@ -57,7 +62,7 @@ if (__BROWSER__ === 'chrome') {
                 requestHeaders: [{ header: name, operation: 'set', value }],
               },
               condition: {
-                urlFilter,
+                regexFilter,
                 resourceTypes: ALL_RESOURCE_TYPES,
               },
             });
@@ -88,13 +93,6 @@ if (__BROWSER__ === 'chrome') {
   });
 } else {
   // Firefox MV2: use blocking webRequest to modify outgoing request headers
-  const matchesUrl = (url: string, patterns: string[]): boolean => {
-    return patterns.some((pattern) => {
-      const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
-      return new RegExp(`^${escaped}$`).test(url);
-    });
-  };
-
   const onBeforeSendHeaders = async (
     details: browser.webRequest._OnBeforeSendHeadersDetails
   ): Promise<browser.webRequest.BlockingResponse> => {
@@ -109,7 +107,9 @@ if (__BROWSER__ === 'chrome') {
 
       const requestHeaders = details.requestHeaders.slice();
       enabledHeaders.forEach(({ name, value, urls }) => {
-        if (urls && urls.length > 0 && !matchesUrl(details.url, urls)) return;
+        if (urls && urls.length > 0 && !urls.some((url) => matchUrlRestriction(details.url, url))) {
+          return;
+        }
         for (let i = requestHeaders.length - 1; i >= 0; i--) {
           if (requestHeaders[i].name.toLowerCase() === name.toLowerCase()) {
             requestHeaders.splice(i, 1);

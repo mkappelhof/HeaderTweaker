@@ -3,10 +3,13 @@
   user-select: none;
   display: flex;
   align-items: center;
-  vertical-align: middle;
+  vertical-align: center;
   gap: vars.$spacing-core-2;
 
-  span { line-height: initial }
+  .input { 
+    display: inline-flex; 
+    margin: 0; 
+  }
 
   input {
     position: absolute;

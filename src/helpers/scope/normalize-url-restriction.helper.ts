@@ -1,5 +1,3 @@
-import type { Header } from '@interfaces/index';
-
 export const normalizeUrlRestriction = (url: string) => {
   const value = url.trim();
   if (!value) return '';
@@ -16,14 +14,4 @@ export const normalizeUrlRestriction = (url: string) => {
       .trim()
       .split(/[?#]/)[0];
   }
-};
-
-export const isDuplicateUrl = (header: Header | null, index: number) => {
-  const url = normalizeUrlRestriction(header?.urls?.[index] ?? '');
-  return Boolean(
-    url &&
-      header?.urls?.some((value, valueIndex) => {
-        return valueIndex !== index && normalizeUrlRestriction(value) === url;
-      })
-  );
 };

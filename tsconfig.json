@@ -16,6 +16,7 @@
       "@contexts/*": ["./src/contexts/*"],
       "@components/*": ["./src/components/*"],
       "@helpers/*": ["./src/helpers/*"],
+      "@i18n/*": ["./src/i18n/*"],
       "@interfaces/*": ["./src/interfaces/*"],
       "@styles/*": ["./src/styles/*"]
     }
