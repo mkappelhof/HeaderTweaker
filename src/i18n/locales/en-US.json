@@ -49,12 +49,12 @@
       "currentUrl": "Current",
       "target_one": "Target",
       "target_other": "Targets",
-      "selector": "Choose the URLs where the selected headers should be applied",
+      "selector": "Choose the URLs where the selected headers will be applied",
       "addNewUrl": "Or add a new URL…",
       "emptyAll": "No headers match the selected filter",
       "emptyScoped": "None of the headers have a URL target",
       "emptyNoScope": "Every header is applied to all requests",
-      "emptyCurrentUrl": "None of the headers are applied to the current URL",
+      "emptyCurrentUrl": "None of the headers are targeted to the current URL",
       "noScopeWarning_one": "This header is global and will be applied to all requests. Add a target to apply it only to specific URLs.",
       "noScopeWarning_other": "These headers are global and will be applied to all requests. Add a target to apply them only to specific URLs."
     },
@@ -78,7 +78,7 @@
       "save": "Save header"
     },
     "scope": {
-      "wizard": "Bulk target URL's",
+      "wizard": "Bulk URL targets",
       "save": "Save targets",
       "addUrl": "Add URL"
     },
@@ -87,7 +87,7 @@
     },
     "feedback": {
       "confirm": "OK",
-      "cancel": "Success",
+      "cancel": "Cancel",
       "confirmDelete": "Yes",
       "cancelDelete": "No"
     }
@@ -110,9 +110,9 @@
   },
   "feedback": {
     "error": {
-      "scopeChange": "There was an error changing the URL targets of the selected headers. Nothing is saved/lost.",
+      "scopeChange": "There was an error changing the URL targets of the selected headers. No changes were saved.",
       "url": {
-        "exists": "This URL is already added"
+        "exists": "This URL is already added."
       }
     },
     "confirm": {
@@ -120,22 +120,22 @@
     },
     "success": {
       "header": {
-        "create": "{{header}} header successfully created",
-        "update": "Header successfully updated",
-        "bulkUpdate": "The selected headers will only be applied to {{urls}}",
-        "delete": "Header successfully removed"
+        "create": "{{header}} header created",
+        "update": "Header updated",
+        "bulkUpdate": "The selected headers will only be applied to {{urls}}.",
+        "delete": "Header removed"
       },
-      "scopeChange": "The selected headers are now applied to the chosen URLs",
+      "scopeChange": "The selected headers are now applied to the chosen URLs.",
       "import": {
-        "successMessage_one": "{{count}} header is successfully imported.",
-        "successMessage_other": "{{count}} headers are successfully imported."
+        "successMessage_one": "{{count}} header imported.",
+        "successMessage_other": "{{count}} headers imported."
       }
     },
     "empty": {
       "headers": "No headers to display yet, add your first one below"
     },
     "form": {
-      "dropActive": "Drop your file here...",
+      "dropActive": "Drop your file here…",
       "dropIdle": "Drag & drop a HeaderTweaker export file here, or click to select"
     }
   },
