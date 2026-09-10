@@ -1,29 +1,38 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
 const pkg = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8'));
 const BROWSER = (process.env.BROWSER as 'firefox' | 'chrome') || 'firefox';
+// In watch mode, keep the previous output so web-ext never sees a half-written extension mid-rebuild.
+const IS_WATCH = process.argv.includes('--watch') || process.argv.includes('-w');
 
 const syncManifest = () => {
+  const distManifestPath = path.resolve(__dirname, `dist/${BROWSER}/manifest.json`);
+  const chromeSrc = path.resolve(__dirname, 'manifests/chrome.json');
+
+  const writeManifest = () => {
+    if (!existsSync(path.dirname(distManifestPath))) return;
+
+    // Firefox uses the manifest copied from publicDir as-is; Chrome replaces it with its MV3 manifest.
+    const manifest =
+      BROWSER === 'chrome'
+        ? JSON.parse(readFileSync(chromeSrc, 'utf-8'))
+        : JSON.parse(readFileSync(distManifestPath, 'utf-8'));
+    manifest.version = pkg.version;
+    writeFileSync(distManifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+  };
+
   return {
     name: 'sync-manifest',
-    closeBundle() {
-      const distDir = path.resolve(__dirname, `dist/${BROWSER}`);
-      const distManifestPath = path.join(distDir, 'manifest.json');
-
-      if (BROWSER === 'chrome') {
-        // Overwrite the Firefox manifest that was copied from publicDir
-        const chromeSrc = path.resolve(__dirname, 'manifests/chrome.json');
-        const manifest = JSON.parse(readFileSync(chromeSrc, 'utf-8'));
-        manifest.version = pkg.version;
-        writeFileSync(distManifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-      } else {
-        const manifest = JSON.parse(readFileSync(distManifestPath, 'utf-8'));
-        manifest.version = pkg.version;
-        writeFileSync(distManifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-      }
+    // Each watch rebuild re-copies the base (Firefox) manifest from publicDir into the out dir before
+    // this hook runs, so overwrite it here to avoid briefly serving an MV2 manifest to Chrome.
+    buildStart() {
+      if (BROWSER === 'chrome') writeManifest();
+    },
+    writeBundle() {
+      writeManifest();
     },
   };
 };
@@ -57,7 +66,7 @@ export default defineConfig({
   },
   build: {
     outDir: `../dist/${BROWSER}`,
-    emptyOutDir: true,
+    emptyOutDir: !IS_WATCH,
     rollupOptions: {
       input: {
         headertweaker: 'src/headertweaker.tsx',

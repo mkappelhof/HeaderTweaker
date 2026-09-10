@@ -3,7 +3,7 @@
   "name": "HeaderTweaker",
   "version": "1.0",
   "description": "Lightweight browser extension that lets you easily modify outgoing HTTP headers",
-  "permissions": ["storage", "declarativeNetRequest", "declarativeNetRequestWithHostAccess"],
+  "permissions": ["storage", "declarativeNetRequestWithHostAccess"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "js/background.js",

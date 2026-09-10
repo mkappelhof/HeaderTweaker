@@ -40,6 +40,36 @@ pnpm lint
 pnpm test
 ```
 
+## Permissions & Privacy
+
+HeaderTweaker requests the smallest possible set of browser permissions and collects no data whatsoever.
+
+### Firefox
+
+| Permission | Purpose |
+| --- | --- |
+| `storage` | Persist header rules and settings locally in the browser. |
+| `webRequest` + `webRequestBlocking` | Modify outgoing request headers before they are sent (Firefox uses the `webRequest` API). |
+| `<all_urls>` | Allow rules to target any site. Rules only run on requests matching the URL patterns defined in the extension. |
+
+### Chrome
+
+| Permission | Purpose |
+| --- | --- |
+| `storage` | Persist header rules and settings locally in the browser. |
+| `declarativeNetRequestWithHostAccess` | Modify outgoing request headers via Chrome's `declarativeNetRequest` API, which changes requests **without** the extension reading their contents. |
+| `<all_urls>` (host access) | Allow rules to target any site. `declarativeNetRequestWithHostAccess` only acts on hosts that have been granted access. |
+
+On Chrome, HeaderTweaker deliberately uses `declarativeNetRequestWithHostAccess` instead of the broader `declarativeNetRequest` permission. The declarative approach lets the browser apply rules without the extension inspecting or intercepting request contents.
+
+### Privacy commitments
+
+- **No tracking, no telemetry, no analytics.** The extension contains no tracking scripts and makes no outbound calls.
+- **No data collection or transmission.** Header rules never leave the device. All configuration is stored locally via the browser's `storage` API.
+- **No remote code.** Only the code shipped in the package is executed.
+
+Import and export are fully manual: configuration leaves the browser only when it is explicitly exported to a JSON file.
+
 ## License
 
 MIT
