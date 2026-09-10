@@ -1,10 +1,24 @@
 // Keep in sync with STATUS_KEY in headertweaker.helper.ts
+import { countAppliedHeaders } from '@helpers/header/count-applied-headers.helper';
 import { createChromeUrlRestriction } from '@helpers/scope/chrome-url-restriction.helper';
 import { matchUrlRestriction } from '@helpers/scope/match-url-restriction.helper';
 
-const STATUS_KEY = 'isDisabled';
-
 type Header = { name: string; value: string; enabled: boolean; urls?: string[] };
+
+type BadgeAction = {
+  setBadgeText: (details: { text: string; tabId?: number }) => Promise<void> | void;
+  setBadgeBackgroundColor: (details: { color: string; tabId?: number }) => Promise<void> | void;
+  setBadgeTextColor?: (details: { color: string; tabId?: number }) => Promise<void> | void;
+};
+
+const STATUS_KEY = 'isDisabled';
+const BADGE_COLOR_ACTIVE = '#00D27C';
+const BADGE_COLOR_INACTIVE = '#9B9DB1';
+
+const tabsApi = __BROWSER__ === 'firefox' ? browser.tabs : chrome.tabs;
+const runtimeApi = __BROWSER__ === 'firefox' ? browser.runtime : chrome.runtime;
+const storageApi = __BROWSER__ === 'firefox' ? browser.storage : chrome.storage;
+const badgeAction: BadgeAction = __BROWSER__ === 'firefox' ? browser.browserAction : chrome.action;
 
 const storageLocal = __BROWSER__ === 'firefox' ? browser.storage.local : chrome.storage.local;
 
@@ -19,6 +33,26 @@ const getHeaders = async (): Promise<Header[]> => {
 };
 
 const isString = (value: string | null): value is string => value !== null;
+
+const updateBadge = async (tabId: number, url?: string) => {
+  const isEnabled = await getStatus();
+  const headers = isEnabled === 'enabled' ? await getHeaders() : [];
+  const count = countAppliedHeaders(headers, url);
+
+  await badgeAction.setBadgeText({ text: String(count), tabId });
+  await badgeAction.setBadgeBackgroundColor({
+    color: count > 0 ? BADGE_COLOR_ACTIVE : BADGE_COLOR_INACTIVE,
+    tabId,
+  });
+  await badgeAction.setBadgeTextColor?.({ color: '#ffffff', tabId });
+};
+
+const updateAllBadges = async () => {
+  const allTabs = await tabsApi.query({});
+  await Promise.all(
+    allTabs.map((tab) => (tab.id === undefined ? undefined : updateBadge(tab.id, tab.url)))
+  );
+};
 
 if (__BROWSER__ === 'chrome') {
   // Chrome MV3: use declarativeNetRequest to modify outgoing request headers
@@ -130,3 +164,25 @@ if (__BROWSER__ === 'chrome') {
     ['blocking', 'requestHeaders']
   );
 }
+
+tabsApi.onUpdated.addListener((tabId, _changeInfo, tab) => {
+  updateBadge(tabId, tab.url);
+});
+
+tabsApi.onActivated.addListener(async ({ tabId }) => {
+  const tab = await tabsApi.get(tabId);
+  updateBadge(tabId, tab.url);
+});
+
+storageApi.onChanged.addListener(() => {
+  updateAllBadges();
+});
+
+runtimeApi.onInstalled.addListener(() => {
+  updateAllBadges();
+});
+runtimeApi.onStartup.addListener(() => {
+  updateAllBadges();
+});
+
+updateAllBadges();
