@@ -3,19 +3,19 @@ import path from 'node:path';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vitest/config';
 
-const pkg = JSON.parse(readFileSync(path.resolve(__dirname, 'package.json'), 'utf-8'));
+const pkg = JSON.parse(readFileSync(path.resolve(import.meta.dirname, 'package.json'), 'utf-8'));
 const BROWSER = (process.env.BROWSER as 'firefox' | 'chrome') || 'firefox';
 
 const syncManifest = () => {
   return {
     name: 'sync-manifest',
     closeBundle() {
-      const distDir = path.resolve(__dirname, `dist/${BROWSER}`);
+      const distDir = path.resolve(import.meta.dirname, `dist/${BROWSER}`);
       const distManifestPath = path.join(distDir, 'manifest.json');
 
       if (BROWSER === 'chrome') {
         // Overwrite the Firefox manifest that was copied from publicDir
-        const chromeSrc = path.resolve(__dirname, 'manifests/chrome.json');
+        const chromeSrc = path.resolve(import.meta.dirname, 'manifests/chrome.json');
         const manifest = JSON.parse(readFileSync(chromeSrc, 'utf-8'));
         manifest.version = pkg.version;
         writeFileSync(distManifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
@@ -31,26 +31,19 @@ const syncManifest = () => {
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  plugins: [
-    react({
-      babel: {
-        plugins: [['babel-plugin-react-compiler', {}]],
-      },
-    }),
-    syncManifest(),
-  ],
+  plugins: [react({ compiler: true }), syncManifest()],
   define: {
     __BROWSER__: JSON.stringify(BROWSER),
   },
   resolve: {
     alias: {
       'react/compiler-runtime': 'react-compiler-runtime',
-      '@constants': path.resolve(__dirname, 'src/constants'),
-      '@contexts': path.resolve(__dirname, 'src/contexts'),
-      '@components': path.resolve(__dirname, 'src/components'),
-      '@helpers': path.resolve(__dirname, 'src/helpers'),
-      '@interfaces': path.resolve(__dirname, 'src/interfaces'),
-      '@styles': path.resolve(__dirname, 'src/styles'),
+      '@constants': path.resolve(import.meta.dirname, 'src/constants'),
+      '@contexts': path.resolve(import.meta.dirname, 'src/contexts'),
+      '@components': path.resolve(import.meta.dirname, 'src/components'),
+      '@helpers': path.resolve(import.meta.dirname, 'src/helpers'),
+      '@interfaces': path.resolve(import.meta.dirname, 'src/interfaces'),
+      '@styles': path.resolve(import.meta.dirname, 'src/styles'),
     },
     extensions: ['.js', '.ts', '.tsx', '.jsx'],
   },
@@ -80,7 +73,6 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        api: 'modern',
         additionalData: `@use "sass:color";@use "@styles/variables.scss" as vars;`,
       },
     },

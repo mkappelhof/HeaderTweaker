@@ -1,0 +1,5 @@
+---
+"headertweaker": patch
+---
+
+Bump dependencies
