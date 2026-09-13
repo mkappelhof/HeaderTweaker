@@ -31,14 +31,7 @@ const syncManifest = () => {
 export default defineConfig({
   root: 'src',
   publicDir: '../public',
-  plugins: [
-    react({
-      babel: {
-        plugins: [['babel-plugin-react-compiler', {}]],
-      },
-    }),
-    syncManifest(),
-  ],
+  plugins: [react({ compiler: true }), syncManifest()],
   define: {
     __BROWSER__: JSON.stringify(BROWSER),
   },
@@ -80,7 +73,6 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        api: 'modern',
         additionalData: `@use "sass:color";@use "@styles/variables.scss" as vars;`,
       },
     },
