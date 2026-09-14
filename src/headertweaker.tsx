@@ -1,4 +1,4 @@
-import './styles/fonts.scss';
+import '@fontsource-variable/inter';
 import './styles/global.scss';
 import '@i18n/config';
 

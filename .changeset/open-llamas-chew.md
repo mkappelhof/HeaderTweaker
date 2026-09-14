@@ -18,3 +18,4 @@
 - Clearer empty states for the header list
 - Prominent alert on the Global tab clarifying that those headers apply everywhere
 - New `Toast` component — saving header info now gives instant feedback
+- Bundle the Inter font locally instead of loading it from Google Fonts
