@@ -1,0 +1,8 @@
+.root {
+    padding: vars.$spacing-core-1 vars.$spacing-core-2;
+    border: solid 1px vars.$colors-primary-action-disabled;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: vars.$border-radius-small;
+}

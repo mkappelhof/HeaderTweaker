@@ -1,0 +1,109 @@
+.root {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: vars.$spacing-core-2;
+  width: 100%;
+  min-height: 40px;
+  padding: 0 vars.$spacing-core-3;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: left;
+  color: vars.$colors-primary-foreground;
+  background-color: vars.$colors-primary-action-disabled;
+  border-color: transparent;
+  border-radius: vars.$border-radius-primary;
+  transition: background-color 0.2s ease-out;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: color.scale(vars.$colors-primary-action-disabled, $lightness: -20%);
+  }
+
+  svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+}
+
+.placeholder {
+  color: vars.$colors-tertiary-foreground;
+}
+
+.chevron {
+  transition: transform 0.2s ease-out;
+
+  &.chevronOpen {
+    transform: rotate(180deg);
+  }
+}
+
+.value {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + #{vars.$spacing-core-1});
+  left: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 12rem;
+  overflow-y: auto;
+  padding: vars.$spacing-core-1;
+  box-sizing: border-box;
+  margin: 0;
+  list-style: none;
+  background-color: color.scale(vars.$colors-primary-action-disabled, $lightness: -20%);
+  border-radius: vars.$border-radius-primary;
+}
+
+.option {
+  display: block;
+  width: 100%;
+  padding: vars.$spacing-core-2 vars.$spacing-core-3;
+  box-sizing: border-box;
+  cursor: pointer;
+  text-align: left;
+  color: vars.$colors-primary-foreground;
+  background: transparent;
+  border-color: transparent;
+  border-radius: vars.$border-radius-primary;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  &:hover,
+  &.active {
+    background-color: vars.$colors-primary-action;
+  }
+
+  &.selected {
+    color: vars.$colors-primary-success;
+  }
+}
+
+.create {
+  color: vars.$colors-tertiary-foreground;
+}
+
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-core-2;
+}

@@ -23,7 +23,7 @@ export const Switch: FC<SwitchProps> = ({ isOn, label, onChange, ...inputProps }
 
   return (
     <label className={classnames(css.root, { [css.disabled]: inputProps.disabled })}>
-      <span>
+      <span className={css.input}>
         <input
           type="checkbox"
           checked={checked}

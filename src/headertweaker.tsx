@@ -1,5 +1,6 @@
-import './styles/fonts.scss';
+import '@fontsource-variable/inter';
 import './styles/global.scss';
+import '@i18n/config';
 
 import { App } from '@components/app/app';
 import { createRoot } from 'react-dom/client';

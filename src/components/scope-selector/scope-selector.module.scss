@@ -1,0 +1,21 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-2;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-1;
+}
+
+.row {
+  display: flex;
+  gap: vars.$spacing-core-2;
+  align-items: center;
+}
+
+.error {
+  color: vars.$colors-primary-error;
+}

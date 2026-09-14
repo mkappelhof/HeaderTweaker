@@ -1,18 +1,25 @@
-import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useState } from 'react';
+import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { Button } from '@components/button/button';
-import { Input } from '@components/input/input';
+import { TextInput } from '@components/input/text-input';
+import { ToastItem } from '@components/toast/toast-item';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
+import { useToastContext } from '@contexts/toast.context';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
+import { useTranslation } from 'react-i18next';
 
 import css from './app.module.scss';
 
 type AppFooterProps = Record<never, never>;
 
 export const AppFooter: FC<AppFooterProps> = () => {
+  const { t } = useTranslation();
   const [header, setHeader] = useState<Header>();
   const [disabledButton, setDisabledButton] = useState(true);
+  const headerKeyRef = useRef<HTMLInputElement>(null);
+
+  const { addToast } = useToastContext();
   const { isDisabled, updateHeader } = useHeaderTweakerContext();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +55,13 @@ export const AppFooter: FC<AppFooterProps> = () => {
     if (header) {
       await updateHeader({ header, action: 'add' });
       setHeader(undefined);
+      headerKeyRef.current?.focus();
+      addToast(
+        <ToastItem
+          variant="positive"
+          message={t('feedback.success.header.create', { header: header.name })}
+        />
+      );
     }
   };
 
@@ -60,10 +74,10 @@ export const AppFooter: FC<AppFooterProps> = () => {
   return (
     <footer className={css.footer}>
       <div className={css.inputWrapper}>
-        <Input
-          type="text"
+        <TextInput
+          ref={headerKeyRef}
           disabled={isDisabled}
-          placeholder="Header key"
+          placeholder={t('placeholder.header.create.key')}
           data-type="name"
           value={header?.name ?? ''}
           onChange={handleInputChange}
@@ -72,10 +86,9 @@ export const AppFooter: FC<AppFooterProps> = () => {
         />
       </div>
       <div className={css.inputWrapper}>
-        <Input
-          type="text"
+        <TextInput
           disabled={isDisabled}
-          placeholder="Header value"
+          placeholder={t('placeholder.header.create.value')}
           data-type="value"
           value={header?.value ?? ''}
           onChange={handleInputChange}
@@ -84,7 +97,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
       </div>
       <Button disabled={isDisabled || disabledButton} onClick={addHeader}>
         <PlusCircleIcon />
-        Add header
+        {t('button.header.add')}
       </Button>
     </footer>
   );

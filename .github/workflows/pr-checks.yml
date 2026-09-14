@@ -19,7 +19,7 @@ jobs:
           git fetch origin ${{ github.base_ref }}:${{ github.base_ref }}
 
       - name: Check for changeset
-        if: github.actor != 'github-actions[bot]'
+        if: github.actor != 'github-actions[bot]' && github.actor != 'dependabot[bot]'
         shell: bash
         run: |
           CHANGES=$(git diff --name-status origin/${{ github.base_ref }}...HEAD \
@@ -33,17 +33,15 @@ jobs:
             echo "$CHANGES"
           fi
 
-      - name: Use Node.js
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "24"
+          node-version-file: .nvmrc
+          cache: pnpm
 
-      - name: Install pnpm
-        run: |
-          corepack enable
-          corepack prepare pnpm@latest --activate
-          pnpm --version
-  
       - name: Diagnostics
         run: |
           node --version
@@ -51,7 +49,10 @@ jobs:
           pnpm --version
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Audit
+        run: pnpm audit --audit-level=high --prod
 
       - name: Lint
         run: pnpm lint

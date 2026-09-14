@@ -1,4 +1,7 @@
 import type { ComponentPropsWithoutRef, FC, HTMLElementType, ReactNode } from 'react';
+import classnames from 'clsx';
+
+import css from './text.module.scss';
 
 export const TextVariant = {
   H1: 'h1',
@@ -18,17 +21,23 @@ const VariantTags: { [key in TextVariant]: HTMLElementType } = {
   [TextVariant.BODY_SMALL]: 'small',
 };
 
-type TextProps = ComponentPropsWithoutRef<'span'> & {
+export type TextProps = ComponentPropsWithoutRef<'span'> & {
   children: ReactNode;
   variant?: TextVariant;
+  textStyle?: 'primary' | 'secondary';
   as?: HTMLElementType;
 };
 
 export const Text: FC<TextProps> = ({
   children,
+  textStyle = 'primary',
   variant = TextVariant.BODY,
   as: Tag = VariantTags[variant],
   ...props
 }: TextProps) => {
-  return <Tag {...props}>{children}</Tag>;
+  return (
+    <Tag className={classnames({ [css.secondary]: textStyle === 'secondary' })} {...props}>
+      {children}
+    </Tag>
+  );
 };
