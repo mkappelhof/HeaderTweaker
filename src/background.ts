@@ -85,8 +85,9 @@ if (__BROWSER__ === 'chrome') {
       const enabledHeaders = headers.filter(({ enabled }) => enabled);
       let ruleId = 1;
       enabledHeaders.forEach(({ name, value, urls }) => {
+        const hasUrlRestrictions = Boolean(urls?.length);
         const urlRestrictions = urls?.map(createChromeUrlRestriction).filter(isString) ?? [];
-        if (urlRestrictions.length) {
+        if (hasUrlRestrictions) {
           urlRestrictions.forEach((regexFilter) => {
             addRules.push({
               id: ruleId++,
