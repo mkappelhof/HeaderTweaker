@@ -74,7 +74,8 @@
 }
 
 .option {
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
   padding: vars.$spacing-core-2 vars.$spacing-core-3;
   box-sizing: border-box;

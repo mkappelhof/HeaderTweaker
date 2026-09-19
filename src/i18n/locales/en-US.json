@@ -120,9 +120,9 @@
     },
     "success": {
       "header": {
-        "create": "{{header}} header created",
+        "create": "Header successfully created",
         "update": "Header updated",
-        "bulkUpdate": "The selected headers will only be applied to {{urls}}.",
+        "bulkUpdate": "Target updated for the selected headers",
         "delete": "Header removed"
       },
       "scopeChange": "The selected headers are now applied to the chosen URLs.",

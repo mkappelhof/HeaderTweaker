@@ -19,8 +19,6 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
 
   const [loading, setLoading] = useState(false);
 
-  const newScopeUrls = [...new Set(Object.values(pendingHeaders).flat())];
-
   const hasUrl = Object.values(pendingHeaders).some((urls) =>
     urls.some((url) => url.trim().length > 0)
   );
@@ -41,14 +39,7 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
       setIsCompleted(true);
       setLoading(false);
       closeModal(true);
-      addToast(
-        <ToastItem
-          variant="positive"
-          message={t('feedback.success.header.bulkUpdate', {
-            urls: newScopeUrls.join(',·'),
-          })}
-        />
-      );
+      addToast(<ToastItem variant="positive" message={t('feedback.success.header.bulkUpdate')} />);
     }
   };
 

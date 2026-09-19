@@ -56,12 +56,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
       await updateHeader({ header, action: 'add' });
       setHeader(undefined);
       headerKeyRef.current?.focus();
-      addToast(
-        <ToastItem
-          variant="positive"
-          message={t('feedback.success.header.create', { header: header.name })}
-        />
-      );
+      addToast(<ToastItem variant="positive" message={t('feedback.success.header.create')} />);
     }
   };
 

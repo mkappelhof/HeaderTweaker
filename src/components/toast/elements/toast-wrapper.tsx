@@ -1,9 +1,8 @@
 import { type FC, type PropsWithChildren, useEffect, useState } from 'react';
+import { TOAST_DURATION_MS } from '@constants/toast';
 import classnames from 'clsx';
 
 import css from '../toast.module.scss';
-
-const TOAST_DURATION_MS = 5000;
 
 type ToastWrapperProps = PropsWithChildren<{ onDismiss: () => void }>;
 

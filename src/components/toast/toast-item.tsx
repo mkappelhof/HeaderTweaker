@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import type { AlertVariant } from '@components/alert/alert';
 import { IconButton } from '@components/button/icon-button';
 import { Text } from '@components/text/text';
+import { MAX_TOAST_LENGTH } from '@constants/toast';
 import {
   CheckCircleIcon,
   ExclamationTriangleIcon,
@@ -55,7 +56,9 @@ export const ToastItem: FC<ToastItemProps> = ({
         <Icon />
       </div>
 
-      <Text className={css.message}>{message}</Text>
+      <Text className={css.message}>
+        {message.length > MAX_TOAST_LENGTH ? `${message.slice(0, MAX_TOAST_LENGTH)}...` : message}
+      </Text>
 
       {!isNotClosable && (
         <div className={css.close}>
