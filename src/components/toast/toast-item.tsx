@@ -16,6 +16,7 @@ import css from './toast.module.scss';
 
 export type ToastItemProps = {
   message: string;
+  size?: 'small' | 'normal';
   isNotClosable?: boolean;
   variant?: AlertVariant;
   onClose?: () => void;
@@ -37,6 +38,7 @@ const getIcon = (variant: AlertVariant) => {
 export const ToastItem: FC<ToastItemProps> = ({
   message,
   onClose,
+  size = 'small',
   isNotClosable = false,
   variant = 'neutral',
 }) => {
@@ -49,6 +51,7 @@ export const ToastItem: FC<ToastItemProps> = ({
         [css.positive]: variant === 'positive',
         [css.negative]: variant === 'negative',
         [css.warning]: variant === 'warning',
+        [css.small]: size === 'small',
         [css.notClosable]: isNotClosable,
       })}
     >
@@ -56,7 +59,7 @@ export const ToastItem: FC<ToastItemProps> = ({
         <Icon />
       </div>
 
-      <Text className={css.message}>
+      <Text className={css.message} variant={size === 'small' ? 'body-small' : 'body'}>
         {message.length > MAX_TOAST_LENGTH ? `${message.slice(0, MAX_TOAST_LENGTH)}…` : message}
       </Text>
 

@@ -1,11 +1,10 @@
 .root {
   position: fixed;
-  bottom: vars.$spacing-core-4;
-  left: 50%;
+  top: vars.$spacing-core-4;
+  right: vars.$spacing-core-4;
   display: flex;
   flex-direction: column;
   gap: vars.$spacing-core-2;
-  transform: translateX(-50%);
   z-index: 1100;
   pointer-events: none;
 }
@@ -28,7 +27,7 @@
   gap: vars.$spacing-core-3;
   min-width: 240px;
   max-width: 360px;
-  padding: vars.$spacing-core-2 vars.$spacing-core-2 vars.$spacing-core-2 vars.$spacing-core-4;
+  padding: vars.$spacing-core-1 vars.$spacing-core-1 vars.$spacing-core-1 vars.$spacing-core-2;
   background-color: vars.$colors-primary-background;
   color: vars.$colors-primary-foreground;
   border: 1px solid vars.$colors-secondary-foreground;
@@ -49,24 +48,25 @@
 
   &.positive {
     border-color: rgba(vars.$colors-primary-success, .5);
+    background-color: vars.$colors-primary-success-shade;
 
     .icon svg { color: vars.$colors-primary-success; }
   }
 
   &.negative {
     border-color: rgba(vars.$colors-primary-error, .5);
+    background-color: vars.$colors-primary-error-shade;
 
     .icon svg { color: vars.$colors-primary-error; }
   }
 
   &.warning {
     border-color: rgba(vars.$colors-primary-warning, .5);
+    background-color: vars.$colors-primary-warning-shade;
 
     .icon svg { color: vars.$colors-primary-warning; }
   }
 }
-
-
 
 .message { flex: 1 1 auto }
 
