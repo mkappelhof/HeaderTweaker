@@ -64,15 +64,22 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
       />
 
       <TextInput
+        label={t('label.header.key')}
         value={header.name}
         data-type="name"
         onChange={handleInputChange}
         onBlur={validateHeaderKey}
       />
 
-      <TextInput value={header.value} data-type="value" onChange={handleInputChange} />
+      <TextInput
+        value={header.value}
+        data-type="value"
+        onChange={handleInputChange}
+        label={t('label.header.value')}
+      />
 
       <TextInput
+        label={t('label.header.label')}
         placeholder={t('placeholder.header.label')}
         value={header.label ?? ''}
         data-type="label"

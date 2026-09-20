@@ -185,11 +185,9 @@ export const HeaderList: FC<HeaderListProps> = () => {
       {scope === SCOPES.NO_SCOPE && (
         <Alert variant="warning">
           <AlertContent>
-            <AlertContent>
-              <Text variant="body-small">
-                {t('label.scope.noScopeWarning', { count: visibleHeaders.length })}
-              </Text>
-            </AlertContent>
+            <Text variant="body-small">
+              {t('label.scope.noScopeWarning', { count: visibleHeaders.length })}
+            </Text>
           </AlertContent>
         </Alert>
       )}

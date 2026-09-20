@@ -70,6 +70,7 @@ export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, onChange }) => {
               {options.every((option) => option.label === url) ? (
                 <TextInput
                   value={url}
+                  className={css.input}
                   placeholder={!url ? t('placeholder.scope.url.add') : undefined}
                   autoFocus={focusedIndex === index}
                   onChange={(event) =>
@@ -93,12 +94,14 @@ export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, onChange }) => {
                   onInputKeyDown={(event) => handleKeyDown(event, index)}
                 />
               )}
-              <IconButton
-                aria-label={t('a11y.ariaLabel.scope.remove')}
-                onClick={() => onChange(urls.filter((_, i) => i !== index))}
-              >
-                <XMarkIcon />
-              </IconButton>
+              <div className={css.icon}>
+                <IconButton
+                  aria-label={t('a11y.ariaLabel.scope.remove')}
+                  onClick={() => onChange(urls.filter((_, i) => i !== index))}
+                >
+                  <XMarkIcon />
+                </IconButton>
+              </div>
             </div>
 
             {duplicateIndexes.includes(index) && (

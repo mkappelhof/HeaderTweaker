@@ -57,7 +57,7 @@ export const ToastItem: FC<ToastItemProps> = ({
       </div>
 
       <Text className={css.message}>
-        {message.length > MAX_TOAST_LENGTH ? `${message.slice(0, MAX_TOAST_LENGTH)}...` : message}
+        {message.length > MAX_TOAST_LENGTH ? `${message.slice(0, MAX_TOAST_LENGTH)}…` : message}
       </Text>
 
       {!isNotClosable && (

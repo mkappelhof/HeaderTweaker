@@ -14,6 +14,10 @@
   display: flex;
   gap: vars.$spacing-core-2;
   align-items: center;
+
+  .input { flex-grow: 1 }
+
+  .icon { width: 40px }
 }
 
 .error {
