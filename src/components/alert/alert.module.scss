@@ -7,9 +7,18 @@
     align-items: center;
     justify-content: flex-start;
 
+    &.negative {
+        background-color: rgba(vars.$colors-primary-error, .25);
+        border-color: rgba(vars.$colors-primary-error, .5);
+
+        .icon svg { color: vars.$colors-primary-error; }
+    }
+
     &.warning {
         background-color: rgba(vars.$colors-primary-warning, .25);
         border-color: rgba(vars.$colors-primary-warning, .5);
+
+        .icon svg { color: vars.$colors-primary-warning }
     }
 }
 
@@ -23,7 +32,6 @@
     svg {
         width: 20px;
         height: 20px;
-        color: vars.$colors-primary-warning;
     }
 }
 

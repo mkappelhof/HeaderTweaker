@@ -26,7 +26,12 @@ export const Alert: FC<PropsWithChildren<AlertProps>> = ({ variant = 'neutral', 
   const Icon = getIcon(variant);
 
   return (
-    <div className={classnames(css.root, { [css.warning]: variant === 'warning' })}>
+    <div
+      className={classnames(css.root, {
+        [css.warning]: variant === 'warning',
+        [css.negative]: variant === 'negative',
+      })}
+    >
       <div className={css.icon}>
         {!children ||
         !Children.toArray(children).some(

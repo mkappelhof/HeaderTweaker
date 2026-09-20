@@ -15,7 +15,7 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
   const { t } = useTranslation();
   const { addToast } = useToastContext();
   const { headers, updateHeader } = useHeaderTweakerContext();
-  const { pendingHeaders, setError, setIsCompleted } = useBulkScopeChangeContext();
+  const { pendingHeaders, error, setError, setIsCompleted } = useBulkScopeChangeContext();
 
   const [loading, setLoading] = useState(false);
 
@@ -23,23 +23,34 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
     urls.some((url) => url.trim().length > 0)
   );
 
+  let hasError = !!error;
+
   const saveHeaders = async () => {
+    setLoading(true);
+
+    if (hasError) setError('');
+
     try {
       for (const [id, urls] of Object.entries(pendingHeaders)) {
         const header = headers.find((header) => header.id === id);
 
         if (!header) continue;
 
-        setLoading(true);
         await updateHeader({ header: { ...header, urls }, action: 'update' });
       }
     } catch {
       setError(t('feedback.error.scopeChange'));
+      hasError = true;
     } finally {
-      setIsCompleted(true);
       setLoading(false);
-      closeModal(true);
-      addToast(<ToastItem variant="positive" message={t('feedback.success.header.bulkUpdate')} />);
+
+      if (!hasError) {
+        setIsCompleted(true);
+        closeModal(true);
+        addToast(
+          <ToastItem variant="positive" message={t('feedback.success.header.bulkUpdate')} />
+        );
+      }
     }
   };
 

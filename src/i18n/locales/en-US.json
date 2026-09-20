@@ -110,7 +110,7 @@
   },
   "feedback": {
     "error": {
-      "scopeChange": "There was an error changing the URL targets of the selected headers. No changes were saved.",
+      "scopeChange": "There was an error changing the URL targets of the selected headers. Please try again",
       "url": {
         "exists": "This URL is already added."
       }

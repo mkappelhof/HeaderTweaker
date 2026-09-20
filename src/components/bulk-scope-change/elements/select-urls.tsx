@@ -1,3 +1,4 @@
+import { Alert, AlertContent } from '@components/alert/alert';
 import { ScopeSelector } from '@components/scope-selector/scope-selector';
 import { Text } from '@components/text/text';
 import { useBulkScopeChangeContext } from '@contexts/bulk-scope-change.context';
@@ -5,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 export const SelectUrls = () => {
   const { t } = useTranslation();
-  const { pendingHeaders, setPendingHeaders, isCompleted } = useBulkScopeChangeContext();
+  const { pendingHeaders, setPendingHeaders, isCompleted, error } = useBulkScopeChangeContext();
 
   const [urls = []] = Object.values(pendingHeaders);
 
@@ -21,6 +22,11 @@ export const SelectUrls = () => {
           )
         }
       />
+      {error && (
+        <Alert variant="negative">
+          <AlertContent>{error}</AlertContent>
+        </Alert>
+      )}
     </div>
   );
 };
