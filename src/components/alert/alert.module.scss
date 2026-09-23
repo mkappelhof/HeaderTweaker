@@ -1,0 +1,44 @@
+.root {
+    border-style: solid;
+    border-width: 1px;
+    border-radius: vars.$border-radius-primary;
+    margin: vars.$spacing-core-2 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    &.negative {
+        background-color: rgba(vars.$colors-primary-error, .25);
+        border-color: rgba(vars.$colors-primary-error, .5);
+
+        .icon svg { color: vars.$colors-primary-error; }
+    }
+
+    &.warning {
+        background-color: rgba(vars.$colors-primary-warning, .25);
+        border-color: rgba(vars.$colors-primary-warning, .5);
+
+        .icon svg { color: vars.$colors-primary-warning }
+    }
+}
+
+.icon {
+    width: 40px;
+    align-self: stretch;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.info {
+    padding: vars.$spacing-core-2 0;
+}
+
+.title {
+    margin-bottom: vars.$spacing-core-2;
+}

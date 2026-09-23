@@ -1,0 +1,62 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: vars.$spacing-core-1;
+  border-radius: 999px;
+  background-color: rgb(255 255 255 / 4%);
+}
+
+.indicator {
+  position: absolute;
+  top: vars.$spacing-core-1;
+  left: 0;
+  bottom: vars.$spacing-core-1;
+  border-radius: 999px;
+  background-color: vars.$colors-primary-action-disabled;
+  transition: transform 0.25s ease, width 0.25s ease;
+  pointer-events: none;
+}
+
+.tab {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: vars.$spacing-core-2;
+  padding: vars.$spacing-core-2 vars.$spacing-core-4;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font: inherit;
+  color: vars.$colors-tertiary-foreground;
+  transition: color 0.25s ease;
+
+  .icon {
+    color: rgba(vars.$colors-primary-warning, .5);
+    width: 20px;
+    height: 20px;
+    transition: color 0.25s ease;
+  }
+
+  &:hover { color: vars.$colors-primary-foreground }
+
+  &.active { 
+    color: vars.$colors-primary-foreground;
+
+    .icon { color: vars.$colors-primary-warning }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    color: vars.$colors-tertiary-foreground;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+
+  .indicator { background-color: transparent }
+}

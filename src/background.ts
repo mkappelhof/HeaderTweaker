@@ -1,7 +1,24 @@
 // Keep in sync with STATUS_KEY in headertweaker.helper.ts
-const STATUS_KEY = 'isDisabled';
+import { countAppliedHeaders } from '@helpers/header/count-applied-headers.helper';
+import { createChromeUrlRestriction } from '@helpers/scope/chrome-url-restriction.helper';
+import { matchUrlRestriction } from '@helpers/scope/match-url-restriction.helper';
 
 type Header = { name: string; value: string; enabled: boolean; urls?: string[] };
+
+type BadgeAction = {
+  setBadgeText: (details: { text: string; tabId?: number }) => Promise<void> | void;
+  setBadgeBackgroundColor: (details: { color: string; tabId?: number }) => Promise<void> | void;
+  setBadgeTextColor?: (details: { color: string; tabId?: number }) => Promise<void> | void;
+};
+
+const STATUS_KEY = 'isDisabled';
+const BADGE_COLOR_ACTIVE = '#00D27C';
+const BADGE_COLOR_INACTIVE = '#9B9DB1';
+
+const tabsApi = __BROWSER__ === 'firefox' ? browser.tabs : chrome.tabs;
+const runtimeApi = __BROWSER__ === 'firefox' ? browser.runtime : chrome.runtime;
+const storageApi = __BROWSER__ === 'firefox' ? browser.storage : chrome.storage;
+const badgeAction: BadgeAction = __BROWSER__ === 'firefox' ? browser.browserAction : chrome.action;
 
 const storageLocal = __BROWSER__ === 'firefox' ? browser.storage.local : chrome.storage.local;
 
@@ -13,6 +30,28 @@ const getStatus = async (): Promise<'enabled' | 'disabled'> => {
 const getHeaders = async (): Promise<Header[]> => {
   const result = await storageLocal.get('headers');
   return (result.headers as Header[]) || [];
+};
+
+const isString = (value: string | null): value is string => value !== null;
+
+const updateBadge = async (tabId: number, url?: string) => {
+  const isEnabled = await getStatus();
+  const headers = isEnabled === 'enabled' ? await getHeaders() : [];
+  const count = countAppliedHeaders(headers, url);
+
+  await badgeAction.setBadgeText({ text: String(count), tabId });
+  await badgeAction.setBadgeBackgroundColor({
+    color: count > 0 ? BADGE_COLOR_ACTIVE : BADGE_COLOR_INACTIVE,
+    tabId,
+  });
+  await badgeAction.setBadgeTextColor?.({ color: '#ffffff', tabId });
+};
+
+const updateAllBadges = async () => {
+  const allTabs = await tabsApi.query({});
+  await Promise.all(
+    allTabs.map((tab) => (tab.id === undefined ? undefined : updateBadge(tab.id, tab.url)))
+  );
 };
 
 if (__BROWSER__ === 'chrome') {
@@ -46,9 +85,10 @@ if (__BROWSER__ === 'chrome') {
       const enabledHeaders = headers.filter(({ enabled }) => enabled);
       let ruleId = 1;
       enabledHeaders.forEach(({ name, value, urls }) => {
-        const hasUrls = urls && urls.length > 0;
-        if (hasUrls) {
-          urls.forEach((urlFilter) => {
+        const hasUrlRestrictions = Boolean(urls?.length);
+        const urlRestrictions = urls?.map(createChromeUrlRestriction).filter(isString) ?? [];
+        if (hasUrlRestrictions) {
+          urlRestrictions.forEach((regexFilter) => {
             addRules.push({
               id: ruleId++,
               priority: 1,
@@ -57,7 +97,7 @@ if (__BROWSER__ === 'chrome') {
                 requestHeaders: [{ header: name, operation: 'set', value }],
               },
               condition: {
-                urlFilter,
+                regexFilter,
                 resourceTypes: ALL_RESOURCE_TYPES,
               },
             });
@@ -88,13 +128,6 @@ if (__BROWSER__ === 'chrome') {
   });
 } else {
   // Firefox MV2: use blocking webRequest to modify outgoing request headers
-  const matchesUrl = (url: string, patterns: string[]): boolean => {
-    return patterns.some((pattern) => {
-      const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
-      return new RegExp(`^${escaped}$`).test(url);
-    });
-  };
-
   const onBeforeSendHeaders = async (
     details: browser.webRequest._OnBeforeSendHeadersDetails
   ): Promise<browser.webRequest.BlockingResponse> => {
@@ -109,7 +142,9 @@ if (__BROWSER__ === 'chrome') {
 
       const requestHeaders = details.requestHeaders.slice();
       enabledHeaders.forEach(({ name, value, urls }) => {
-        if (urls && urls.length > 0 && !matchesUrl(details.url, urls)) return;
+        if (urls && urls.length > 0 && !urls.some((url) => matchUrlRestriction(details.url, url))) {
+          return;
+        }
         for (let i = requestHeaders.length - 1; i >= 0; i--) {
           if (requestHeaders[i].name.toLowerCase() === name.toLowerCase()) {
             requestHeaders.splice(i, 1);
@@ -130,3 +165,25 @@ if (__BROWSER__ === 'chrome') {
     ['blocking', 'requestHeaders']
   );
 }
+
+tabsApi.onUpdated.addListener((tabId, _changeInfo, tab) => {
+  updateBadge(tabId, tab.url);
+});
+
+tabsApi.onActivated.addListener(async ({ tabId }) => {
+  const tab = await tabsApi.get(tabId);
+  updateBadge(tabId, tab.url);
+});
+
+storageApi.onChanged.addListener(() => {
+  updateAllBadges();
+});
+
+runtimeApi.onInstalled.addListener(() => {
+  updateAllBadges();
+});
+runtimeApi.onStartup.addListener(() => {
+  updateAllBadges();
+});
+
+updateAllBadges();

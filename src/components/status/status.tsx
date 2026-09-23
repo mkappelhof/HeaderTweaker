@@ -1,12 +1,11 @@
 import type { FC } from 'react';
 import { Text } from '@components/text/text';
-import type { Status as StatusType } from '@interfaces/index';
 import classnames from 'clsx';
 
 import css from './status.module.scss';
 
 type StatusProps = {
-  status: StatusType;
+  status: string;
   label?: string;
 };
 

@@ -22,6 +22,8 @@
     transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s cubic-bezier(.4,0,.2,1);
     border-radius: vars.$border-radius-primary;
 
+    &.fullHeight { height: 90vh }
+
     .header {
       padding: vars.$spacing-core-4 vars.$spacing-core-4;
       display: flex;

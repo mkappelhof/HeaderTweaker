@@ -6,5 +6,3 @@ export type Header = {
   urls?: string[];
   label?: string;
 };
-
-export type Status = 'enabled' | 'disabled';

@@ -3,13 +3,13 @@ import { IconButton } from '@components/button/icon-button';
 import { Confirm } from '@components/feedback/confirm';
 import { HeaderContent } from '@components/header-content/header-content';
 import { Switch } from '@components/switch/switch';
-import { Text } from '@components/text/text';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@components/tooltip/tooltip';
+import { ToastItem } from '@components/toast/toast-item';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { matchesUrl } from '@helpers/header.helper';
-import { Bars3Icon, GlobeAltIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
+import { useToastContext } from '@contexts/toast.context';
+import { Bars3Icon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
 import classnames from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 import css from './header-list.module.scss';
 
@@ -18,10 +18,9 @@ type HeaderItemProps = Header & {
   index: number;
   isDragOver: boolean;
   showLabel: boolean;
-  currentUrl?: string;
   onDragStart: (index: number) => void;
-  onDragOver: (e: React.DragEvent, index: number) => void;
-  onDrop: (index: number) => void;
+  onDragOver: (e: React.DragEvent, index: number, urls?: string[]) => void;
+  onDrop: (index: number, urls?: string[]) => void;
   onDragEnd: () => void;
 };
 
@@ -36,17 +35,16 @@ export const HeaderItem: FC<HeaderItemProps> = ({
   index,
   isDragOver,
   showLabel,
-  currentUrl,
   onDragStart,
   onDragOver,
   onDrop,
   onDragEnd,
 }: HeaderItemProps) => {
+  const { t } = useTranslation();
   const [headerToDelete, setHeaderToDelete] = useState<Header | null>(null);
-  const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
-  const isScoped = urls && urls.length >= 1;
-  const isCurrentUrl = !!(isScoped && currentUrl && matchesUrl(currentUrl, urls));
+  const { addToast } = useToastContext();
+  const { isDisabled, setSelectedHeader, updateHeader } = useHeaderTweakerContext();
 
   return (
     <>
@@ -54,8 +52,8 @@ export const HeaderItem: FC<HeaderItemProps> = ({
         draggable
         className={classnames({ [css.disabled]: isDisabled, [css.dragOver]: isDragOver })}
         onDragStart={() => onDragStart(index)}
-        onDragOver={(e) => onDragOver(e, index)}
-        onDrop={() => onDrop(index)}
+        onDragOver={(e) => onDragOver(e, index, urls ?? [])}
+        onDrop={() => onDrop(index, urls ?? [])}
         onDragEnd={onDragEnd}
       >
         <td className={css.dragHandleCell}>
@@ -87,66 +85,42 @@ export const HeaderItem: FC<HeaderItemProps> = ({
         <td>
           <HeaderContent content={value} />
         </td>
-        <td className={css.scopedCell}>
-          <Tooltip align="center">
-            <TooltipTrigger>
-              <GlobeAltIcon
-                width={20}
-                height={20}
-                className={classnames(css.scopedIcon, {
-                  [css.active]: isScoped,
-                  [css.inactive]: !isScoped,
-                  [css.currentUrl]: isCurrentUrl,
-                })}
-              />
-            </TooltipTrigger>
-
-            <TooltipContent>
-              {!isScoped && <Text>This header is not scoped to a specific url</Text>}
-
-              {isScoped ? (
-                isCurrentUrl ? (
-                  <Text>This header is scoped to the current url</Text>
-                ) : (
-                  <Text>The header is scoped to the following url's: {urls?.join(', ')}</Text>
-                )
-              ) : null}
-            </TooltipContent>
-          </Tooltip>
-        </td>
         <td>
           <span className={css.buttonWrapper}>
             <IconButton
               disabled={isDisabled}
-              aria-label="Edit header"
+              aria-label={t('a11y.ariaLabel.header.edit')}
               onClick={() => {
                 setSelectedHeader({ id, name, value, enabled, urls, label });
                 openDrawer(true);
               }}
             >
-              <PencilSquareIcon aria-label="Edit" />
+              <PencilSquareIcon aria-label={t('a11y.ariaLabel.header.edit')} />
             </IconButton>
             <IconButton
               disabled={isDisabled}
-              aria-label="Delete header"
+              aria-label={t('a11y.ariaLabel.header.delete')}
               onClick={() => setHeaderToDelete({ id, name, value, enabled, urls, label })}
             >
-              <TrashIcon aria-label="Delete" />
+              <TrashIcon aria-label={t('a11y.ariaLabel.header.delete')} />
             </IconButton>
           </span>
         </td>
       </tr>
       <Confirm
         isOpen={!!headerToDelete}
-        title="Delete header"
-        message={`Are you sure you want to delete the "${headerToDelete?.name}" header? This action cannot be undone.`}
-        confirmText="Yes"
-        cancelText="No"
+        title={t('title.header.delete')}
+        message={t('feedback.confirm.delete', { name: headerToDelete?.name ?? '' })}
+        confirmText={t('button.feedback.confirmDelete')}
+        cancelText={t('button.feedback.cancelDelete')}
         onConfirm={async () => {
           if (headerToDelete) {
             await updateHeader({ header: headerToDelete, action: 'remove' });
             setSelectedHeader(null);
             setHeaderToDelete(null);
+            addToast(
+              <ToastItem variant="positive" message={t('feedback.success.header.delete')} />
+            );
           }
         }}
         onCancel={() => setHeaderToDelete(null)}
