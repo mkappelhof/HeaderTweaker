@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.5.0
+
+### Minor Changes
+
+- 64a4956: Always apply headers to localhost requests, overriding any configured scopes.
+
 ## 1.4.0
 
 ### Minor Changes
