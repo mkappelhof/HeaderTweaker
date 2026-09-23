@@ -2,6 +2,7 @@
 import { countAppliedHeaders } from '@helpers/header/count-applied-headers.helper';
 import { createChromeUrlRestriction } from '@helpers/scope/chrome-url-restriction.helper';
 import { matchUrlRestriction } from '@helpers/scope/match-url-restriction.helper';
+import { isLocalhostUrl } from '@helpers/url/is-localhost-url.helper';
 
 type Header = { name: string; value: string; enabled: boolean; urls?: string[] };
 
@@ -14,6 +15,9 @@ type BadgeAction = {
 const STATUS_KEY = 'isDisabled';
 const BADGE_COLOR_ACTIVE = '#00D27C';
 const BADGE_COLOR_INACTIVE = '#9B9DB1';
+// Scopes are always overridden for localhost requests.
+const LOCALHOST_URL_REGEX_FILTER =
+  '^https?://(?:(?:[a-z0-9-]+\\.)*localhost|127\\.0\\.0\\.1|\\[::1\\])(?::\\d+)?(?:[/?#].*)?$';
 
 const tabsApi = __BROWSER__ === 'firefox' ? browser.tabs : chrome.tabs;
 const runtimeApi = __BROWSER__ === 'firefox' ? browser.runtime : chrome.runtime;
@@ -102,6 +106,18 @@ if (__BROWSER__ === 'chrome') {
               },
             });
           });
+          addRules.push({
+            id: ruleId++,
+            priority: 1,
+            action: {
+              type: 'modifyHeaders',
+              requestHeaders: [{ header: name, operation: 'set', value }],
+            },
+            condition: {
+              regexFilter: LOCALHOST_URL_REGEX_FILTER,
+              resourceTypes: ALL_RESOURCE_TYPES,
+            },
+          });
         } else {
           addRules.push({
             id: ruleId++,
@@ -142,7 +158,12 @@ if (__BROWSER__ === 'chrome') {
 
       const requestHeaders = details.requestHeaders.slice();
       enabledHeaders.forEach(({ name, value, urls }) => {
-        if (urls && urls.length > 0 && !urls.some((url) => matchUrlRestriction(details.url, url))) {
+        if (
+          urls &&
+          urls.length > 0 &&
+          !isLocalhostUrl(details.url) &&
+          !urls.some((url) => matchUrlRestriction(details.url, url))
+        ) {
           return;
         }
         for (let i = requestHeaders.length - 1; i >= 0; i--) {

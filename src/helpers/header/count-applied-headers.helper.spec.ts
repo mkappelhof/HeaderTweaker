@@ -43,4 +43,10 @@ describe('countAppliedHeaders', () => {
 
     expect(countAppliedHeaders(headers)).toBe(1);
   });
+
+  it('counts scoped headers regardless of their scope on localhost requests', () => {
+    const headers = [header({ urls: ['https://other.com/*'] })];
+
+    expect(countAppliedHeaders(headers, 'http://localhost:3000/page')).toBe(1);
+  });
 });
