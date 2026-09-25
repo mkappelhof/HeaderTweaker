@@ -22,6 +22,19 @@ pnpm format-n-lint         # Both lint and format checks
 pnpm format-n-lint:fix     # Auto-fix lint and format issues
 ```
 
+## Marketing website
+
+The `website/` package (`@headertweaker/website`) is an [Astro](https://astro.build) static site in the pnpm workspace, deployed to Vercel (Root Directory `website`).
+
+```bash
+pnpm dev:website           # Run the site locally (astro dev)
+pnpm build:website         # Build the static site → website/dist/
+```
+
+- No React — plain `.astro` components in `website/src/components/`, one page in `website/src/pages/index.astro`.
+- Reuses the extension's design tokens directly: `astro.config.mjs` aliases `@styles` to `../src/styles` and injects `@use "@styles/variables.scss" as vars;`, so components reference `vars.$colors-*` / `vars.$spacing-core-*` exactly like the extension. `reset.scss` and `typography.scss` are shared via `@use`; the site has its own responsive `global.scss` (the extension's fixed 800×560 body is not reused).
+- The website is excluded from changesets and versioning; website-only PRs don't require a changeset.
+
 ## Architecture
 
 - **`src/background.ts`** — Extension background script (service worker)

@@ -1,0 +1,94 @@
+---
+type Shot = {
+  src: string;
+  alt: string;
+  caption: string;
+};
+
+const shots: Shot[] = [
+  {
+    src: '/screenshots/rules.svg',
+    alt: 'HeaderTweaker rules list showing several request-header rules',
+    caption: 'Manage all your header rules in one place.',
+  },
+  {
+    src: '/screenshots/edit.svg',
+    alt: 'HeaderTweaker editing a header rule with a URL pattern',
+    caption: 'Edit a rule and scope it to matching URLs.',
+  },
+  {
+    src: '/screenshots/settings.svg',
+    alt: 'HeaderTweaker settings panel with a global toggle',
+    caption: 'Toggle every modification from the settings panel.',
+  },
+];
+---
+
+<section id="screenshots" class="screenshots">
+  <div class="container">
+    <div class="sectionHead">
+      <h2>See it in action</h2>
+      <p>A clean, focused interface that stays out of your way.</p>
+    </div>
+
+    <div class="gallery">
+      {
+        shots.map((shot) => (
+          <figure class="shot">
+            <img src={shot.src} alt={shot.alt} loading="lazy" />
+            <figcaption>{shot.caption}</figcaption>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .screenshots {
+    padding-block: vars.$spacing-core-20;
+  }
+
+  .sectionHead {
+    max-width: 640px;
+    margin: 0 auto vars.$spacing-core-12;
+    text-align: center;
+
+    h2 {
+      margin-bottom: vars.$spacing-core-4;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      color: vars.$colors-tertiary-foreground;
+      font-size: 1.0625rem;
+    }
+  }
+
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: vars.$spacing-core-6;
+  }
+
+  .shot {
+    margin: 0;
+    border: 1px solid rgb(vars.$colors-tertiary-foreground, 0.12);
+    border-radius: vars.$border-radius-primary;
+    overflow: hidden;
+    background: rgb(vars.$colors-primary-foreground, 0.02);
+
+    img {
+      width: 100%;
+      height: auto;
+      border-bottom: 1px solid rgb(vars.$colors-tertiary-foreground, 0.12);
+    }
+
+    figcaption {
+      padding: vars.$spacing-core-4 vars.$spacing-core-5;
+      color: vars.$colors-tertiary-foreground;
+      font-size: 0.9375rem;
+    }
+  }
+</style>

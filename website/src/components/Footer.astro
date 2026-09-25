@@ -1,0 +1,132 @@
+---
+import InstallButtons from './InstallButtons.astro';
+---
+
+<section class="cta">
+  <div class="container ctaInner">
+    <h2>Ready to tweak your headers?</h2>
+    <p>Install HeaderTweaker and start creating rules in seconds.</p>
+    <InstallButtons />
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container footerInner">
+    <a class="brand" href="/">
+      <img src="/icon.png" alt="" width="24" height="24" />
+      <span><span class="brandHeader">Header</span><span class="brandTweaker"
+          >Tweaker</span
+        ></span
+      >
+    </a>
+
+    <nav class="links">
+      <a href="#features">Features</a>
+      <a href="#screenshots">Screenshots</a>
+      <a href="#privacy">Privacy</a>
+      <a
+        href="https://github.com/mkappelhof/HeaderTweaker"
+        target="_blank"
+        rel="noopener noreferrer">GitHub</a
+      >
+      <a
+        href="https://addons.mozilla.org/firefox/addon/headertweaker/"
+        target="_blank"
+        rel="noopener noreferrer">Firefox</a
+      >
+      <a
+        href="https://chromewebstore.google.com/detail/headertweaker/jhcfgkcenmleehpcpimgmnabjdgmchod"
+        target="_blank"
+        rel="noopener noreferrer">Chrome</a
+      >
+    </nav>
+
+    <p class="copy">MIT Licensed · © {new Date().getFullYear()} Maurice Kappelhof</p>
+  </div>
+</footer>
+
+<style lang="scss">
+  .cta {
+    padding-block: vars.$spacing-core-16;
+  }
+
+  .ctaInner {
+    max-width: 720px;
+    margin-inline: auto;
+    padding: vars.$spacing-core-16 vars.$spacing-core-8;
+    border: 1px solid rgb(vars.$colors-primary-action, 0.35);
+    border-radius: vars.$border-radius-primary;
+    background: radial-gradient(
+      80% 120% at 50% 0%,
+      rgb(vars.$colors-primary-action, 0.18) 0%,
+      rgb(vars.$colors-primary-action, 0) 100%
+    );
+    text-align: center;
+
+    h2 {
+      margin-bottom: vars.$spacing-core-3;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin-bottom: vars.$spacing-core-8;
+      color: vars.$colors-tertiary-foreground;
+      font-size: 1.0625rem;
+    }
+  }
+
+  :global(.ctaInner .installButtons) {
+    justify-content: center;
+  }
+
+  .footer {
+    padding-block: vars.$spacing-core-10;
+    border-top: 1px solid rgb(vars.$colors-tertiary-foreground, 0.12);
+  }
+
+  .footerInner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: vars.$spacing-core-5;
+    text-align: center;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-core-2;
+    font-weight: 700;
+  }
+
+  .brandHeader {
+    color: vars.$colors-primary-foreground;
+  }
+
+  .brandTweaker {
+    color: vars.$colors-primary-action;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: vars.$spacing-core-6;
+    color: vars.$colors-tertiary-foreground;
+    font-weight: 500;
+
+    a {
+      transition: color 0.1s;
+
+      &:hover {
+        color: vars.$colors-primary-foreground;
+      }
+    }
+  }
+
+  .copy {
+    color: vars.$colors-secondary-foreground;
+    font-size: 0.875rem;
+  }
+</style>

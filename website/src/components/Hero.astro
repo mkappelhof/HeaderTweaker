@@ -1,0 +1,139 @@
+---
+import InstallButtons from './InstallButtons.astro';
+---
+
+<header class="hero">
+  <div class="container heroInner">
+    <nav class="nav">
+      <a class="brand" href="/">
+        <img src="/icon.png" alt="" width="32" height="32" />
+        <span class="brandName"
+          ><span class="brandHeader">Header</span><span class="brandTweaker"
+            >Tweaker</span
+          ></span
+        >
+      </a>
+      <div class="navLinks">
+        <a href="#features">Features</a>
+        <a href="#screenshots">Screenshots</a>
+        <a href="#privacy">Privacy</a>
+        <a
+          href="https://github.com/mkappelhof/HeaderTweaker"
+          target="_blank"
+          rel="noopener noreferrer">GitHub</a
+        >
+      </div>
+    </nav>
+
+    <div class="heroContent">
+      <p class="eyebrow">Browser extension · Firefox &amp; Chrome</p>
+      <h1 class="title">
+        Modify outgoing HTTP<br />request headers with ease
+      </h1>
+      <p class="subtitle">
+        HeaderTweaker lets you add, change, and remove request headers. Create
+        rules, match them to URL patterns, and toggle them on the fly — all
+        stored locally in your browser.
+      </p>
+
+      <InstallButtons />
+
+      <p class="privacyNote">Free &amp; open source · No data collection</p>
+    </div>
+  </div>
+</header>
+
+<style lang="scss">
+  .hero {
+    padding-bottom: vars.$spacing-core-16;
+  }
+
+  .heroInner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: vars.$spacing-core-6;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-core-2;
+    font-weight: 700;
+    font-size: 1.125rem;
+  }
+
+  .brandHeader {
+    color: vars.$colors-primary-foreground;
+  }
+
+  .brandTweaker {
+    color: vars.$colors-primary-action;
+  }
+
+  .navLinks {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-core-6;
+    color: vars.$colors-tertiary-foreground;
+    font-weight: 500;
+
+    a {
+      transition: color 0.1s;
+
+      &:hover {
+        color: vars.$colors-primary-foreground;
+      }
+    }
+
+    @media (max-width: 640px) {
+      display: none;
+    }
+  }
+
+  .heroContent {
+    max-width: 720px;
+    margin-inline: auto;
+    padding-top: vars.$spacing-core-20;
+    text-align: center;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin-bottom: vars.$spacing-core-4;
+    padding: vars.$spacing-core-1 vars.$spacing-core-4;
+    border: 1px solid rgb(vars.$colors-primary-action, 0.4);
+    border-radius: vars.$border-radius-full;
+    color: vars.$colors-tertiary-foreground;
+    font-size: 0.875rem;
+  }
+
+  .title {
+    margin-bottom: vars.$spacing-core-6;
+    font-size: clamp(2.25rem, 6vw, 3.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    max-width: 620px;
+    margin: 0 auto vars.$spacing-core-8;
+    color: vars.$colors-tertiary-foreground;
+    font-size: 1.125rem;
+  }
+
+  :global(.heroContent .installButtons) {
+    justify-content: center;
+  }
+
+  .privacyNote {
+    margin-top: vars.$spacing-core-5;
+    color: vars.$colors-tertiary-foreground;
+    font-size: 0.875rem;
+  }
+</style>

@@ -1,0 +1,89 @@
+---
+type Variant = 'primary' | 'ghost';
+
+type Props = {
+  href: string;
+  variant?: Variant;
+};
+
+const { href, variant = 'primary' } = Astro.props;
+---
+
+<a
+  class:list={['button', variant]}
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <span class="content">
+    <slot />
+  </span>
+</a>
+
+<style lang="scss">
+  .button {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: vars.$spacing-core-2;
+    padding: vars.$spacing-core-3 vars.$spacing-core-6;
+    border: 2px solid vars.$colors-primary-action-hover;
+    border-radius: vars.$border-radius-full;
+    color: vars.$colors-primary-foreground;
+    font-weight: 600;
+    line-height: normal;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.1s;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      border-radius: inherit;
+      background: linear-gradient(
+        90deg,
+        rgb(vars.$colors-primary-action-hover, 1) 0%,
+        rgb(vars.$colors-primary-action, 1) 50%
+      );
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      width: 0%;
+      border-radius: inherit;
+      background-color: vars.$colors-primary-action-hover;
+      transition: all 0.1s;
+    }
+
+    &:hover::before {
+      width: 100%;
+    }
+
+    &.ghost {
+      border-color: vars.$colors-primary-action;
+      background: transparent;
+
+      &::after {
+        background: transparent;
+      }
+    }
+  }
+
+  .content {
+    display: inline-flex;
+    align-items: center;
+    gap: vars.$spacing-core-2;
+  }
+
+  .content :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+</style>

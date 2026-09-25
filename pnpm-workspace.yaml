@@ -1,3 +1,6 @@
+packages:
+  - website
+
 minimumReleaseAge: 1440
 minimumReleaseAgeStrict: true
 engine-strict: true

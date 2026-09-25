@@ -1,0 +1,156 @@
+---
+type Feature = {
+  title: string;
+  description: string;
+  icon: string;
+};
+
+const features: Feature[] = [
+  {
+    title: 'Full rule control',
+    description:
+      'Add, edit, enable, disable, and delete request-header rules whenever you need them.',
+    icon: 'M4 6h16M4 12h16M4 18h10',
+  },
+  {
+    title: 'URL pattern matching',
+    description:
+      'Scope any rule to the sites that matter by matching against URL patterns.',
+    icon: 'M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1',
+  },
+  {
+    title: 'Import & export',
+    description:
+      'Back up or share your setup by exporting and importing configuration as JSON.',
+    icon: 'M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2',
+  },
+  {
+    title: 'Global on/off switch',
+    description:
+      'Pause every header modification at once from the settings panel, then re-enable in a click.',
+    icon: 'M18.36 6.64A9 9 0 1 1 5.64 6.64M12 2v10',
+  },
+  {
+    title: 'Firefox & Chrome',
+    description:
+      'Powered by webRequest on Firefox and declarativeNetRequest on Chrome.',
+    icon: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z',
+  },
+  {
+    title: 'Local & private',
+    description:
+      'All configuration is stored locally in your browser. No accounts, no data collection.',
+    icon: 'M12 3 4 6v6c0 5 3.4 7.7 8 9 4.6-1.3 8-4 8-9V6l-8-3Z',
+  },
+];
+---
+
+<section id="features" class="features">
+  <div class="container">
+    <div class="sectionHead">
+      <h2>Everything you need to shape requests</h2>
+      <p>
+        A focused toolset for managing outgoing HTTP request headers — nothing
+        more, nothing you don&apos;t need.
+      </p>
+    </div>
+
+    <ul class="grid">
+      {
+        features.map((feature) => (
+          <li class="card">
+            <span class="icon">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path d={feature.icon} />
+              </svg>
+            </span>
+            <h3>{feature.title}</h3>
+            <p>{feature.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style lang="scss">
+  .features {
+    padding-block: vars.$spacing-core-20;
+  }
+
+  .sectionHead {
+    max-width: 640px;
+    margin: 0 auto vars.$spacing-core-12;
+    text-align: center;
+
+    h2 {
+      margin-bottom: vars.$spacing-core-4;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      color: vars.$colors-tertiary-foreground;
+      font-size: 1.0625rem;
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: vars.$spacing-core-6;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .card {
+    padding: vars.$spacing-core-8;
+    border: 1px solid rgb(vars.$colors-tertiary-foreground, 0.12);
+    border-radius: vars.$border-radius-primary;
+    background: rgb(vars.$colors-primary-foreground, 0.02);
+    transition:
+      border-color 0.15s,
+      transform 0.15s;
+
+    &:hover {
+      border-color: rgb(vars.$colors-primary-action, 0.5);
+      transform: translateY(-2px);
+    }
+
+    h3 {
+      margin-bottom: vars.$spacing-core-2;
+      font-size: 1.25rem;
+    }
+
+    p {
+      color: vars.$colors-tertiary-foreground;
+      line-height: 1.6;
+    }
+  }
+
+  .icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: vars.$spacing-core-5;
+    border-radius: vars.$border-radius-primary;
+    background: rgb(vars.$colors-primary-action, 0.15);
+    color: vars.$colors-primary-action;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+</style>

@@ -1,0 +1,29 @@
+---
+import StoreButton from './StoreButton.astro';
+import FirefoxLogo from '../assets/firefox-logo.svg';
+import ChromeLogo from '../assets/chrome-logo.svg';
+
+const FIREFOX_URL = 'https://addons.mozilla.org/firefox/addon/headertweaker/';
+const CHROME_URL =
+  'https://chromewebstore.google.com/detail/headertweaker/jhcfgkcenmleehpcpimgmnabjdgmchod';
+---
+
+<div class="installButtons">
+  <StoreButton href={FIREFOX_URL} variant="primary">
+    <FirefoxLogo />
+    Add to Firefox
+  </StoreButton>
+
+  <StoreButton href={CHROME_URL} variant="ghost">
+    <ChromeLogo />
+    Add to Chrome
+  </StoreButton>
+</div>
+
+<style lang="scss">
+  .installButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: vars.$spacing-core-4;
+  }
+</style>

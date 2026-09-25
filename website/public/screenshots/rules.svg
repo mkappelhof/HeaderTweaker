@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" role="img" aria-label="HeaderTweaker rules list placeholder">
+  <rect width="800" height="560" fill="#010A31"/>
+  <g font-family="Inter, sans-serif">
+    <text x="32" y="56" font-size="24" font-weight="700" fill="#ffffff">Header<tspan fill="#872DFA">Tweaker</tspan></text>
+    <rect x="600" y="34" width="168" height="40" rx="20" fill="#872DFA"/>
+    <text x="684" y="60" font-size="15" font-weight="600" fill="#ffffff" text-anchor="middle">Add header</text>
+
+    <line x1="32" y1="100" x2="768" y2="100" stroke="#414362" stroke-width="1"/>
+    <text x="32" y="128" font-size="13" fill="#9B9DB1">HEADER</text>
+    <text x="360" y="128" font-size="13" fill="#9B9DB1">VALUE</text>
+    <text x="600" y="128" font-size="13" fill="#9B9DB1">ENABLED</text>
+
+    <g fill="#ffffff" font-size="15">
+      <rect x="32" y="150" width="736" height="56" rx="8" fill="#0a1550"/>
+      <text x="56" y="184">Authorization</text>
+      <text x="360" y="184" fill="#9B9DB1">Bearer •••••••</text>
+      <rect x="600" y="166" width="44" height="24" rx="12" fill="#00D27C"/>
+
+      <rect x="32" y="218" width="736" height="56" rx="8" fill="#0a1550"/>
+      <text x="56" y="252">X-Custom-Header</text>
+      <text x="360" y="252" fill="#9B9DB1">enabled</text>
+      <rect x="600" y="234" width="44" height="24" rx="12" fill="#00D27C"/>
+
+      <rect x="32" y="286" width="736" height="56" rx="8" fill="#0a1550"/>
+      <text x="56" y="320">User-Agent</text>
+      <text x="360" y="320" fill="#9B9DB1">custom/1.0</text>
+      <rect x="600" y="302" width="44" height="24" rx="12" fill="#333A5D"/>
+
+      <rect x="32" y="354" width="736" height="56" rx="8" fill="#0a1550"/>
+      <text x="56" y="388">Accept-Language</text>
+      <text x="360" y="388" fill="#9B9DB1">en-US</text>
+      <rect x="600" y="370" width="44" height="24" rx="12" fill="#00D27C"/>
+    </g>
+
+    <line x1="32" y1="488" x2="768" y2="488" stroke="#414362" stroke-width="1"/>
+    <text x="32" y="524" font-size="13" fill="#9B9DB1">4 rules · stored locally</text>
+  </g>
+</svg>
