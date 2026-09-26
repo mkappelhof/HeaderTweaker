@@ -111,6 +111,15 @@
 
     &:not(:disabled) { color: vars.$colors-primary-foreground }
   }
+
+  &.link {
+    padding: 0;
+    border: none;
+    background: none;
+
+     &::after { background: transparent }
+     &::before { background: transparent }
+  }
 }
 
 .group {

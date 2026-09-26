@@ -22,7 +22,17 @@
     transition: transform 0.3s cubic-bezier(.4,0,.2,1), opacity 0.3s cubic-bezier(.4,0,.2,1);
     border-radius: vars.$border-radius-primary;
 
-    &.fullHeight { height: 90vh }
+    &.fullHeight {
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+
+      .content {
+        flex: 1 1 auto;
+        min-height: 0;
+        padding-bottom: vars.$spacing-core-4;
+      }
+    }
 
     .header {
       padding: vars.$spacing-core-4 vars.$spacing-core-4;

@@ -23,7 +23,11 @@
   },
   "description": {
     "scope": {
-      "headerSelect": "Select the headers you want to apply to specific URLs."
+      "headerSelect": "Select the headers you want to apply to specific URLs.",
+      "steps": {
+        "headerSelect": "To target to URL",
+        "scopeSelect": "To apply headers to"
+      }
     }
   },
   "label": {
@@ -51,6 +55,10 @@
       "target_other": "Targets",
       "selector": "Choose the URLs where the selected headers should be applied",
       "addNewUrl": "Or add a new URL…",
+      "selectedCount_one": "{{count}} header selected",
+      "selectedCount_other": "{{count}} headers selected",
+      "selectedHeaders_one": "Selected header",
+      "selectedHeaders_other": "Selected headers ({{count}})",
       "emptyAll": "No headers match the selected filter",
       "emptyScoped": "None of the headers have a URL target",
       "emptyNoScope": "Every header is applied to all requests",
@@ -67,9 +75,6 @@
       "import": "Import new headers",
       "export_one": "Export {{count}} header",
       "export_other": "Export {{count}} headers"
-    },
-    "wizard": {
-      "progress": "Step {{current}} of {{total}}"
     }
   },
   "button": {

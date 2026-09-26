@@ -1,5 +1,6 @@
-import { type Dispatch, type FC, type SetStateAction, useState } from 'react';
+import { type FC, useState } from 'react';
 import { Button } from '@components/button/button';
+import { Text } from '@components/text/text';
 import { ToastItem } from '@components/toast/toast-item';
 import { useBulkScopeChangeContext } from '@contexts/bulk-scope-change.context';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
@@ -8,7 +9,7 @@ import { CheckCircleIcon } from '@heroicons/react/24/solid';
 import { useTranslation } from 'react-i18next';
 
 type SaveButtonProps = {
-  closeModal: Dispatch<SetStateAction<boolean>>;
+  closeModal: () => void;
 };
 
 export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
@@ -46,7 +47,7 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
 
       if (!hasError) {
         setIsCompleted(true);
-        closeModal(true);
+        closeModal();
         addToast(
           <ToastItem variant="positive" message={t('feedback.success.header.bulkUpdate')} />
         );
@@ -57,7 +58,7 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
   return (
     <Button disabled={!hasUrl} loading={loading} onClick={saveHeaders}>
       <CheckCircleIcon />
-      {t('button.scope.save')}
+      <Text as="span">{t('button.scope.save')}</Text>
     </Button>
   );
 };
