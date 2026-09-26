@@ -10,9 +10,15 @@ vi.mock('@constants/index', () => ({
 describe('getCurrentTabUrl', () => {
   it('gets the active tab URL when it is available', async () => {
     tabsQuery.mockResolvedValue([{ url: 'https://example.com' }]);
-    await expect(getCurrentTabUrl()).resolves.toBe('https://example.com');
+    await expect(getCurrentTabUrl()).resolves.toEqual({
+      currentUrl: 'https://example.com',
+      currentHost: 'example.com',
+    });
 
     tabsQuery.mockResolvedValue([]);
-    await expect(getCurrentTabUrl()).resolves.toBeUndefined();
+    await expect(getCurrentTabUrl()).resolves.toEqual({
+      currentUrl: undefined,
+      currentHost: undefined,
+    });
   });
 });

@@ -4,6 +4,7 @@ import { TextInput } from '@components/input/text-input';
 import { ToastItem } from '@components/toast/toast-item';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { useToastContext } from '@contexts/toast.context';
+import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import { PlusCircleIcon } from '@heroicons/react/24/solid';
 import type { Header } from '@interfaces/index';
@@ -20,7 +21,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
   const headerKeyRef = useRef<HTMLInputElement>(null);
 
   const { addToast } = useToastContext();
-  const { isDisabled, updateHeader } = useHeaderTweakerContext();
+  const { scope, isDisabled, updateHeader } = useHeaderTweakerContext();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -52,8 +53,13 @@ export const AppFooter: FC<AppFooterProps> = () => {
   );
 
   const addHeader = async () => {
+    const { currentHost } = await getCurrentTabUrl();
     if (header) {
-      await updateHeader({ header, action: 'add' });
+      const headerDetails = {
+        ...header,
+        ...(scope === 'current-url' && currentHost && { urls: [currentHost] }),
+      };
+      await updateHeader({ header: headerDetails, action: 'add' });
       setHeader(undefined);
       headerKeyRef.current?.focus();
       addToast(<ToastItem variant="positive" message={t('feedback.success.header.create')} />);

@@ -2,7 +2,7 @@ import { type ComponentPropsWithoutRef, type FC, useEffect, useRef, useState } f
 import { Text } from '@components/text/text';
 import { SCOPE_LABEL_KEYS, SCOPES, type Scope } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
+import { type CurrentUrl, getCurrentTabUrl } from '@helpers/get-current-tab.helper';
 import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
 import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import classnames from 'clsx';
@@ -12,24 +12,15 @@ import css from './header-filters.module.scss';
 
 const scopes = Object.values(SCOPES);
 
-const getHost = (url?: string) => {
-  if (!url) return undefined;
-
-  try {
-    return new URL(url).host.replace(/^www\./i, '');
-  } catch {
-    return undefined;
-  }
-};
-
 export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }) => {
   const { t } = useTranslation();
   const { headers, scope, setscope } = useHeaderTweakerContext();
-  const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
+  const [{ currentUrl, currentHost }, setCurrentUrl] = useState<CurrentUrl>({
+    currentUrl: undefined,
+    currentHost: undefined,
+  });
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const listRef = useRef<HTMLDivElement>(null);
-
-  const currentHost = getHost(currentUrl);
   const isDisabled = !headers.length;
 
   useEffect(() => {

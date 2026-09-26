@@ -9,7 +9,7 @@ import { Text } from '@components/text/text';
 import { storage } from '@constants/index';
 import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
-import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
+import { type CurrentUrl, getCurrentTabUrl } from '@helpers/get-current-tab.helper';
 import { groupHeaders } from '@helpers/header/group-headers.helper';
 import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
 import { getScopeErrorMessageKey } from '@helpers/scope/get-scoped-error.helper';
@@ -31,7 +31,10 @@ export const HeaderList: FC<HeaderListProps> = () => {
   const [nameColWidth, setNameColWidth] = useState(275);
   const [labelColWidth, setLabelColWidth] = useState(150);
   const [isResizing, setIsResizing] = useState(false);
-  const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
+  const [{ currentUrl }, setCurrentUrl] = useState<CurrentUrl>({
+    currentUrl: undefined,
+    currentHost: undefined,
+  });
   const dragIndexRef = useRef<number | null>(null);
   const tableRef = useRef<HTMLTableElement>(null);
   const { headers, selectedHeader, reorderHeaders, useLabels, scope } = useHeaderTweakerContext();
