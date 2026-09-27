@@ -35,7 +35,7 @@
     }
 
     .header {
-      padding: vars.$spacing-core-4 vars.$spacing-core-4;
+      padding: vars.$spacing-core-2 vars.$spacing-core-4;
       display: flex;
       align-items: center;
 
@@ -60,7 +60,7 @@
     }
 
     .content {
-      padding: vars.$spacing-core-2 vars.$spacing-core-4;
+      padding: 0 vars.$spacing-core-4;
     }
 
     .footer {
