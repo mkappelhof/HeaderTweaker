@@ -1,0 +1,120 @@
+<div
+  role="img"
+  aria-label="An outgoing request with added and changed headers"
+  class="panel"
+>
+  <div class="panel__bar">
+    <span class="panel__dot"></span><span class="panel__dot"></span><span
+      class="panel__dot"></span>
+    <span class="panel__bar-label">Outgoing request · headertweaker.com</span>
+  </div>
+  <div class="panel__body">
+    <div class="panel__line">
+      <span class="panel__method">GET</span> headertweaker.com HTTP/1.1
+    </div>
+    <div class="panel__line panel__line--muted">Host: headertweaker.com</div>
+    <div class="panel__line panel__line--muted">Accept: text/html</div>
+    <div class="panel__line panel__line--added">
+      <span>+</span><span>Authorization: Bearer eyJhbGciOi…</span>
+    </div>
+    <div class="panel__line panel__line--added">
+      <span>+</span><span>X-Feature-flag: new-nav</span>
+    </div>
+    <div class="panel__line panel__line--changed">
+      <span>~</span><span>Accept-Language: nl-NL</span>
+    </div>
+    <div class="panel__line panel__line--muted">User-Agent: Mozilla/5.0 …</div>
+  </div>
+  <div class="panel__legend">
+    <span><span class="panel__legend-added">+</span> added</span>
+    <span><span class="panel__legend-changed">~</span> changed</span>
+  </div>
+</div>
+
+<style lang="scss">
+  .panel {
+    border-radius: 16px;
+    background: vars.$colors-surface-raised;
+    border: 1px solid vars.$colors-primary-action-disabled;
+    overflow: hidden;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+    line-height: 1.9;
+  }
+
+  .panel__bar {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-core-2;
+    padding: vars.$spacing-core-3 vars.$spacing-core-5;
+    border-bottom: 1px solid vars.$colors-border-subtle;
+    color: #9a9db2;
+    font-size: 13px;
+  }
+
+  .panel__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: vars.$colors-primary-action-disabled;
+  }
+
+  .panel__bar-label {
+    margin-left: vars.$spacing-core-2;
+  }
+
+  .panel__body {
+    display: flex;
+    flex-direction: column;
+    padding: vars.$spacing-core-5 0;
+  }
+
+  .panel__line {
+    padding: 0 vars.$spacing-core-6;
+
+    &--muted {
+      color: #9a9db2;
+    }
+
+    &--added {
+      display: flex;
+      gap: vars.$spacing-core-3;
+      background: vars.$colors-primary-success-shade;
+
+      span:first-child {
+        color: #5fcf84;
+      }
+    }
+
+    &--changed {
+      display: flex;
+      gap: vars.$spacing-core-3;
+      background: vars.$colors-primary-warning-shade;
+
+      span:first-child {
+        color: #e3a64a;
+      }
+    }
+  }
+
+  .panel__method {
+    color: vars.$colors-primary-action;
+  }
+
+  .panel__legend {
+    display: flex;
+    gap: vars.$spacing-core-6;
+    padding: vars.$spacing-core-3 vars.$spacing-core-6;
+    border-top: 1px solid vars.$colors-border-subtle;
+    font-size: 13px;
+    color: #9a9db2;
+  }
+
+  .panel__legend-added {
+    color: #5fcf84;
+  }
+
+  .panel__legend-changed {
+    color: #e3a64a;
+  }
+</style>

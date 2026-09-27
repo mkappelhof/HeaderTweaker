@@ -1,0 +1,172 @@
+---
+import { PERMISSIONS } from '@data/permissions';
+---
+
+<section id="privacy" class="privacy">
+  <div class="privacy__copy">
+    <span class="privacy__eyebrow">03 / PRIVACY</span>
+    <h2 class="privacy__title">Your headers never leave your device.</h2>
+    <p class="privacy__lede">
+      HeaderTweaker asks for the smallest set of permissions it can, and collects no data
+      whatsoever. Configuration only leaves the browser when you export it yourself.
+    </p>
+    <ul class="privacy__points">
+      <li>No tracking, telemetry or analytics</li>
+      <li>Stored locally with the browser’s storage API</li>
+      <li>No remote code — only what ships in the package runs</li>
+    </ul>
+  </div>
+  <div class="privacy__table-wrapper">
+    <table class="privacy__table">
+      <caption class="visually-hidden">Permissions HeaderTweaker requests and why</caption>
+      <thead>
+        <tr>
+          <th scope="col">Permission</th>
+          <th scope="col">Why it’s needed</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          PERMISSIONS.map((permission) => (
+            <tr>
+              <th scope="row">
+                <span class="privacy__permission-name">{permission.name}</span>
+                <span class="privacy__permission-where">{permission.where}</span>
+              </th>
+              <td>{permission.why}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<style lang="scss">
+  .privacy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: vars.$spacing-core-20;
+    padding: vars.$spacing-core-28 vars.$spacing-core-30;
+    background: vars.$colors-surface-sunken;
+    border-top: 1px solid vars.$colors-border-subtle;
+    border-bottom: 1px solid vars.$colors-border-subtle;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      padding: vars.$spacing-core-14 vars.$spacing-core-5;
+      gap: vars.$spacing-core-6;
+    }
+  }
+
+  .privacy__copy {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-6;
+  }
+
+  .privacy__eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: #b78bff;
+    letter-spacing: 0.04em;
+  }
+
+  .privacy__title {
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+
+    @media (max-width: 900px) {
+      font-size: 32px;
+    }
+  }
+
+  .privacy__lede {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #b4b7c9;
+  }
+
+  .privacy__points {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-3;
+    padding-top: vars.$spacing-core-2;
+    font-size: 17px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-core-3;
+
+      &::before {
+        content: '';
+        flex-shrink: 0;
+        width: 20px;
+        height: 20px;
+        background: #5fcf84;
+        clip-path: polygon(9% 47%, 0 60%, 39% 100%, 100% 26%, 90% 15%, 37% 74%);
+      }
+    }
+  }
+
+  .privacy__table-wrapper {
+    border-radius: 16px;
+    background: vars.$colors-primary-background;
+    border: 1px solid vars.$colors-primary-action-disabled;
+    overflow: hidden;
+  }
+
+  .privacy__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+
+    th,
+    td {
+      text-align: left;
+      padding: vars.$spacing-core-5 vars.$spacing-core-6;
+      vertical-align: top;
+    }
+
+    thead th {
+      padding: vars.$spacing-core-4 vars.$spacing-core-6;
+      background: vars.$colors-surface-raised;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: #9a9db2;
+      text-transform: uppercase;
+    }
+
+    tbody tr {
+      border-top: 1px solid vars.$colors-border-subtle;
+    }
+
+    tbody th {
+      font-weight: 400;
+    }
+  }
+
+  .privacy__permission-name {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    word-break: break-word;
+  }
+
+  .privacy__permission-where {
+    display: block;
+    margin-top: vars.$spacing-core-1;
+    font-size: 13px;
+    color: #9a9db2;
+    font-weight: 400;
+  }
+
+  .privacy__table td {
+    color: #c3c5d4;
+    line-height: 1.55;
+  }
+</style>

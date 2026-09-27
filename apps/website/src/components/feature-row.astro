@@ -1,0 +1,105 @@
+---
+import type { Feature } from '@data/features';
+import { Image } from 'astro:assets';
+
+const images = import.meta.glob<{ default: ImageMetadata }>('@assets/screenshots/*.png', {
+  eager: true,
+});
+
+type Props = Feature;
+
+const { eyebrow, title, description, image, alt, reverse } = Astro.props;
+const imageModule = images[`/src/assets/screenshots/${image}`];
+---
+
+<div class:list={['feature', { 'feature--reverse': reverse }]}>
+  <div class="feature__media">
+    {
+      imageModule && (
+        <Image
+          src={imageModule.default}
+          alt={alt}
+          widths={[480, 800]}
+          sizes="(max-width: 900px) 100vw, 640px"
+        />
+      )
+    }
+  </div>
+  <div class="feature__copy">
+    <span class="feature__eyebrow">{eyebrow}</span>
+    <h3 class="feature__title">{title}</h3>
+    <p class="feature__description">{description}</p>
+  </div>
+</div>
+
+<style lang="scss">
+  .feature {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: vars.$spacing-core-20;
+    align-items: center;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      gap: vars.$spacing-core-4;
+    }
+  }
+
+  .feature--reverse {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+
+    .feature__media {
+      order: 2;
+    }
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+
+      .feature__media {
+        order: 0;
+      }
+    }
+  }
+
+  .feature__media :global(img) {
+    border-radius: 16px;
+    border: 1px solid vars.$colors-primary-action-disabled;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+  }
+
+  .feature__copy {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-5;
+  }
+
+  .feature__eyebrow {
+    align-self: flex-start;
+    padding: 7px vars.$spacing-core-4;
+    border-radius: vars.$border-radius-full;
+    background: vars.$colors-primary-action-disabled;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .feature__title {
+    font-weight: 700;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+
+    @media (max-width: 900px) {
+      font-size: 24px;
+    }
+  }
+
+  .feature__description {
+    font-size: 17px;
+    line-height: 1.6;
+    color: #b4b7c9;
+
+    @media (max-width: 900px) {
+      font-size: 15px;
+    }
+  }
+</style>

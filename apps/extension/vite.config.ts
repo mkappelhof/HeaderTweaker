@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import react from '@vitejs/plugin-react';
+import { NodePackageImporter } from 'sass';
 import { defineConfig } from 'vitest/config';
 
 const pkg = JSON.parse(readFileSync(path.resolve(import.meta.dirname, 'package.json'), 'utf-8'));
@@ -83,7 +84,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "sass:color";@use "@styles/variables.scss" as vars;`,
+        additionalData: `@use "sass:color";@use "pkg:headertweaker-tokens" as vars;`,
+        importers: [new NodePackageImporter()],
       },
     },
   },

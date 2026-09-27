@@ -1,0 +1,233 @@
+---
+import logo from "@assets/screenshots/logo.png";
+import { Image } from "astro:assets";
+import GithubLogo from "@assets/icons/github.svg";
+---
+
+<header class="nav">
+  <a class="nav__brand" href="#top">
+    <Image src={logo} alt="" width={56} height={36} />
+    <span>HeaderTweaker</span>
+  </a>
+  <button
+    type="button"
+    class="nav__toggle"
+    aria-label="Open menu"
+    aria-expanded="false"
+    aria-controls="primary-nav"
+    id="nav-toggle"
+  >
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      aria-hidden="true"
+    >
+      <path d="M4 7h16M4 12h16M4 17h16"></path>
+    </svg>
+  </button>
+  <nav aria-label="Main" class="nav__links" id="primary-nav">
+    <span class="nav__indicator" aria-hidden="true"></span>
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#privacy">Privacy</a>
+    <a href="https://github.com/mkappelhof/HeaderTweaker">
+      <GithubLogo width={24} height={24} color="white" />
+      GitHub
+    </a>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById("nav-toggle");
+  const links = document.getElementById("primary-nav");
+
+  toggle?.addEventListener("click", () => {
+    const isOpen = links?.classList.toggle("nav__links--open");
+    toggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+  });
+
+  links?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => {
+      links.classList.remove("nav__links--open");
+      toggle?.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  const indicator = links?.querySelector<HTMLElement>(".nav__indicator");
+
+  const moveIndicator = (link: HTMLAnchorElement) => {
+    if (!indicator) return;
+
+    const isVisible = indicator.classList.contains("nav__indicator--visible");
+    indicator.classList.toggle("nav__indicator--instant", !isVisible);
+    indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+    indicator.style.width = `${link.offsetWidth}px`;
+    indicator.getBoundingClientRect();
+    indicator.classList.remove("nav__indicator--instant");
+    indicator.classList.add("nav__indicator--visible");
+  };
+
+  const hideIndicator = () =>
+    indicator?.classList.remove("nav__indicator--visible");
+
+  links?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("pointerenter", () => moveIndicator(link));
+    link.addEventListener("focus", () => moveIndicator(link));
+  });
+
+  links?.addEventListener("pointerleave", hideIndicator);
+  links?.addEventListener("focusout", (event) => {
+    if (!links.contains(event.relatedTarget as Node | null)) hideIndicator();
+  });
+</script>
+
+<style lang="scss">
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: vars.$spacing-core-5 vars.$spacing-core-30;
+    border-bottom: 1px solid vars.$colors-border-subtle;
+
+    @media (max-width: 900px) {
+      padding: vars.$spacing-core-3 vars.$spacing-core-5;
+    }
+  }
+
+  .nav__brand {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-core-3;
+    text-decoration: none;
+    color: vars.$colors-primary-foreground;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+
+  .nav__brand :global(img) {
+    width: 56px;
+    height: 36px;
+  }
+
+  .nav__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: vars.$border-radius-full;
+    background: vars.$colors-surface-raised;
+    color: vars.$colors-primary-foreground;
+
+    @media (max-width: 900px) {
+      display: flex;
+    }
+  }
+
+  .nav__links {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-core-1;
+    padding: vars.$spacing-core-2;
+    border-radius: vars.$border-radius-full;
+    background: vars.$colors-surface-raised;
+    font-size: 17px;
+
+    a {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: vars.$spacing-core-2;
+      min-height: 48px;
+      padding: 0 vars.$spacing-core-6;
+      border-radius: vars.$border-radius-full;
+      color: white;
+      text-decoration: none;
+      transition: color 0.25s ease;
+
+      &:hover,
+      &:focus-visible {
+        color: vars.$colors-primary-foreground;
+      }
+    }
+
+    @media (max-width: 900px) {
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: vars.$spacing-core-2;
+      z-index: 10;
+      border-radius: 0;
+      visibility: hidden;
+      clip-path: inset(0 0 100% 0);
+      transition:
+        clip-path 300ms ease,
+        visibility 0s linear 300ms;
+
+      &.nav__links--open {
+        visibility: visible;
+        clip-path: inset(0);
+        transition:
+          clip-path 300ms ease,
+          visibility 0s;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+
+        &.nav__links--open {
+          transition: none;
+        }
+      }
+
+      a {
+        padding: 0 vars.$spacing-core-5;
+      }
+    }
+  }
+
+  .nav__indicator {
+    position: absolute;
+    top: vars.$spacing-core-2;
+    bottom: vars.$spacing-core-2;
+    left: 0;
+    border-radius: vars.$border-radius-full;
+    background-color: vars.$colors-primary-action-disabled;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      transform 0.25s ease,
+      width 0.25s ease,
+      opacity 0.25s ease;
+
+    &.nav__indicator--visible {
+      opacity: 1;
+    }
+
+    &.nav__indicator--instant {
+      transition: opacity 0.25s ease;
+    }
+
+    @media (max-width: 900px) {
+      display: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+</style>

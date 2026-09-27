@@ -1,0 +1,68 @@
+---
+import { EXTENSION_META } from '@data/extension-meta';
+---
+
+<footer class="footer">
+  <div class="footer__brand">
+    <span>Header<span class="footer__accent">Tweaker</span></span>
+    <span>· MIT License</span>
+  </div>
+  <nav class="footer__links" aria-label="Footer">
+    <a href={EXTENSION_META.repositoryUrl}>Source on GitHub</a>
+    <a href={EXTENSION_META.firefoxUrl}>Firefox Add-ons</a>
+    <a href={EXTENSION_META.chromeUrl}>Chrome Web Store</a>
+  </nav>
+</footer>
+
+<style lang="scss">
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: vars.$spacing-core-10 vars.$spacing-core-30;
+    border-top: 1px solid vars.$colors-border-subtle;
+    font-size: 14px;
+    color: #9a9db2;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      gap: vars.$spacing-core-4;
+      padding: vars.$spacing-core-8 vars.$spacing-core-5;
+    }
+  }
+
+  .footer__brand {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-core-3;
+    font-weight: 700;
+    font-size: 18px;
+    color: vars.$colors-primary-foreground;
+    letter-spacing: -0.02em;
+  }
+
+  .footer__accent {
+    color: vars.$colors-primary-action;
+  }
+
+  .footer__links {
+    display: flex;
+    gap: vars.$spacing-core-6;
+    font-weight: 400;
+    font-size: 14px;
+
+    a {
+      color: #c3c5d4;
+      text-decoration: none;
+
+      &:hover {
+        color: vars.$colors-primary-foreground;
+      }
+    }
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      gap: vars.$spacing-core-3;
+    }
+  }
+</style>

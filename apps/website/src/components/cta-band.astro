@@ -1,0 +1,76 @@
+---
+import { EXTENSION_META } from '@data/extension-meta';
+---
+
+<section class="cta-wrap">
+  <div class="cta">
+    <div class="cta__copy">
+      <h2 class="cta__title">Start tweaking in seconds.</h2>
+      <p class="cta__lede">Free, open source and MIT licensed.</p>
+    </div>
+    <div class="cta__actions">
+      <a class="button button--light" href={EXTENSION_META.firefoxUrl}>Add to Firefox</a>
+      <a class="button button--dark" href={EXTENSION_META.chromeUrl}>Add to Chrome</a>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  .cta-wrap {
+    padding: 0 vars.$spacing-core-30 vars.$spacing-core-26;
+
+    @media (max-width: 900px) {
+      padding: 0 vars.$spacing-core-5 vars.$spacing-core-14;
+    }
+  }
+
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: vars.$spacing-core-12;
+    padding: vars.$spacing-core-16 vars.$spacing-core-18;
+    border-radius: 24px;
+    border: 2px solid vars.$colors-primary-action;
+    background: linear-gradient(90deg, #4a1599, vars.$colors-primary-action);
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: stretch;
+      padding: vars.$spacing-core-8 vars.$spacing-core-6;
+      gap: vars.$spacing-core-5;
+    }
+  }
+
+  .cta__copy {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-3;
+  }
+
+  .cta__title {
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+
+    @media (max-width: 900px) {
+      font-size: 30px;
+    }
+  }
+
+  .cta__lede {
+    font-size: 18px;
+    color: #f1e9ff;
+  }
+
+  .cta__actions {
+    display: flex;
+    gap: vars.$spacing-core-3;
+    flex-shrink: 0;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+    }
+  }
+</style>

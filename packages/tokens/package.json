@@ -1,0 +1,11 @@
+{
+  "name": "headertweaker-tokens",
+  "version": "0.0.0",
+  "description": "Shared SCSS design tokens for the HeaderTweaker extension and website",
+  "license": "MIT",
+  "private": true,
+  "exports": {
+    ".": "./src/variables.scss"
+  },
+  "files": ["src"]
+}

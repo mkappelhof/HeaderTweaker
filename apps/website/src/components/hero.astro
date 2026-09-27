@@ -1,0 +1,153 @@
+---
+import popup from "@assets/screenshots/popup-overview.png";
+import { EXTENSION_META } from "@data/extension-meta";
+import { Image } from "astro:assets";
+import FirefoxLogo from "@assets/icons/firefox.svg";
+import ChromeLogo from "@assets/icons/chrome.svg";
+import Check from "@assets/icons/check.svg";
+---
+
+<section id="top" class="hero">
+  <div class="hero__copy">
+    <h1 class="hero__title">
+      Shape every request your <span class="hero__accent">browser</span> sends.
+    </h1>
+    <p class="hero__lede">
+      Add, change and remove HTTP request headers — on every request, or only on
+      the URLs you target. Flip rules on and off in one click. Everything stays
+      in your browser.
+    </p>
+    <div class="hero__actions">
+      <a class="button button--primary" href={EXTENSION_META.firefoxUrl}>
+        <FirefoxLogo width={24} height={24} fill="white" />
+        <span>Add to Firefox</span>
+      </a>
+      <a class="button button--secondary" href={EXTENSION_META.chromeUrl}>
+        <ChromeLogo width={24} height={24} fill="white" />
+        <span>Add to Chrome</span>
+      </a>
+    </div>
+    <ul class="hero__badges">
+      <li><Check width={16} height={16} /> No tracking</li>
+      <li><Check width={16} height={16} /> No telemetry</li>
+      <li><Check width={16} height={16} /> No remote code</li>
+      <li>MIT licensed</li>
+    </ul>
+  </div>
+  <div class="hero__preview">
+    <Image
+      src={popup}
+      alt="The HeaderTweaker popup: three headers targeted to headertweaker.com and a global X-Debug header, each with an on/off toggle"
+      widths={[480, 800]}
+      sizes="(max-width: 900px) 100vw, 640px"
+    />
+  </div>
+</section>
+
+<style lang="scss">
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: vars.$spacing-core-18;
+    align-items: center;
+    padding: vars.$spacing-core-26 vars.$spacing-core-30 vars.$spacing-core-30;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      padding: vars.$spacing-core-12 vars.$spacing-core-5 vars.$spacing-core-14;
+      gap: vars.$spacing-core-6;
+    }
+  }
+
+  .hero__copy {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-6;
+  }
+
+  .hero__badge {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: vars.$spacing-core-2;
+    padding: vars.$spacing-core-2 vars.$spacing-core-4;
+    border-radius: vars.$border-radius-full;
+    background: vars.$colors-surface-raised;
+    font-size: 14px;
+    color: #c3c5d4;
+  }
+
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #5fcf84;
+  }
+
+  .hero__title {
+    font-weight: 800;
+    font-size: 72px;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+
+    @media (max-width: 900px) {
+      font-size: 42px;
+    }
+  }
+
+  .hero__accent {
+    color: vars.$colors-primary-action;
+  }
+
+  .hero__lede {
+    max-width: 520px;
+    font-size: 20px;
+    line-height: 1.55;
+    color: #b4b7c9;
+
+    @media (max-width: 900px) {
+      font-size: 17px;
+    }
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: vars.$spacing-core-3;
+    padding-top: vars.$spacing-core-2;
+
+    @media (max-width: 900px) {
+      display: none;
+      flex-direction: column;
+    }
+  }
+
+  .hero__badges {
+    display: flex;
+    gap: vars.$spacing-core-2;
+    font-size: 14px;
+    color: #9a9db2;
+    flex-wrap: wrap;
+
+    li {
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: vars.$spacing-core-1;
+      border: solid 1px vars.$colors-primary-action-disabled;
+      padding: vars.$spacing-core-1 vars.$spacing-core-2;
+      border-radius: vars.$border-radius-small;
+    }
+  }
+
+  .hero__preview {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero__preview :global(img) {
+    border-radius: 16px;
+    border: 1px solid vars.$colors-primary-action-disabled;
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+  }
+</style>

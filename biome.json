@@ -10,7 +10,10 @@
       "**/*.json",
       "**/*.html",
       "!**/.vscode",
-      "!**/dist"
+      "!**/dist",
+      "!**/.astro",
+      "!**/.vercel",
+      "!**/.turbo"
     ]
   },
   "formatter": {

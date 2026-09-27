@@ -1,0 +1,125 @@
+---
+import RequestPanelMock from '@components/request-panel-mock.astro';
+
+const steps = [
+  {
+    title: 'Add a header',
+    description: 'Enter a key and a value, and optionally a label so you remember why it’s there.',
+  },
+  {
+    title: 'Pick where it applies',
+    description: 'Leave it global, or target it to the current URL or any URL you add.',
+  },
+  {
+    title: 'Browse as usual',
+    description:
+      'Matching requests leave your browser with the headers applied. Toggle a rule off whenever you’re done.',
+  },
+];
+---
+
+<section id="how" class="how">
+  <div class="how__copy">
+    <div class="how__heading">
+      <span class="how__eyebrow">02 / HOW IT WORKS</span>
+      <h2 class="how__title">Three steps. Then just browse.</h2>
+    </div>
+    <ol class="how__steps">
+      {
+        steps.map((step, index) => (
+          <li class="how__step">
+            <span class="how__step-index">{index + 1}</span>
+            <div>
+              <h3 class="how__step-title">{step.title}</h3>
+              <p class="how__step-description">{step.description}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+  <RequestPanelMock />
+</section>
+
+<style lang="scss">
+  .how {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: vars.$spacing-core-20;
+    align-items: center;
+    padding: vars.$spacing-core-30 vars.$spacing-core-30;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+      padding: vars.$spacing-core-14 vars.$spacing-core-5;
+      gap: vars.$spacing-core-8;
+    }
+  }
+
+  .how__copy {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-10;
+  }
+
+  .how__heading {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-4;
+  }
+
+  .how__eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: #b78bff;
+    letter-spacing: 0.04em;
+  }
+
+  .how__title {
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+
+    @media (max-width: 900px) {
+      font-size: 32px;
+    }
+  }
+
+  .how__steps {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-6;
+  }
+
+  .how__step {
+    display: flex;
+    gap: vars.$spacing-core-5;
+  }
+
+  .how__step-index {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: vars.$colors-primary-action-disabled;
+    border: 2px solid vars.$colors-primary-action;
+    font-weight: 700;
+  }
+
+  .how__step-title {
+    font-size: 20px;
+    font-weight: 600;
+  }
+
+  .how__step-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #b4b7c9;
+    margin-top: vars.$spacing-core-1;
+  }
+</style>
