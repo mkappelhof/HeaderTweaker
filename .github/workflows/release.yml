@@ -66,7 +66,7 @@ jobs:
         if: steps.check_changesets.outputs.has_changesets == 'true'
         id: get_version
         run: |
-          VERSION=$(node -p "require('./apps/extension/package.json').version")
+          VERSION=$(node -p "require('./apps/headertweaker/package.json').version")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit and push version bump
@@ -88,7 +88,7 @@ jobs:
 
       - name: Package Firefox extension
         if: steps.check_changesets.outputs.has_changesets == 'true'
-        working-directory: apps/extension
+        working-directory: apps/headertweaker
         run: |
           pnpm exec web-ext build --source-dir=dist/firefox --artifacts-dir=web-ext-artifacts/firefox
           ZIP=$(find web-ext-artifacts/firefox -name "*.zip" -type f | head -n 1)
@@ -96,7 +96,7 @@ jobs:
 
       - name: Package Chrome extension
         if: steps.check_changesets.outputs.has_changesets == 'true'
-        working-directory: apps/extension
+        working-directory: apps/headertweaker
         run: |
           pnpm exec web-ext build --source-dir=dist/chrome --artifacts-dir=web-ext-artifacts/chrome
           ZIP=$(find web-ext-artifacts/chrome -name "*.zip" -type f | head -n 1)
@@ -111,7 +111,7 @@ jobs:
           body: |
             Automated release for version ${{ steps.get_version.outputs.version }}.
           files: |
-            apps/extension/web-ext-artifacts/headertweaker-firefox-${{ steps.get_version.outputs.version }}.zip
-            apps/extension/web-ext-artifacts/headertweaker-chromium-${{ steps.get_version.outputs.version }}.zip
+            apps/headertweaker/web-ext-artifacts/headertweaker-firefox-${{ steps.get_version.outputs.version }}.zip
+            apps/headertweaker/web-ext-artifacts/headertweaker-chromium-${{ steps.get_version.outputs.version }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

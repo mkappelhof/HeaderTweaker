@@ -2,7 +2,7 @@
 
 Monorepo for the HeaderTweaker browser extension and its marketing website.
 
-- **[`apps/extension`](apps/extension/README.md)** — the Firefox/Chrome browser extension
+- **[`apps/headertweaker`](apps/headertweaker/README.md)** — the Firefox/Chrome browser extension
 - **`apps/website`** — the marketing website ([headertweaker.com](https://headertweaker.com)), built with Astro
 - **`packages/tokens`** — shared SCSS design tokens used by both
 

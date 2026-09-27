@@ -4,18 +4,17 @@ import { EXTENSION_META } from "@data/extension-meta";
 import { Image } from "astro:assets";
 import FirefoxLogo from "@assets/icons/firefox.svg";
 import ChromeLogo from "@assets/icons/chrome.svg";
-import Check from "@assets/icons/check.svg";
+import Check from "headertweaker-icons/24/outline/check.svg";
 ---
 
 <section id="top" class="hero">
   <div class="hero__copy">
     <h1 class="hero__title">
-      Shape every request your <span class="hero__accent">browser</span> sends.
+      Control the HTTP <span class="hero__accent">headers</span> your browser sends.
     </h1>
     <p class="hero__lede">
-      Add, change and remove HTTP request headers — on every request, or only on
-      the URLs you target. Flip rules on and off in one click. Everything stays
-      in your browser.
+      Add, edit or remove request headers globally or for specific URLs, and toggle
+      a rule on or off without losing its configuration. Nothing leaves your browser.
     </p>
     <div class="hero__actions">
       <a class="button button--primary" href={EXTENSION_META.firefoxUrl}>

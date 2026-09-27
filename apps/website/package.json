@@ -14,7 +14,8 @@
   },
   "dependencies": {
     "astro": "7.3.5",
-    "@astrojs/sitemap": "3.7.4"
+    "@astrojs/sitemap": "3.7.4",
+    "headertweaker-icons": "workspace:*"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.10",

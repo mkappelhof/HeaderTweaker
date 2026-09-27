@@ -8,7 +8,7 @@ import { NodePackageImporter } from 'sass';
 // location, unlike app modules, which get bundled/relocated so `import.meta.url`-relative reads
 // break at build time.
 const extensionPkg = JSON.parse(
-  readFileSync(fileURLToPath(new URL('../extension/package.json', import.meta.url)), 'utf-8'),
+  readFileSync(fileURLToPath(new URL('../headertweaker/package.json', import.meta.url)), 'utf-8'),
 );
 
 export default defineConfig({
