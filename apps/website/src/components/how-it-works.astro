@@ -1,19 +1,21 @@
 ---
-import RequestPanelMock from '@components/request-panel-mock.astro';
+import RequestPanelMock from "@components/request-panel-mock.astro";
 
 const steps = [
   {
-    title: 'Add a header',
-    description: 'Enter a key and a value, and optionally a label so you remember why it’s there.',
-  },
-  {
-    title: 'Pick where it applies',
-    description: 'Leave it global, or target it to the current URL or any URL you add.',
-  },
-  {
-    title: 'Browse as usual',
+    title: "Add a header",
     description:
-      'Matching requests leave your browser with the headers applied. Toggle a rule off whenever you’re done.',
+      "Enter a key and a value, and optionally a label so you remember why it’s there.",
+  },
+  {
+    title: "Set a target",
+    description:
+      "Leave it global, or target it to the current URL or any URL you add.",
+  },
+  {
+    title: "Browse as usual",
+    description:
+      "Matching requests leave your browser with the headers applied. Toggle a rule off whenever you’re done.",
   },
 ];
 ---
@@ -22,7 +24,7 @@ const steps = [
   <div class="how__copy">
     <div class="how__heading">
       <span class="how__eyebrow">02 / HOW IT WORKS</span>
-      <h2 class="how__title">Set it up once, then browse as usual.</h2>
+      <h2 class="how__title">Set it up once, then browse as usual</h2>
     </div>
     <ol class="how__steps">
       {
@@ -69,7 +71,7 @@ const steps = [
   }
 
   .how__eyebrow {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
     font-size: 14px;
     color: #b78bff;
     letter-spacing: 0.04em;

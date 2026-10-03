@@ -1,14 +1,14 @@
 ---
-import BrowserComparison from '@components/browser-comparison.astro';
-import CtaBand from '@components/cta-band.astro';
-import FeatureRow from '@components/feature-row.astro';
-import Footer from '@components/footer.astro';
-import Hero from '@components/hero.astro';
-import HowItWorks from '@components/how-it-works.astro';
-import Nav from '@components/nav.astro';
-import PermissionsTable from '@components/permissions-table.astro';
-import { FEATURES } from '@data/features';
-import BaseLayout from '@layouts/base-layout.astro';
+import BrowserComparison from "@components/browser-comparison.astro";
+import CtaBand from "@components/cta-band.astro";
+import FeatureRow from "@components/feature-row.astro";
+import Footer from "@components/footer.astro";
+import Hero from "@components/hero.astro";
+import HowItWorks from "@components/how-it-works.astro";
+import Nav from "@components/nav.astro";
+import PermissionsTable from "@components/permissions-table.astro";
+import { FEATURES } from "@data/features";
+import BaseLayout from "@layouts/base-layout.astro";
 ---
 
 <BaseLayout
@@ -24,12 +24,14 @@ import BaseLayout from '@layouts/base-layout.astro';
         <div class="features__heading-copy">
           <span class="features__eyebrow">01 / FEATURES</span>
           <h2 class="features__title">
-            Add, target and toggle headers without touching your app’s code.
+            For developers, testers, designers and/or power‑users
           </h2>
         </div>
         <p class="features__lede">
-          Useful for testing APIs, feature flags, auth tokens or locale headers — anything
-          you’d otherwise fake with a proxy or a throwaway code change.
+          Whether you need to communicate with APIs that require authentication
+          tokens, run A/B tests, simulate different browsers or debug CORS
+          issues, this lightweight extension gives you full control over the
+          outgoing headers without touching server code.
         </p>
       </div>
       <div class="features__list">
@@ -80,7 +82,7 @@ import BaseLayout from '@layouts/base-layout.astro';
   }
 
   .features__eyebrow {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
     font-size: 14px;
     color: #b78bff;
     letter-spacing: 0.04em;

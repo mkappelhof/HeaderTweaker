@@ -1,21 +1,18 @@
 ---
-import { EXTENSION_META } from '@data/extension-meta';
+import { EXTENSION_META } from "@data/extension-meta";
 
 const browsers = [
   {
-    name: 'Firefox',
-    api: 'webRequest',
-    description: 'Headers are modified on outgoing requests before they’re sent.',
-    href: EXTENSION_META.firefoxUrl,
-    cta: 'Get it on Firefox Add-ons',
+    name: "Firefox",
+    api: "webRequest",
+    description:
+      "Headers are modified on outgoing requests before they’re sent.",
   },
   {
-    name: 'Chrome',
-    api: 'declarativeNetRequest',
+    name: "Chrome",
+    api: "declarativeNetRequest",
     description:
-      'The browser applies the rules itself — the extension never reads or intercepts your requests.',
-    href: EXTENSION_META.chromeUrl,
-    cta: 'Get it on the Chrome Web Store',
+      "The browser applies the rules itself — the extension never reads or intercepts your requests.",
   },
 ];
 ---
@@ -23,9 +20,10 @@ const browsers = [
 <section class="browsers">
   <div class="browsers__heading">
     <span class="browsers__eyebrow">04 / CROSS-BROWSER</span>
-    <h2 class="browsers__title">Built on each browser’s own API.</h2>
+    <h2 class="browsers__title">Built on each browser’s own API</h2>
     <p class="browsers__lede">
-      One codebase, using whichever API each browser exposes for modifying requests.
+      One codebase, using whichever API each browser exposes for modifying
+      requests.
     </p>
   </div>
   <table class="browsers__table">
@@ -35,7 +33,6 @@ const browsers = [
         <th scope="col"><span class="visually-hidden">Browser</span></th>
         <th scope="col">API used</th>
         <th scope="col">How it works</th>
-        <th scope="col"><span class="visually-hidden">Install</span></th>
       </tr>
     </thead>
     <tbody>
@@ -43,13 +40,10 @@ const browsers = [
         browsers.map((browser) => (
           <tr>
             <th scope="row">{browser.name}</th>
-            <td><code class="browsers__api">{browser.api}</code></td>
-            <td>{browser.description}</td>
             <td>
-              <a class="button button--secondary" href={browser.href}>
-                {browser.cta} →
-              </a>
+              <code class="browsers__api">{browser.api}</code>
             </td>
+            <td>{browser.description}</td>
           </tr>
         ))
       }
@@ -78,7 +72,7 @@ const browsers = [
   }
 
   .browsers__eyebrow {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
     font-size: 14px;
     color: #b78bff;
     letter-spacing: 0.04em;
@@ -161,7 +155,7 @@ const browsers = [
     padding: 6px 12px;
     border-radius: vars.$border-radius-small;
     background: vars.$colors-primary-action-disabled;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
     font-size: 14px;
   }
 </style>

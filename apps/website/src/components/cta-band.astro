@@ -1,5 +1,7 @@
 ---
 import { EXTENSION_META } from "@data/extension-meta";
+import FirefoxLogo from "@assets/icons/firefox.svg";
+import ChromeLogo from "@assets/icons/chrome.svg";
 ---
 
 <section class="cta-wrap">
@@ -9,12 +11,14 @@ import { EXTENSION_META } from "@data/extension-meta";
       <p class="cta__lede">Free, open source and MIT licensed.</p>
     </div>
     <div class="cta__actions">
-      <a class="button button--light" href={EXTENSION_META.firefoxUrl}
-        >Add to Firefox</a
-      >
-      <a class="button button--dark" href={EXTENSION_META.chromeUrl}
-        >Add to Chrome</a
-      >
+      <a class="button button--light" href={EXTENSION_META.firefoxUrl}>
+        <FirefoxLogo width={24} height={24} fill="white" />
+        Add to Firefox
+      </a>
+      <a class="button button--dark" href={EXTENSION_META.chromeUrl}>
+        <ChromeLogo width={24} height={24} fill="white" />
+        Add to Chrome
+      </a>
     </div>
   </div>
 </section>

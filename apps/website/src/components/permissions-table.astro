@@ -1,14 +1,15 @@
 ---
-import { PERMISSIONS } from '@data/permissions';
+import { PERMISSIONS } from "@data/permissions";
 ---
 
 <section id="privacy" class="privacy">
   <div class="privacy__copy">
     <span class="privacy__eyebrow">03 / PRIVACY</span>
-    <h2 class="privacy__title">Your headers never leave your device.</h2>
+    <h2 class="privacy__title">All your base are belong to you</h2>
     <p class="privacy__lede">
-      HeaderTweaker asks for the smallest set of permissions it can, and collects no data
-      whatsoever. Configuration only leaves the browser when you export it yourself.
+      HeaderTweaker asks for the smallest set of permissions it can, and
+      collects no data whatsoever. Configuration only leaves the browser when
+      you export it yourself.
     </p>
     <ul class="privacy__points">
       <li>No tracking, telemetry or analytics</li>
@@ -18,7 +19,9 @@ import { PERMISSIONS } from '@data/permissions';
   </div>
   <div class="privacy__table-wrapper">
     <table class="privacy__table">
-      <caption class="visually-hidden">Permissions HeaderTweaker requests and why</caption>
+      <caption class="visually-hidden"
+        >Permissions HeaderTweaker requests and why</caption
+      >
       <thead>
         <tr>
           <th scope="col">Permission</th>
@@ -31,7 +34,9 @@ import { PERMISSIONS } from '@data/permissions';
             <tr>
               <th scope="row">
                 <span class="privacy__permission-name">{permission.name}</span>
-                <span class="privacy__permission-where">{permission.where}</span>
+                <span class="privacy__permission-where">
+                  {permission.where}
+                </span>
               </th>
               <td>{permission.why}</td>
             </tr>
@@ -66,7 +71,7 @@ import { PERMISSIONS } from '@data/permissions';
   }
 
   .privacy__eyebrow {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
     font-size: 14px;
     color: #b78bff;
     letter-spacing: 0.04em;
@@ -102,7 +107,7 @@ import { PERMISSIONS } from '@data/permissions';
       gap: vars.$spacing-core-3;
 
       &::before {
-        content: '';
+        content: "";
         flex-shrink: 0;
         width: 20px;
         height: 20px;
@@ -152,7 +157,7 @@ import { PERMISSIONS } from '@data/permissions';
 
   .privacy__permission-name {
     display: block;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
     font-size: 14px;
     word-break: break-word;
   }
