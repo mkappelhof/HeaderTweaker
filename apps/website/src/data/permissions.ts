@@ -23,6 +23,6 @@ export const PERMISSIONS: Permission[] = [
   {
     name: '<all_urls>',
     where: 'Firefox & Chrome',
-    why: 'Lets rules target any site. Rules only run on requests that match your URL targets.',
+    why: 'Lets rules target any site. Rules only run on requests that match your URL targets — except localhost, which every rule always matches.',
   },
 ];

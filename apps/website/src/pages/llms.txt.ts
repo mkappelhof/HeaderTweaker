@@ -19,9 +19,10 @@ export const GET: APIRoute = ({ site }) => {
 > ${EXTENSION_META.description}
 
 ${EXTENSION_META.name} is a free, open-source (MIT licensed) browser extension for Firefox and
-Chrome that adds, changes and removes outgoing HTTP request headers, either globally or scoped
-to specific URLs. It collects no data, has no tracking or telemetry, and runs no remote code —
-only what ships in the installed package executes. Current version: ${EXTENSION_META.version}.
+Chrome that adds and changes outgoing HTTP request headers, either globally or scoped to specific
+URLs (localhost is always matched, regardless of a rule's configured URL targets). It collects no
+data, has no tracking or telemetry, and runs no remote code — only what ships in the installed
+package executes. Current version: ${EXTENSION_META.version}.
 
 ## Features
 

@@ -1,17 +1,18 @@
 # HeaderTweaker
 
-HeaderTweaker is a browser extension for adding, changing, and removing HTTP request headers. Create header rules, enable or disable them, and optionally limit them to matching URL patterns.
+HeaderTweaker is a browser extension for adding and changing outgoing HTTP request headers. Create header rules, enable or disable them, delete the ones you no longer need, and optionally scope them to specific URL targets.
 
 [![Install from Firefox Add-ons](https://img.shields.io/badge/Firefox%20Add--ons-Install-ff7139?logo=firefox&logoColor=white)](https://addons.mozilla.org/firefox/addon/headertweaker/)
 [![Install from the Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-Install-4285f4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/headertweaker/jhcfgkcenmleehpcpimgmnabjdgmchod)
 
 ## Features
 
-- Add, edit, enable, disable, and delete request-header rules.
-- Match rules to URL patterns when needed.
+- Add, edit, enable, disable, and delete header rules — each with a key, value, and optional label.
+- Scope a rule to specific URL targets, or leave it global; change the targets of several rules at once.
+- Filter the rule list by All, Global, or Current; global rules are flagged so it's clear what reaches every site.
 - Import and export configuration as JSON.
-- Enable or disable all header modifications from the settings panel.
-- Firefox support through `webRequest` and Chrome support through `declarativeNetRequest`.
+- Pause every rule at once from the settings panel without deleting them.
+- Firefox support through `webRequest` and Chrome support through `declarativeNetRequestWithHostAccess`.
 
 All configuration is stored locally in the browser.
 
@@ -23,6 +24,8 @@ Requirements: Node.js 20+ and pnpm 10+.
 pnpm install
 pnpm build:firefox
 pnpm build:chrome
+# or build both
+pnpm build:all
 ```
 
 The builds are written to `dist/firefox/` and `dist/chrome/`. To run a development build in a browser:
@@ -50,7 +53,7 @@ HeaderTweaker requests the smallest possible set of browser permissions and coll
 | --- | --- |
 | `storage` | Persist header rules and settings locally in the browser. |
 | `webRequest` + `webRequestBlocking` | Modify outgoing request headers before they are sent (Firefox uses the `webRequest` API). |
-| `<all_urls>` | Allow rules to target any site. Rules only run on requests matching the URL patterns defined in the extension. |
+| `<all_urls>` | Allow rules to target any site. Rules only run on requests matching the URL targets defined in the extension (localhost is always matched, regardless of a rule's configured URL targets). |
 
 ### Chrome
 
@@ -61,6 +64,8 @@ HeaderTweaker requests the smallest possible set of browser permissions and coll
 | `<all_urls>` (host access) | Allow rules to target any site. `declarativeNetRequestWithHostAccess` only acts on hosts that have been granted access. |
 
 On Chrome, HeaderTweaker deliberately uses `declarativeNetRequestWithHostAccess` instead of the broader `declarativeNetRequest` permission. The declarative approach lets the browser apply rules without the extension inspecting or intercepting request contents.
+
+**Note:** localhost requests (`localhost`, `*.localhost`, `127.0.0.1`, `[::1]`) always receive matching header rules, even if a rule's URL targets don't include localhost. This override applies on both Firefox and Chrome.
 
 ### Privacy commitments
 
