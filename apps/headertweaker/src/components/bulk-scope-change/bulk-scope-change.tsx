@@ -1,11 +1,8 @@
 import type { Dispatch, FC, SetStateAction } from 'react';
 import { Modal, ModalClose, ModalContent, ModalTitle } from '@components/modal/modal';
-import { FinalStep, Step, StepIndicators, StepNavigation, Steps } from '@components/steps/steps';
 import { BulkScopeChangeProvider } from '@contexts/bulk-scope-change.context';
 import { useTranslation } from 'react-i18next';
-import { SaveButton } from './elements/save-button';
-import { SelectHeaders } from './elements/select-headers';
-import { SelectUrls } from './elements/select-urls';
+import { BulkScopeChangeSteps } from './elements/bulk-scope-change-steps';
 
 type BulkScopeChangeProps = {
   showModal: boolean;
@@ -22,16 +19,7 @@ export const BulkScopeChange: FC<BulkScopeChangeProps> = ({ showModal, setShowMo
       <ModalClose onClose={closeModal} />
       <ModalContent>
         <BulkScopeChangeProvider>
-          <Steps>
-            <StepIndicators />
-            <Step title={t('title.scope.steps.headerSelect')}>
-              <SelectHeaders />
-            </Step>
-            <FinalStep title={t('title.scope.steps.scopeSelect')}>
-              <SelectUrls />
-            </FinalStep>
-            <StepNavigation finalPageButton={<SaveButton closeModal={closeModal} />} />
-          </Steps>
+          <BulkScopeChangeSteps closeModal={closeModal} />
         </BulkScopeChangeProvider>
       </ModalContent>
     </Modal>

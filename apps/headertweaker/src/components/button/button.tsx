@@ -7,7 +7,7 @@ import css from './button.module.scss';
 export type ButtonProps = ComponentPropsWithoutRef<'button'> & {
   children: ReactNode;
   loading?: boolean;
-  variant?: 'default' | 'ghost';
+  variant?: 'default' | 'ghost' | 'link';
 };
 
 export const Button: FC<ButtonProps> = ({
@@ -23,6 +23,7 @@ export const Button: FC<ButtonProps> = ({
     <button
       className={classnames(css.root, className, {
         [css.ghost]: variant === 'ghost',
+        [css.link]: variant === 'link',
       })}
       aria-label={ariaLabel}
       disabled={loading || disabled}

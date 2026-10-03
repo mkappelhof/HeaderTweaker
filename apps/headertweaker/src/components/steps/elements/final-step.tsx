@@ -5,6 +5,7 @@ import css from '../steps.module.scss';
 
 export type FinalStepProps = PropsWithChildren<{
   title: string;
+  description?: string;
 }>;
 
 export const FinalStep: FC<FinalStepProps> = ({ title, children }) => {

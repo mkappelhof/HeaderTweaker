@@ -16,14 +16,16 @@ export const Steps: FC<StepsProps> = ({ initialStep = 0, children }) => {
   const [currentStep, setCurrentStep] = useState(initialStep);
 
   const stepTitles: string[] = [];
+  const stepDescriptions: (string | undefined)[] = [];
 
   Children.forEach(children, (child) => {
     if (isValidElement(child)) {
       const displayName = (child.type as FC).displayName;
       if (displayName === 'Step' || displayName === 'FinalStep') {
-        const title = (child.props as { title?: string }).title;
+        const { title, description } = child.props as { title?: string; description?: string };
         if (title) {
           stepTitles.push(title);
+          stepDescriptions.push(description);
         }
       }
     }
@@ -43,6 +45,7 @@ export const Steps: FC<StepsProps> = ({ initialStep = 0, children }) => {
         currentStep,
         totalSteps,
         stepTitles,
+        stepDescriptions,
         onStepChange: handleStepChange,
       }}
     >

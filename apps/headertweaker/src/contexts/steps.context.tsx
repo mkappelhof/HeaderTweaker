@@ -5,6 +5,7 @@ export type StepsContextValue = {
   totalSteps: number;
   onStepChange: (stepIndex: number) => void;
   stepTitles: string[];
+  stepDescriptions: (string | undefined)[];
 };
 
 export const StepsContext = createContext<StepsContextValue | undefined>(undefined);

@@ -1,0 +1,60 @@
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-4;
+}
+
+.headerTable {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-1;
+}
+
+.headerTableHead,
+.headerRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 2fr) minmax(0, 1fr);
+  column-gap: vars.$spacing-core-3;
+  align-items: center;
+  padding: 0 vars.$spacing-core-3;
+}
+
+.headerTableHead { min-height: vars.$spacing-core-8; }
+
+.headerRow {
+  min-height: vars.$spacing-core-12;
+  border-radius: vars.$border-radius-primary;
+  transition: background-color 0.1s ease-in-out;
+
+  &:hover { background-color: rgb(255 255 255 / 4%); }
+
+  &.selected { background-color: rgba(vars.$colors-primary-action, 0.12); }
+}
+
+.headerRowLabel {
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  column-gap: vars.$spacing-core-3;
+  align-items: center;
+  align-self: stretch;
+  cursor: pointer;
+}
+
+.cell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.selectedHeaders {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-2;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: vars.$spacing-core-2;
+}

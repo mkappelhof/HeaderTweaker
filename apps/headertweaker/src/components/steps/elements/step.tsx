@@ -3,7 +3,7 @@ import { useStepsContext } from '@contexts/steps.context';
 
 import css from '../steps.module.scss';
 
-export type StepProps = PropsWithChildren<{ title: string }>;
+export type StepProps = PropsWithChildren<{ title: string; description?: string }>;
 
 export const Step: FC<StepProps> = ({ title, children }) => {
   const { stepTitles, currentStep } = useStepsContext();
