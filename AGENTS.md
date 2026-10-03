@@ -1,11 +1,13 @@
 # HeaderTweaker monorepo
 
-pnpm workspaces + Turborepo. Three packages:
+pnpm workspaces + Turborepo. Four packages:
 
 - **`apps/headertweaker`** — the browser extension (see its own `AGENTS.md` for conventions)
 - **`apps/website`** — the marketing website (see its own `AGENTS.md` for conventions)
 - **`packages/tokens`** — shared SCSS design tokens (`variables.scss`), consumed by both apps via
   `@use 'pkg:headertweaker-tokens' as vars;`
+- **`packages/icons`** (`headertweaker-icons`) — shared Heroicons SVG assets, consumed by both apps
+  via `headertweaker-icons/<size>/<style>/<name>.svg` (e.g. `headertweaker-icons/24/outline/check.svg`)
 
 ## Root scripts
 
@@ -18,6 +20,6 @@ Biome/Stylelint passes, not Turbo tasks.
 
 - Never hardcode colors or spacing — add a token to `packages/tokens/src/variables.scss` if one
   doesn't already exist.
-- Every PR needs a changeset (`pnpm change`) if it touches `apps/headertweaker` — `packages/tokens`
-  and `apps/website` are marked `private` and are never versioned by changesets.
+- Every PR needs a changeset (`pnpm change`) if it touches `apps/headertweaker` — `packages/tokens`,
+  `packages/icons`, and `apps/website` are marked `private` and are never versioned by changesets.
 - Linting/formatting: **Biome** for JS/TS/JSON, **Stylelint** for SCSS — both run in CI.
