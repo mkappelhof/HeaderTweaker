@@ -8,3 +8,6 @@ engine-strict: true
 strict-peer-dependencies: true
 auto-install-peers: true
 dedupe-peer-dependents: true
+
+overrides:
+  "http-cache-semantics": "^4.3.0"
