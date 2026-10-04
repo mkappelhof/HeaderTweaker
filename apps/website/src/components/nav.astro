@@ -1,13 +1,12 @@
 ---
-import logo from "@assets/screenshots/logo.png";
-import { Image } from "astro:assets";
 import GithubLogo from "@assets/icons/github.svg";
+import Logo from "headertweaker-icons/logo.svg";
 ---
 
 <header class="nav">
   <a class="nav__brand" href="#top">
-    <Image src={logo} alt="" width={56} height={36} />
-    <span>HeaderTweaker</span>
+     <Logo width={48} height={48} />
+    <span>Header<span class="brand__accent">Tweaker</span></span>
   </a>
   <button
     type="button"
@@ -110,9 +109,8 @@ import GithubLogo from "@assets/icons/github.svg";
     letter-spacing: -0.02em;
   }
 
-  .nav__brand :global(img) {
-    width: 56px;
-    height: 36px;
+  .brand__accent {
+    color: vars.$colors-primary-action;
   }
 
   .nav__toggle {

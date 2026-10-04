@@ -5,6 +5,10 @@
   "description": "Lightweight browser extension that lets you easily modify outgoing HTTP headers",
   "permissions": ["storage", "declarativeNetRequestWithHostAccess"],
   "host_permissions": ["<all_urls>"],
+  "icons": {
+    "32": "icon.svg",
+    "64": "icon.svg"
+  },
   "background": {
     "service_worker": "js/background.js",
     "type": "module"
@@ -12,7 +16,7 @@
   "action": {
     "default_popup": "headertweaker.html",
     "default_icon": {
-      "48": "icon.png"
+      "48": "icon.svg"
     }
   }
 }

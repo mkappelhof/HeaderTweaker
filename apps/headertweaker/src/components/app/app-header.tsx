@@ -12,6 +12,7 @@ import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
 import CursorArrowRippleIcon from 'headertweaker-icons/16/solid/cursor-arrow-ripple.svg?react';
 import Cog6ToothIcon from 'headertweaker-icons/24/solid/cog-6-tooth.svg?react';
+import Logo from 'headertweaker-icons/logo.svg?react';
 import { useTranslation } from 'react-i18next';
 import packageJson from '../../../package.json';
 
@@ -33,6 +34,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
       <header className={css.header}>
         <div className={css.main}>
           <div className={css.headerItems}>
+            <Logo width={32} height={32} />
             <Text variant="h1">
               <span className={css.headerName}>Header</span>
               <span className={css.tweakerName}>Tweaker</span>

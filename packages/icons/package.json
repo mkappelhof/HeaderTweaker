@@ -7,7 +7,8 @@
   "exports": {
     "./24/solid/*.svg": "./src/24/solid/*.svg",
     "./24/outline/*.svg": "./src/24/outline/*.svg",
-    "./16/solid/*.svg": "./src/16/solid/*.svg"
+    "./16/solid/*.svg": "./src/16/solid/*.svg",
+    "./logo.svg": "./src/logo.svg"
   },
   "files": ["src"],
   "peerDependencies": {
