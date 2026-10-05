@@ -1,0 +1,117 @@
+---
+import BrowserComparison from '@components/browser-comparison.astro';
+import CtaBand from '@components/cta-band.astro';
+import FeatureRow from '@components/feature-row.astro';
+import Footer from '@components/footer.astro';
+import Hero from '@components/hero.astro';
+import HowItWorks from '@components/how-it-works.astro';
+import Nav from '@components/nav.astro';
+import PermissionsTable from '@components/permissions-table.astro';
+import { FEATURES } from '@data/features';
+import BaseLayout from '@layouts/base-layout.astro';
+---
+
+<BaseLayout
+  title="HeaderTweaker — modify outgoing HTTP headers in Firefox & Chrome"
+  description="HeaderTweaker is a free, open-source browser extension that lets you add and change outgoing HTTP request headers, globally or per URL. No tracking, no telemetry, MIT licensed."
+>
+  <Nav />
+  <main id="main">
+    <Hero />
+
+    <section id="features" class="features">
+      <div class="features__heading">
+        <div class="features__heading-copy">
+          <span class="features__eyebrow">01 / FEATURES</span>
+          <h2 class="features__title">For developers, testers, designers and/or power‑users</h2>
+        </div>
+        <p class="features__lede">
+          Whether you need to communicate with APIs that require authentication tokens, run A/B
+          tests, simulate different browsers or debug CORS issues, this lightweight extension gives
+          you full control over the outgoing headers without touching server code.
+        </p>
+      </div>
+      <div class="features__list">
+        {FEATURES.map((feature) => <FeatureRow {...feature} />)}
+      </div>
+    </section>
+
+    <HowItWorks />
+    <PermissionsTable />
+    <BrowserComparison />
+    <CtaBand />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style lang="scss">
+  .features {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-24;
+    padding: vars.$spacing-core-28 vars.$spacing-core-30;
+    background: vars.$colors-surface-sunken;
+    border-top: 1px solid vars.$colors-border-subtle;
+    border-bottom: 1px solid vars.$colors-border-subtle;
+
+    @media (max-width: 900px) {
+      padding: vars.$spacing-core-14 vars.$spacing-core-5;
+      gap: vars.$spacing-core-14;
+    }
+  }
+
+  .features__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: vars.$spacing-core-12;
+
+    @media (max-width: 900px) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  .features__heading-copy {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-4;
+  }
+
+  .features__eyebrow {
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
+    font-size: 14px;
+    color: rgba(vars.$colors-primary-action, .75);
+    letter-spacing: 0.04em;
+  }
+
+  .features__title {
+    max-width: 720px;
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+
+    @media (max-width: 900px) {
+      font-size: 32px;
+    }
+  }
+
+  .features__lede {
+    max-width: 380px;
+    font-size: 17px;
+    line-height: 1.6;
+    // color: #b4b7c9;
+    color: vars.$colors-tertiary-foreground;
+  }
+
+  .features__list {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-24;
+
+    @media (max-width: 900px) {
+      gap: vars.$spacing-core-14;
+    }
+  }
+</style>

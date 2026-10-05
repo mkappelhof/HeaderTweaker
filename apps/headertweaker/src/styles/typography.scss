@@ -1,0 +1,17 @@
+@use 'pkg:headertweaker-tokens' as vars;
+
+html, 
+body {
+  font-family: 'Inter Variable', Inter, sans-serif;
+  font-weight: 400;
+  font-size: 100%;
+  line-height: 1.5;
+  color: vars.$colors-primary-foreground;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
+

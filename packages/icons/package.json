@@ -1,0 +1,22 @@
+{
+  "name": "headertweaker-icons",
+  "version": "0.0.0",
+  "description": "Shared heroicons SVG assets for the HeaderTweaker extension and website",
+  "license": "MIT",
+  "private": true,
+  "exports": {
+    "./24/solid/*.svg": "./src/24/solid/*.svg",
+    "./24/outline/*.svg": "./src/24/outline/*.svg",
+    "./16/solid/*.svg": "./src/16/solid/*.svg",
+    "./logo.svg": "./src/logo.svg"
+  },
+  "files": ["src"],
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}

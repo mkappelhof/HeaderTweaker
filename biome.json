@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.15/schema.json",
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
@@ -9,8 +9,12 @@
       "**/*.tsx",
       "**/*.json",
       "**/*.html",
+      "**/*.astro",
       "!**/.vscode",
-      "!**/dist"
+      "!**/dist",
+      "!**/.astro",
+      "!**/.vercel",
+      "!**/.turbo"
     ]
   },
   "formatter": {
@@ -42,7 +46,10 @@
       "bracketSpacing": true
     }
   },
-  "html": { "formatter": { "selfCloseVoidElements": "always" } },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": { "enabled": true, "selfCloseVoidElements": "always" }
+  },
   "assist": {
     "enabled": true,
     "actions": {

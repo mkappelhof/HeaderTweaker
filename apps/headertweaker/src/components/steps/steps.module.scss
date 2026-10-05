@@ -1,0 +1,126 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-4;
+  height: 100%;
+}
+
+.indicators {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-core-3;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.indicatorItem {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.line {
+  flex: 1;
+  min-width: vars.$spacing-core-6;
+  height: vars.$spacing-core-05;
+  border-radius: vars.$spacing-core-025;
+  background: vars.$colors-primary-action-disabled;
+  transition: background-color 0.2s ease;
+
+  &.completed { background: vars.$colors-primary-action; }
+}
+
+.indicator {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-core-3;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:disabled { cursor: default; }
+}
+
+.indicatorNumber {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: vars.$spacing-core-8;
+  height: vars.$spacing-core-8;
+  border-radius: 50%;
+  border: vars.$spacing-core-05 solid transparent;
+  background: vars.$colors-primary-action-disabled;
+  color: vars.$colors-tertiary-foreground;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+
+  svg {
+    width: vars.$spacing-core-4;
+    height: vars.$spacing-core-4;
+  }
+}
+
+.indicatorText {
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-core-05;
+}
+
+.indicatorTitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: vars.$colors-tertiary-foreground;
+  transition: color 0.2s ease;
+}
+
+.indicatorDescription {
+  font-size: 0.75rem;
+  line-height: 1.2;
+  color: vars.$colors-tertiary-foreground;
+}
+
+.indicator.active {
+  .indicatorNumber {
+    border-color: vars.$colors-primary-action;
+    color: vars.$colors-primary-foreground;
+  }
+
+  .indicatorTitle { color: vars.$colors-primary-foreground; }
+}
+
+.indicator.completed {
+  .indicatorNumber {
+    background: vars.$colors-primary-action;
+    color: vars.$colors-primary-foreground;
+  }
+
+  .indicatorTitle { color: vars.$colors-primary-foreground; }
+
+  &:hover .indicatorNumber { background: vars.$colors-primary-action-hover; }
+}
+
+.content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-core-2;
+}
+
+.navigationEnd {
+  display: flex;
+  justify-content: flex-end;
+  flex: 1;
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "globalDependencies": ["tsconfig.base.json", "pnpm-lock.yaml"],
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**"]
+    },
+    "build:all": {
+      "outputs": ["dist/**"]
+    },
+    "build:firefox": {
+      "outputs": ["dist/firefox/**"]
+    },
+    "build:chrome": {
+      "outputs": ["dist/chrome/**"]
+    },
+    "check-types": {
+      "outputs": []
+    },
+    "test": {
+      "outputs": []
+    },
+    "clean": {
+      "cache": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:firefox": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:firefox:console": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:chrome": {
+      "cache": false,
+      "persistent": true
+    },
+    "dev:chrome:console": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

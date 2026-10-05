@@ -3,3 +3,6 @@ dist
 node_modules
 web-ext-artifacts
 .env
+.astro
+.vercel
+.turbo

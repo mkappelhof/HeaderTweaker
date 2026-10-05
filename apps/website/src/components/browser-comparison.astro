@@ -1,0 +1,157 @@
+---
+const browsers = [
+  {
+    name: 'Firefox',
+    api: 'webRequest',
+    description: 'Headers are modified on outgoing requests before they’re sent.',
+  },
+  {
+    name: 'Chrome',
+    api: 'declarativeNetRequest',
+    description:
+      'The browser applies the rules itself — the extension never reads or intercepts your requests.',
+  },
+];
+---
+
+<section class="browsers">
+  <div class="browsers__heading">
+    <span class="browsers__eyebrow">04 / CROSS-BROWSER</span>
+    <h2 class="browsers__title">Built on each browser’s native API</h2>
+    <p class="browsers__lede">
+      One codebase, using whichever API each browser exposes for modifying requests.
+    </p>
+  </div>
+  <table class="browsers__table">
+    <caption class="visually-hidden">
+      Browser support comparison
+    </caption>
+    <thead>
+      <tr>
+        <th scope="col"><span class="visually-hidden">Browser</span></th>
+        <th scope="col">API used</th>
+        <th scope="col">How it works</th>
+      </tr>
+    </thead>
+    <tbody>
+      {browsers.map((browser) => (
+        <tr>
+          <th scope="row">{browser.name}</th>
+          <td>
+            <code class="browsers__api">{browser.api}</code>
+          </td>
+          <td>{browser.description}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</section>
+
+<style lang="scss">
+  .browsers {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-12;
+    padding: vars.$spacing-core-30 vars.$spacing-core-30 vars.$spacing-core-26;
+
+    @media (max-width: 900px) {
+      padding: vars.$spacing-core-14 vars.$spacing-core-5;
+    }
+  }
+
+  .browsers__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: vars.$spacing-core-4;
+    text-align: center;
+  }
+
+  .browsers__eyebrow {
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
+    font-size: 14px;
+    color: #b78bff;
+    letter-spacing: 0.04em;
+  }
+
+  .browsers__title {
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+
+    @media (max-width: 900px) {
+      font-size: 32px;
+    }
+  }
+
+  .browsers__lede {
+    max-width: 600px;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #b4b7c9;
+  }
+
+  .browsers__table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 vars.$spacing-core-5;
+
+    th,
+    td {
+      text-align: left;
+      vertical-align: top;
+      padding: vars.$spacing-core-8;
+    }
+
+    tbody tr {
+      background: vars.$colors-surface-raised;
+      border: 1px solid vars.$colors-border-subtle;
+    }
+
+    tbody th {
+      font-weight: 700;
+      font-size: 32px;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    tbody td {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #b4b7c9;
+    }
+
+    @media (max-width: 900px) {
+      display: block;
+
+      thead {
+        display: none;
+      }
+
+      tbody,
+      tr {
+        display: block;
+      }
+
+      td,
+      th {
+        display: block;
+        padding: vars.$spacing-core-2 vars.$spacing-core-6;
+      }
+
+      tr {
+        padding: vars.$spacing-core-4 0 vars.$spacing-core-6;
+      }
+    }
+  }
+
+  .browsers__api {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: vars.$border-radius-small;
+    background: vars.$colors-primary-action-disabled;
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
+    font-size: 14px;
+  }
+</style>
