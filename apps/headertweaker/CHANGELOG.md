@@ -1,5 +1,19 @@
 # HeaderTweaker
 
+## 1.6.0
+
+### Minor Changes
+
+- 74d89f8: changes:
+  
+  ## New features
+  - Restructure to monorepo
+  - Add website for headertweaker.com
+  
+  ## Improvements
+  - Update logo
+  - Redesign the bulk URL target change flow with a new stepper, a selectable header list and a summary of the selected headers
+
 ## 1.5.0
 
 ### Minor Changes
