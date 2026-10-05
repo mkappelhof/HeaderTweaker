@@ -1,5 +1,5 @@
 ---
-import { PERMISSIONS } from "@data/permissions";
+import { PERMISSIONS } from '@data/permissions';
 ---
 
 <section id="privacy" class="privacy">
@@ -7,9 +7,8 @@ import { PERMISSIONS } from "@data/permissions";
     <span class="privacy__eyebrow">03 / PRIVACY</span>
     <h2 class="privacy__title">All your base are belong to you</h2>
     <p class="privacy__lede">
-      HeaderTweaker asks for the smallest set of permissions and
-      collects no data whatsoever. Configuration only leaves the browser when
-      you export it yourself. Period.
+      HeaderTweaker asks for the smallest set of permissions and collects no data whatsoever.
+      Configuration only leaves the browser when you export it yourself. Period.
     </p>
     <ul class="privacy__points">
       <li>No tracking, telemetry or analytics</li>
@@ -19,9 +18,9 @@ import { PERMISSIONS } from "@data/permissions";
   </div>
   <div class="privacy__table-wrapper">
     <table class="privacy__table">
-      <caption class="visually-hidden"
-        >Permissions HeaderTweaker requests and why</caption
-      >
+      <caption class="visually-hidden">
+        Permissions HeaderTweaker requests and why
+      </caption>
       <thead>
         <tr>
           <th scope="col">Permission</th>
@@ -29,19 +28,15 @@ import { PERMISSIONS } from "@data/permissions";
         </tr>
       </thead>
       <tbody>
-        {
-          PERMISSIONS.map((permission) => (
-            <tr>
-              <th scope="row">
-                <span class="privacy__permission-name">{permission.name}</span>
-                <span class="privacy__permission-where">
-                  {permission.where}
-                </span>
-              </th>
-              <td>{permission.why}</td>
-            </tr>
-          ))
-        }
+        {PERMISSIONS.map((permission) => (
+          <tr>
+            <th scope="row">
+              <span class="privacy__permission-name">{permission.name}</span>
+              <span class="privacy__permission-where">{permission.where}</span>
+            </th>
+            <td>{permission.why}</td>
+          </tr>
+        ))}
       </tbody>
     </table>
   </div>

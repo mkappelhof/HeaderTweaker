@@ -1,14 +1,14 @@
 ---
-import BrowserComparison from "@components/browser-comparison.astro";
-import CtaBand from "@components/cta-band.astro";
-import FeatureRow from "@components/feature-row.astro";
-import Footer from "@components/footer.astro";
-import Hero from "@components/hero.astro";
-import HowItWorks from "@components/how-it-works.astro";
-import Nav from "@components/nav.astro";
-import PermissionsTable from "@components/permissions-table.astro";
-import { FEATURES } from "@data/features";
-import BaseLayout from "@layouts/base-layout.astro";
+import BrowserComparison from '@components/browser-comparison.astro';
+import CtaBand from '@components/cta-band.astro';
+import FeatureRow from '@components/feature-row.astro';
+import Footer from '@components/footer.astro';
+import Hero from '@components/hero.astro';
+import HowItWorks from '@components/how-it-works.astro';
+import Nav from '@components/nav.astro';
+import PermissionsTable from '@components/permissions-table.astro';
+import { FEATURES } from '@data/features';
+import BaseLayout from '@layouts/base-layout.astro';
 ---
 
 <BaseLayout
@@ -23,15 +23,12 @@ import BaseLayout from "@layouts/base-layout.astro";
       <div class="features__heading">
         <div class="features__heading-copy">
           <span class="features__eyebrow">01 / FEATURES</span>
-          <h2 class="features__title">
-            For developers, testers, designers and/or power‑users
-          </h2>
+          <h2 class="features__title">For developers, testers, designers and/or power‑users</h2>
         </div>
         <p class="features__lede">
-          Whether you need to communicate with APIs that require authentication
-          tokens, run A/B tests, simulate different browsers or debug CORS
-          issues, this lightweight extension gives you full control over the
-          outgoing headers without touching server code.
+          Whether you need to communicate with APIs that require authentication tokens, run A/B
+          tests, simulate different browsers or debug CORS issues, this lightweight extension gives
+          you full control over the outgoing headers without touching server code.
         </p>
       </div>
       <div class="features__list">
@@ -84,7 +81,7 @@ import BaseLayout from "@layouts/base-layout.astro";
   .features__eyebrow {
     font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
     font-size: 14px;
-    color: #b78bff;
+    color: rgba(vars.$colors-primary-action, .75);
     letter-spacing: 0.04em;
   }
 
@@ -104,7 +101,8 @@ import BaseLayout from "@layouts/base-layout.astro";
     max-width: 380px;
     font-size: 17px;
     line-height: 1.6;
-    color: #b4b7c9;
+    // color: #b4b7c9;
+    color: vars.$colors-tertiary-foreground;
   }
 
   .features__list {

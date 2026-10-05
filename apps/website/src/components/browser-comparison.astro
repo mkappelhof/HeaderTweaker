@@ -1,18 +1,15 @@
 ---
-import { EXTENSION_META } from "@data/extension-meta";
-
 const browsers = [
   {
-    name: "Firefox",
-    api: "webRequest",
-    description:
-      "Headers are modified on outgoing requests before they’re sent.",
+    name: 'Firefox',
+    api: 'webRequest',
+    description: 'Headers are modified on outgoing requests before they’re sent.',
   },
   {
-    name: "Chrome",
-    api: "declarativeNetRequest",
+    name: 'Chrome',
+    api: 'declarativeNetRequest',
     description:
-      "The browser applies the rules itself — the extension never reads or intercepts your requests.",
+      'The browser applies the rules itself — the extension never reads or intercepts your requests.',
   },
 ];
 ---
@@ -22,12 +19,13 @@ const browsers = [
     <span class="browsers__eyebrow">04 / CROSS-BROWSER</span>
     <h2 class="browsers__title">Built on each browser’s native API</h2>
     <p class="browsers__lede">
-      One codebase, using whichever API each browser exposes for modifying
-      requests.
+      One codebase, using whichever API each browser exposes for modifying requests.
     </p>
   </div>
   <table class="browsers__table">
-    <caption class="visually-hidden">Browser support comparison</caption>
+    <caption class="visually-hidden">
+      Browser support comparison
+    </caption>
     <thead>
       <tr>
         <th scope="col"><span class="visually-hidden">Browser</span></th>
@@ -36,17 +34,15 @@ const browsers = [
       </tr>
     </thead>
     <tbody>
-      {
-        browsers.map((browser) => (
-          <tr>
-            <th scope="row">{browser.name}</th>
-            <td>
-              <code class="browsers__api">{browser.api}</code>
-            </td>
-            <td>{browser.description}</td>
-          </tr>
-        ))
-      }
+      {browsers.map((browser) => (
+        <tr>
+          <th scope="row">{browser.name}</th>
+          <td>
+            <code class="browsers__api">{browser.api}</code>
+          </td>
+          <td>{browser.description}</td>
+        </tr>
+      ))}
     </tbody>
   </table>
 </section>

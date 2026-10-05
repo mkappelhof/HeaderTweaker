@@ -9,6 +9,7 @@
       "**/*.tsx",
       "**/*.json",
       "**/*.html",
+      "**/*.astro",
       "!**/.vscode",
       "!**/dist",
       "!**/.astro",
@@ -45,7 +46,10 @@
       "bracketSpacing": true
     }
   },
-  "html": { "formatter": { "selfCloseVoidElements": "always" } },
+  "html": {
+    "experimentalFullSupportEnabled": true,
+    "formatter": { "enabled": true, "selfCloseVoidElements": "always" }
+  },
   "assist": {
     "enabled": true,
     "actions": {

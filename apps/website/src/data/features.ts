@@ -10,7 +10,7 @@ export type Feature = {
 export const FEATURES: Feature[] = [
   {
     eyebrow: 'Header details',
-    title: 'Add a header and choose which URLs it applies to',
+    title: 'Update header details when you need to',
     description:
       'Every header gets a key, a value and an optional label. Leave it global, or scope it to as many target URLs as you need — including the page you’re on right now.',
     image: 'edit-header.png',
@@ -21,7 +21,7 @@ export const FEATURES: Feature[] = [
     eyebrow: 'Bulk URL targets',
     title: 'Change the URL targets for several headers at once',
     description:
-      'Prevent your headers from being applied to every request you make, target multiple headers at once to specific URLs.',
+      'Prevent your headers from being applied to every request you make by targeting multiple headers at once to specific URLs.',
     image: 'bulk-url-targets.png',
     alt: 'The Bulk URL target change dialog, step 1: three of four headers selected',
     reverse: true,

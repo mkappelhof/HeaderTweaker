@@ -1,6 +1,6 @@
 ---
-import type { Feature } from '@data/features';
 import { Image } from 'astro:assets';
+import type { Feature } from '@data/features';
 
 const images = import.meta.glob<{ default: ImageMetadata }>('@assets/screenshots/*.png', {
   eager: true,
@@ -14,16 +14,14 @@ const imageModule = images[`/src/assets/screenshots/${image}`];
 
 <div class:list={['feature', { 'feature--reverse': reverse }]}>
   <div class="feature__media">
-    {
-      imageModule && (
-        <Image
-          src={imageModule.default}
-          alt={alt}
-          widths={[480, 800]}
-          sizes="(max-width: 900px) 100vw, 640px"
-        />
-      )
-    }
+    {imageModule && (
+      <Image
+        src={imageModule.default}
+        alt={alt}
+        widths={[480, 800]}
+        sizes="(max-width: 900px) 100vw, 640px"
+      />
+    )}
   </div>
   <div class="feature__copy">
     <span class="feature__eyebrow">{eyebrow}</span>

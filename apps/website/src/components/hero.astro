@@ -1,21 +1,22 @@
 ---
-import popup from "@assets/screenshots/overview.png";
-import { EXTENSION_META } from "@data/extension-meta";
-import { Image } from "astro:assets";
-import FirefoxLogo from "@assets/icons/firefox.svg";
-import ChromeLogo from "@assets/icons/chrome.svg";
-import Check from "headertweaker-icons/24/outline/check.svg";
+import { Image } from 'astro:assets';
+import popup from '@assets/screenshots/overview.png';
+import { EXTENSION_META } from '@data/extension-meta';
+
+import ChromeLogo from '@assets/icons/chrome.svg';
+import FirefoxLogo from '@assets/icons/firefox.svg';
+import Check from 'headertweaker-icons/24/outline/check.svg';
 ---
 
 <section id="top" class="hero">
   <div class="hero__copy">
     <h1 class="hero__title">
-      <span class="hero__accent">Easily</span> modify outgoing HTTP headers
+      <span class="hero__accent">Easily</span>
+      <span>modify outgoing HTTP headers</span>
     </h1>
     <p class="hero__lede">
-      Tweak headers globally or for specific URLs. Not fully vibe-coded, but
-      thoughtfully designed & built (with AI support). No shenanigans, all
-      local, free & open source. Forever.
+      Tweak headers globally or for specific URLs so you never send more than intended. No
+      shenanigans, all local, free & open source. Forever.
     </p>
     <div class="hero__actions">
       <a class="button button--primary" href={EXTENSION_META.firefoxUrl}>
@@ -97,6 +98,7 @@ import Check from "headertweaker-icons/24/outline/check.svg";
 
   .hero__accent {
     color: vars.$colors-primary-action;
+    padding-right: vars.$spacing-core-2;
   }
 
   .hero__lede {

@@ -64,8 +64,8 @@ export default defineConfig({
     emptyOutDir: !IS_WATCH,
     rollupOptions: {
       input: {
-        headertweaker: 'src/headertweaker.tsx',
-        background: 'src/background.ts',
+        headertweaker: './src/headertweaker.tsx',
+        background: './src/background.ts',
       },
       output: {
         entryFileNames: (chunk) => {

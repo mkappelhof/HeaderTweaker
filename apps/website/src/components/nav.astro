@@ -1,11 +1,11 @@
 ---
-import GithubLogo from "@assets/icons/github.svg";
-import Logo from "headertweaker-icons/logo.svg";
+import GithubLogo from '@assets/icons/github.svg';
+import Logo from 'headertweaker-icons/logo.svg';
 ---
 
 <header class="nav">
   <a class="nav__brand" href="#top">
-     <Logo width={48} height={48} />
+    <Logo width={48} height={48} />
     <span>Header<span class="brand__accent">Tweaker</span></span>
   </a>
   <button
@@ -42,47 +42,46 @@ import Logo from "headertweaker-icons/logo.svg";
 </header>
 
 <script>
-  const toggle = document.getElementById("nav-toggle");
-  const links = document.getElementById("primary-nav");
+const toggle = document.getElementById('nav-toggle');
+const links = document.getElementById('primary-nav');
 
-  toggle?.addEventListener("click", () => {
-    const isOpen = links?.classList.toggle("nav__links--open");
-    toggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+toggle?.addEventListener('click', () => {
+  const isOpen = links?.classList.toggle('nav__links--open');
+  toggle.setAttribute('aria-expanded', String(Boolean(isOpen)));
+});
+
+links?.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('click', () => {
+    links.classList.remove('nav__links--open');
+    toggle?.setAttribute('aria-expanded', 'false');
   });
+});
 
-  links?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      links.classList.remove("nav__links--open");
-      toggle?.setAttribute("aria-expanded", "false");
-    });
-  });
+const indicator = links?.querySelector<HTMLElement>('.nav__indicator');
 
-  const indicator = links?.querySelector<HTMLElement>(".nav__indicator");
+const moveIndicator = (link: HTMLAnchorElement) => {
+  if (!indicator) return;
 
-  const moveIndicator = (link: HTMLAnchorElement) => {
-    if (!indicator) return;
+  const isVisible = indicator.classList.contains('nav__indicator--visible');
+  indicator.classList.toggle('nav__indicator--instant', !isVisible);
+  indicator.style.transform = `translateX(${link.offsetLeft}px)`;
+  indicator.style.width = `${link.offsetWidth}px`;
+  indicator.getBoundingClientRect();
+  indicator.classList.remove('nav__indicator--instant');
+  indicator.classList.add('nav__indicator--visible');
+};
 
-    const isVisible = indicator.classList.contains("nav__indicator--visible");
-    indicator.classList.toggle("nav__indicator--instant", !isVisible);
-    indicator.style.transform = `translateX(${link.offsetLeft}px)`;
-    indicator.style.width = `${link.offsetWidth}px`;
-    indicator.getBoundingClientRect();
-    indicator.classList.remove("nav__indicator--instant");
-    indicator.classList.add("nav__indicator--visible");
-  };
+const hideIndicator = () => indicator?.classList.remove('nav__indicator--visible');
 
-  const hideIndicator = () =>
-    indicator?.classList.remove("nav__indicator--visible");
+links?.querySelectorAll('a').forEach((link) => {
+  link.addEventListener('pointerenter', () => moveIndicator(link));
+  link.addEventListener('focus', () => moveIndicator(link));
+});
 
-  links?.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("pointerenter", () => moveIndicator(link));
-    link.addEventListener("focus", () => moveIndicator(link));
-  });
-
-  links?.addEventListener("pointerleave", hideIndicator);
-  links?.addEventListener("focusout", (event) => {
-    if (!links.contains(event.relatedTarget as Node | null)) hideIndicator();
-  });
+links?.addEventListener('pointerleave', hideIndicator);
+links?.addEventListener('focusout', (event) => {
+  if (!links.contains(event.relatedTarget as Node | null)) hideIndicator();
+});
 </script>
 
 <style lang="scss">

@@ -1,21 +1,19 @@
 ---
-import RequestPanelMock from "@components/request-panel-mock.astro";
+import RequestPanelMock from '@components/request-panel-mock.astro';
 
 const steps = [
   {
-    title: "Add a header",
-    description:
-      "Enter a key and a value, and optionally a label so you remember why it’s there.",
+    title: 'Add a header',
+    description: 'Enter a key and a value, and optionally a label so you remember why it’s there.',
   },
   {
-    title: "Set a target",
-    description:
-      "Leave it global, or target it to a specific URL.",
+    title: 'Set a target',
+    description: 'Leave it global, or target it to a specific URL.',
   },
   {
-    title: "Browse as usual",
+    title: 'Browse as usual',
     description:
-      "Matching requests leave your browser with the headers applied. Whenever you’re done toggle it off or remove it completely.",
+      'Matching requests leave your browser with the headers applied. Whenever you’re done toggle it off or remove it completely.',
   },
 ];
 ---
@@ -27,17 +25,15 @@ const steps = [
       <h2 class="how__title">Set it up once, then browse as usual</h2>
     </div>
     <ol class="how__steps">
-      {
-        steps.map((step, index) => (
-          <li class="how__step">
-            <span class="how__step-index">{index + 1}</span>
-            <div>
-              <h3 class="how__step-title">{step.title}</h3>
-              <p class="how__step-description">{step.description}</p>
-            </div>
-          </li>
-        ))
-      }
+      {steps.map((step, index) => (
+        <li class="how__step">
+          <span class="how__step-index">{index + 1}</span>
+          <div>
+            <h3 class="how__step-title">{step.title}</h3>
+            <p class="how__step-description">{step.description}</p>
+          </div>
+        </li>
+      ))}
     </ol>
   </div>
   <RequestPanelMock />
