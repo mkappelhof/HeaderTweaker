@@ -63,6 +63,12 @@ export default defineConfig({
     outDir: `../dist/${BROWSER}`,
     emptyOutDir: !IS_WATCH,
     rollupOptions: {
+      // Suppress warnings coming from dependencies we don't control (e.g. "use no memo" directive).
+      onwarn(warning, warn) {
+        if (warning.id?.includes('node_modules') || warning.message.includes('node_modules'))
+          return;
+        warn(warning);
+      },
       input: {
         headertweaker: './src/headertweaker.tsx',
         background: './src/background.ts',
