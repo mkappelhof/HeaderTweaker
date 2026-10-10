@@ -9,6 +9,9 @@ on:
 permissions:
   contents: write
 
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -78,16 +81,26 @@ jobs:
           git commit -m "Version Packages v${{ steps.get_version.outputs.version }}"
           git push
 
-      - name: Build Firefox extension
+      - name: Check if extension version changed
         if: steps.check_changesets.outputs.has_changesets == 'true'
+        id: check_extension
+        run: |
+          if git diff --quiet HEAD~1 HEAD -- apps/headertweaker/package.json; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Build Firefox extension
+        if: steps.check_extension.outputs.changed == 'true'
         run: pnpm run build:firefox
 
       - name: Build Chrome extension
-        if: steps.check_changesets.outputs.has_changesets == 'true'
+        if: steps.check_extension.outputs.changed == 'true'
         run: pnpm run build:chrome
 
       - name: Package Firefox extension
-        if: steps.check_changesets.outputs.has_changesets == 'true'
+        if: steps.check_extension.outputs.changed == 'true'
         working-directory: apps/headertweaker
         run: |
           pnpm exec web-ext build --source-dir=dist/firefox --artifacts-dir=web-ext-artifacts/firefox
@@ -95,7 +108,7 @@ jobs:
           mv "$ZIP" "web-ext-artifacts/headertweaker-firefox-${{ steps.get_version.outputs.version }}.zip"
 
       - name: Package Chrome extension
-        if: steps.check_changesets.outputs.has_changesets == 'true'
+        if: steps.check_extension.outputs.changed == 'true'
         working-directory: apps/headertweaker
         run: |
           pnpm exec web-ext build --source-dir=dist/chrome --artifacts-dir=web-ext-artifacts/chrome
@@ -103,7 +116,7 @@ jobs:
           mv "$ZIP" "web-ext-artifacts/headertweaker-chromium-${{ steps.get_version.outputs.version }}.zip"
 
       - name: Create GitHub Release
-        if: steps.check_changesets.outputs.has_changesets == 'true'
+        if: steps.check_extension.outputs.changed == 'true'
         uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.get_version.outputs.version }}
