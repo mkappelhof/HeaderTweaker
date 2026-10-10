@@ -1,0 +1,69 @@
+name: Add Dependabot Changeset
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  changeset:
+    name: Add changeset
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v7
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/head
+          fetch-depth: 0
+
+      # Only apps/headertweaker is ever versioned/released via changesets
+      # (see AGENTS.md) - packages/tokens, packages/icons, and apps/website
+      # are private and intentionally never get one. So only create a
+      # changeset when a Dependabot PR touches apps/headertweaker's
+      # package.json; every other dependabot PR correctly gets none.
+      - name: Check whether apps/headertweaker changed
+        id: packages
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          set -euo pipefail
+          git fetch origin "$BASE_REF"
+          if git diff --name-only "origin/$BASE_REF...HEAD" -- apps/headertweaker/package.json | grep -q .; then
+            echo "affected=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "affected=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Write changeset
+        if: steps.packages.outputs.affected == 'true'
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          {
+            echo "---"
+            echo '"headertweaker": patch'
+            echo "---"
+            echo
+            echo "$TITLE"
+          } > ".changeset/dependabot-pr-${{ github.event.pull_request.number }}.md"
+
+      # Overwriting with identical content keeps this idempotent: our own push
+      # below triggers a new `synchronize` event, and that re-run must see no
+      # diff and do nothing, or it would push forever.
+      - name: Commit and push changeset
+        if: steps.packages.outputs.affected == 'true'
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .changeset
+          if git diff --cached --quiet; then
+            echo "Changeset already up to date, nothing to push"
+          else
+            git commit -m "Add changeset for dependency update"
+            git push origin HEAD:"$HEAD_REF"
+          fi

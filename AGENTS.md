@@ -23,3 +23,7 @@ Biome/Stylelint passes, not Turbo tasks.
 - Every PR needs a changeset (`pnpm change`) if it touches `apps/headertweaker` — `packages/tokens`,
   `packages/icons`, and `apps/website` are marked `private` and are never versioned by changesets.
 - Linting/formatting: **Biome** for JS/TS/JSON, **Stylelint** for SCSS — both run in CI.
+- Never run `git commit` (or `git commit --amend`) yourself, and never create a branch yourself.
+  `master` is protected and does not allow direct commits. Leave changes as uncommitted/staged
+  working-tree edits on whatever branch is currently checked out, and let the user create the
+  branch, commit, push, and open the PR themselves.
