@@ -18,7 +18,7 @@
     "react": "19.3.0",
     "react-compiler-runtime": "1.0.0",
     "react-dom": "19.3.0",
-    "react-i18next": "^17.0.15",
+    "react-i18next": "^17.0.16",
     "tldts": "^7.4.16",
     "uuid": "14.0.2"
   },
