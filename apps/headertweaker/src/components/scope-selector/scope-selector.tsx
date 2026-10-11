@@ -16,10 +16,11 @@ import css from './scope-selector.module.scss';
 
 export type ScopeSelectorProps = {
   urls: string[];
+  selectedHeaders: number;
   onChange: (urls: string[]) => void;
 };
 
-export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, onChange }) => {
+export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, selectedHeaders, onChange }) => {
   const { t } = useTranslation();
   const { headers } = useHeaderTweakerContext();
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
@@ -57,9 +58,7 @@ export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, onChange }) => {
 
   return (
     <div className={css.root}>
-      <Text as="span" variant="body-small">
-        {t('label.scope.selector')}
-      </Text>
+      <Text variant="body-small">{t('label.scope.selector', { count: selectedHeaders })}</Text>
 
       {urls.map((url, index) => {
         const options = getOptions(index);

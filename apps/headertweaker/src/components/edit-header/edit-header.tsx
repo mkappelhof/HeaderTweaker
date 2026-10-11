@@ -87,6 +87,7 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
       />
 
       <ScopeSelector
+        selectedHeaders={1}
         urls={header.urls ?? []}
         onChange={(urls) => setHeader((prev) => prev && { ...prev, urls })}
       />

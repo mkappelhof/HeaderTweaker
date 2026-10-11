@@ -32,6 +32,7 @@ export const SelectUrls = () => {
       </div>
       <ScopeSelector
         urls={urls}
+        selectedHeaders={selectedHeaders.length}
         onChange={(updatedUrls) =>
           setPendingHeaders((currentHeaders) =>
             Object.fromEntries(Object.keys(currentHeaders).map((id) => [id, updatedUrls]))

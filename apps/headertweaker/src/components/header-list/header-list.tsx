@@ -15,6 +15,7 @@ import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.hel
 import { getScopeErrorMessageKey } from '@helpers/scope/get-scoped-error.helper';
 import classnames from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { getDomain } from 'tldts';
 
 import css from './header-list.module.scss';
 
@@ -227,7 +228,7 @@ export const HeaderList: FC<HeaderListProps> = () => {
                             {t('label.scope.target', { count: group.urls.length })}
                           </Text>
                           {group.urls.map((url) => (
-                            <Pill key={`header-group-pill-${url}`}>{url}</Pill>
+                            <Pill key={`header-group-pill-${url}`}>{getDomain(url)}</Pill>
                           ))}
                         </div>
                       ) : (
