@@ -2,12 +2,15 @@ import { type ChangeEvent, type FC, type KeyboardEvent, useEffect, useRef, useSt
 import { Button } from '@components/button/button';
 import { TextInput } from '@components/input/text-input';
 import { ToastItem } from '@components/toast/toast-item';
+import { SCOPES } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { useToastContext } from '@contexts/toast.context';
+import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
 import { cleanupHeaderKey } from '@helpers/validation.helper';
 import type { Header } from '@interfaces/index';
 import PlusCircleIcon from 'headertweaker-icons/24/solid/plus-circle.svg?react';
 import { useTranslation } from 'react-i18next';
+import { parse } from 'tldts';
 
 import css from './app.module.scss';
 
@@ -20,7 +23,7 @@ export const AppFooter: FC<AppFooterProps> = () => {
   const headerKeyRef = useRef<HTMLInputElement>(null);
 
   const { addToast } = useToastContext();
-  const { isDisabled, updateHeader } = useHeaderTweakerContext();
+  const { isDisabled, updateHeader, scope } = useHeaderTweakerContext();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -53,6 +56,13 @@ export const AppFooter: FC<AppFooterProps> = () => {
 
   const addHeader = async () => {
     if (header) {
+      // When on current url tab scope the header to the current domain
+      if (scope === SCOPES.CURRENT_URL) {
+        const url = await getCurrentTabUrl();
+        const { domain } = parse(url ?? '');
+        header.urls = domain ? [domain] : [];
+      }
+
       await updateHeader({ header, action: 'add' });
       setHeader(undefined);
       headerKeyRef.current?.focus();

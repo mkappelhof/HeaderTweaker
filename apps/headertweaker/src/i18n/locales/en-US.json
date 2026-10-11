@@ -53,7 +53,8 @@
       "currentUrl": "Current",
       "target_one": "Target",
       "target_other": "Targets",
-      "selector": "Choose the URLs where the selected headers should be applied",
+      "selector_one": "Choose the URLs where the selected header should be applied",
+      "selector_other": "Choose the URLs where the selected headers should be applied",
       "addNewUrl": "Or add a new URL…",
       "selectedCount_one": "{{count}} header selected",
       "selectedCount_other": "{{count}} headers selected",
@@ -137,7 +138,7 @@
       }
     },
     "empty": {
-      "headers": "No headers to display yet, add your first one below"
+      "headers": "No headers to display yet, add a new one below"
     },
     "form": {
       "dropActive": "Drop your file here…",

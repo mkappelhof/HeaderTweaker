@@ -7,20 +7,11 @@ import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.hel
 import classnames from 'clsx';
 import InformationCircleIcon from 'headertweaker-icons/24/outline/information-circle.svg?react';
 import { useTranslation } from 'react-i18next';
+import { parse } from 'tldts';
 
 import css from './header-filters.module.scss';
 
 const scopes = Object.values(SCOPES);
-
-const getHost = (url?: string) => {
-  if (!url) return undefined;
-
-  try {
-    return new URL(url).host.replace(/^www\./i, '');
-  } catch {
-    return undefined;
-  }
-};
 
 export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }) => {
   const { t } = useTranslation();
@@ -29,7 +20,7 @@ export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const listRef = useRef<HTMLDivElement>(null);
 
-  const currentHost = getHost(currentUrl);
+  const currentHost = parse(currentUrl ?? '')?.domain;
   const isDisabled = !headers.length;
 
   useEffect(() => {
