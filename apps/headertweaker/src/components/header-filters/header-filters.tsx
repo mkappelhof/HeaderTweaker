@@ -4,10 +4,10 @@ import { SCOPE_LABEL_KEYS, SCOPES, type Scope } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
 import { filterHeadersByScope } from '@helpers/scope/filter-headers-by-scope.helper';
-import { getDomain } from '@helpers/url/get-domain.helper';
 import classnames from 'clsx';
 import InformationCircleIcon from 'headertweaker-icons/24/outline/information-circle.svg?react';
 import { useTranslation } from 'react-i18next';
+import { parse } from 'tldts';
 
 import css from './header-filters.module.scss';
 
@@ -20,7 +20,7 @@ export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }
   const [indicator, setIndicator] = useState({ left: 0, width: 0 });
   const listRef = useRef<HTMLDivElement>(null);
 
-  const currentHost = getDomain(currentUrl);
+  const currentHost = parse(currentUrl ?? '')?.domain;
   const isDisabled = !headers.length;
 
   useEffect(() => {

@@ -10,6 +10,7 @@ import { cleanupHeaderKey } from '@helpers/validation.helper';
 import type { Header } from '@interfaces/index';
 import PlusCircleIcon from 'headertweaker-icons/24/solid/plus-circle.svg?react';
 import { useTranslation } from 'react-i18next';
+import { parse } from 'tldts';
 
 import css from './app.module.scss';
 
@@ -55,10 +56,11 @@ export const AppFooter: FC<AppFooterProps> = () => {
 
   const addHeader = async () => {
     if (header) {
-      // When on current url tab apply the current url to the new header
+      // When on current url tab scope the header to the current domain
       if (scope === SCOPES.CURRENT_URL) {
         const url = await getCurrentTabUrl();
-        header.urls = url ? [url] : [];
+        const { domain } = parse(url ?? '');
+        header.urls = domain ? [domain] : [];
       }
 
       await updateHeader({ header, action: 'add' });
