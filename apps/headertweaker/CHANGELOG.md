@@ -1,5 +1,12 @@
 # HeaderTweaker
 
+## 1.6.1
+
+### Patch Changes
+
+- eaa225e: - Only show host & tld in current tab
+  - Auto-apply current url when creating a header on the current url tab
+
 ## 1.6.0
 
 ### Minor Changes
