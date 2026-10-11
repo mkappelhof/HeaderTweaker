@@ -137,7 +137,7 @@
       }
     },
     "empty": {
-      "headers": "No headers to display yet, add your first one below"
+      "headers": "No headers to display yet, add a new one below"
     },
     "form": {
       "dropActive": "Drop your file here…",
