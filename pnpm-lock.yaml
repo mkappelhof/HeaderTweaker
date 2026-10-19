@@ -48,7 +48,7 @@ importers:
         specifier: 2.9.14
         version: 2.9.14
 
-  apps/headertweaker:
+  apps/browser-extension:
     dependencies:
       clsx:
         specifier: 2.1.1

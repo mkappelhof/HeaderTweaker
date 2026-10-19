@@ -22,7 +22,7 @@ pnpm --filter headertweaker-website preview # Preview the production build
   can reference `vars.$colors-*` / `vars.$spacing-core-*` directly without an explicit `@use`.
   Never hardcode colors or spacing — add a token to the shared package instead.
 - `src/data/extension-meta.ts` applies astro.md's "values read in `astro.config.mjs`" pattern to
-  expose the extension's version/description (read from `apps/headertweaker/package.json`) as
+  expose the extension's version/description (read from `apps/browser-extension/package.json`) as
   `vite.define` constants.
 - `src/data/features.ts` and `src/data/permissions.ts` are this project's data modules (see
   astro.md's Data section); `seo.astro`'s JSON-LD and `llms.txt` are generated from them.
