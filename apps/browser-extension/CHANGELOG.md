@@ -1,5 +1,15 @@
 # HeaderTweaker
 
+## 1.6.3
+
+### Patch Changes
+
+- a91e422: Changes:
+  
+  - Use shared configs
+  - Enable labels when an import contains a header with label
+  - Don't show header menu on import window
+
 ## 1.6.2
 
 ### Patch Changes
