@@ -15,6 +15,7 @@ vi.mock('@constants/index', () => ({ storage: { local: storageLocal } }));
 const header = (overrides: Partial<Header> = {}): Header => ({
   id: 'header-id',
   name: 'X-Example',
+  label: 'Example header',
   value: 'value',
   enabled: false,
   ...overrides,
@@ -26,7 +27,7 @@ describe('importHeaders', () => {
 
     await importHeaders(headers);
     await saveHeaders(headers);
-    await importHeaders({} as Header[]);
+    importHeaders({} as Header[]);
 
     expect(storageLocal.set).toHaveBeenCalledTimes(2);
     expect(storageLocal.set).toHaveBeenNthCalledWith(1, { headers });

@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.6.2
+
+### Patch Changes
+
+- 396d5ca: Fix Chrome Web Store install failure ("Unable to decode image icon.svg") by using PNG icons in the Chrome manifest
+
 ## 1.6.1
 
 ### Patch Changes
