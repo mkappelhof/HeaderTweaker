@@ -1,6 +1,5 @@
 ---
 "headertweaker": patch
-"headertweaker-website": patch
 ---
 
 Changes:
