@@ -13,7 +13,7 @@ updates:
           - patch
 
   - package-ecosystem: npm
-    directory: /apps/headertweaker
+    directory: /apps/browser-extension
     schedule:
       interval: weekly
     open-pull-requests-limit: 5

@@ -54,7 +54,7 @@ MIT
 
 ## Monorepo setup
 
-- **`apps/headertweaker`** — the Firefox/Chrome browser extension
+- **`apps/browser-extension`** — the Firefox/Chrome browser extension
 - **`apps/website`** — website ([headertweaker.com](https://headertweaker.com)), built with Astro
 - **`packages/icons`** — shared icons used by both
 - **`packages/tokens`** — shared SCSS design tokens used by both
@@ -66,4 +66,3 @@ pnpm install
 pnpm build:all         # Build the extension for Firefox and Chrome
 pnpm dev:website       # Run the website locally
 ```
-
