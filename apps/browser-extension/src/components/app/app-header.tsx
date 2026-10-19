@@ -3,7 +3,7 @@ import { BulkScopeChange } from '@components/bulk-scope-change/bulk-scope-change
 import { Button } from '@components/button/button';
 import { IconButton } from '@components/button/icon-button';
 import { Drawer } from '@components/drawer/drawer';
-import { HeaderFilters } from '@components/header-filters/header-filters';
+import { HeaderMenu } from '@components/header-menu/header-menu';
 import { Settings } from '@components/settings/settings';
 import { Status } from '@components/status/status';
 import { Text } from '@components/text/text';
@@ -64,7 +64,7 @@ export const AppHeader: FC<AppHeaderProps> = ({ withoutSettings = false }) => {
 
         <div className={css.scopes}>
           <div className={css.filters}>
-            <HeaderFilters />
+            <HeaderMenu />
           </div>
           {scope === SCOPES.NO_SCOPE ? (
             <Button

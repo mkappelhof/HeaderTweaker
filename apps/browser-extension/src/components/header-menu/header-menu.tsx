@@ -1,5 +1,6 @@
 import { type ComponentPropsWithoutRef, type FC, useEffect, useRef, useState } from 'react';
 import { Text } from '@components/text/text';
+import { IMPORT_PARAM } from '@constants/index';
 import { SCOPE_LABEL_KEYS, SCOPES, type Scope } from '@constants/scopes';
 import { useHeaderTweakerContext } from '@contexts/headertweaker.context';
 import { getCurrentTabUrl } from '@helpers/get-current-tab.helper';
@@ -9,11 +10,11 @@ import InformationCircleIcon from 'headertweaker-icons/24/outline/information-ci
 import { useTranslation } from 'react-i18next';
 import { parse } from 'tldts';
 
-import css from './header-filters.module.scss';
+import css from './header-menu.module.scss';
 
 const scopes = Object.values(SCOPES);
 
-export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }) => {
+export const HeaderMenu: FC<ComponentPropsWithoutRef<'div'>> = ({ className }) => {
   const { t } = useTranslation();
   const { headers, scope, setscope } = useHeaderTweakerContext();
   const [currentUrl, setCurrentUrl] = useState<string | undefined>(undefined);
@@ -34,6 +35,12 @@ export const HeaderFilters: FC<ComponentPropsWithoutRef<'div'>> = ({ className }
 
     setIndicator({ left: active.offsetLeft, width: active.offsetWidth });
   }, [scope, currentHost, headers]);
+
+  // Don't show the menu on the import window
+  const searchParams = new URLSearchParams(window.location.search);
+  if (searchParams.has(IMPORT_PARAM)) {
+    return null;
+  }
 
   return (
     <div
