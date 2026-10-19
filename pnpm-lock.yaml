@@ -25,7 +25,7 @@ importers:
         version: 1.0.0(@biomejs/biome@2.5.15)
       '@mkappelhof/stylelint-config':
         specifier: ^1.0.0
-        version: 1.0.0(postcss@8.5.29)(stylelint@17.15.0(typescript@7.0.2))
+        version: 1.0.0(postcss@8.5.30)(stylelint@17.15.0(typescript@7.0.2))
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -5681,10 +5681,10 @@ snapshots:
     dependencies:
       '@biomejs/biome': 2.5.15
 
-  '@mkappelhof/stylelint-config@1.0.0(postcss@8.5.29)(stylelint@17.15.0(typescript@7.0.2))':
+  '@mkappelhof/stylelint-config@1.0.0(postcss@8.5.30)(stylelint@17.15.0(typescript@7.0.2))':
     dependencies:
       stylelint: 17.15.0(typescript@7.0.2)
-      stylelint-config-recommended-scss: 17.0.1(postcss@8.5.29)(stylelint@17.15.0(typescript@7.0.2))
+      stylelint-config-recommended-scss: 17.0.1(postcss@8.5.30)(stylelint@17.15.0(typescript@7.0.2))
       stylelint-config-standard: 40.0.0(stylelint@17.15.0(typescript@7.0.2))
       stylelint-scss: 7.3.0(stylelint@17.15.0(typescript@7.0.2))
     transitivePeerDependencies:
