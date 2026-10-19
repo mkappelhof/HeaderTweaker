@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.6.6
+
+### Patch Changes
+
+- 8bd5fac: Bump the dev-dependencies group across 1 directory with 10 updates
+
 ## 1.6.5
 
 ### Patch Changes
