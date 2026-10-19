@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.6.4
+
+### Patch Changes
+
+- 319a8d9: Add chrome icon & update FF manifest
+
 ## 1.6.3
 
 ### Patch Changes
