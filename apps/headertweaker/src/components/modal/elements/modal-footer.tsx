@@ -4,9 +4,9 @@ import css from '../modal.module.scss';
 
 type ModalFooterProps = PropsWithChildren<Record<never, never>>;
 
-const ModalFooter: FC<ModalFooterProps> = ({ children }) => {
-  return <div className={css.footer}>{children}</div>;
-};
+const ModalFooter: FC<ModalFooterProps> = ({ children }) => (
+  <div className={css.footer}>{children}</div>
+);
 
 ModalFooter.displayName = 'ModalFooter';
 

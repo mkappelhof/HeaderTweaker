@@ -9,15 +9,13 @@ type StatusProps = {
   label?: string;
 };
 
-export const Status: FC<StatusProps> = ({ status, label }) => {
-  return (
-    <div className={css.root}>
-      <div className={classnames(css.indicator, { [css.disabled]: status === 'disabled' })} />
-      {label && (
-        <Text variant="body-small" className={css.label}>
-          {label}
-        </Text>
-      )}
-    </div>
-  );
-};
+export const Status: FC<StatusProps> = ({ status, label }) => (
+  <div className={css.root}>
+    <div className={classnames(css.indicator, { [css.disabled]: status === 'disabled' })} />
+    {label && (
+      <Text variant="body-small" className={css.label}>
+        {label}
+      </Text>
+    )}
+  </div>
+);

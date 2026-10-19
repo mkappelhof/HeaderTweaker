@@ -1,5 +1,9 @@
 # HeaderTweaker monorepo
 
+Generic cross-project conventions live in `@mkappelhof/agent-instructions`'s `base.md` (see
+`node_modules/@mkappelhof/agent-instructions/base.md`) — read it too. Where this file or the
+per-package `AGENTS.md` files differ, they win.
+
 pnpm workspaces + Turborepo. Four packages:
 
 - **`apps/headertweaker`** — the browser extension (see its own `AGENTS.md` for conventions)
@@ -23,7 +27,6 @@ Biome/Stylelint passes, not Turbo tasks.
 - Every PR needs a changeset (`pnpm change`) if it touches `apps/headertweaker` — `packages/tokens`,
   `packages/icons`, and `apps/website` are marked `private` and are never versioned by changesets.
 - Linting/formatting: **Biome** for JS/TS/JSON, **Stylelint** for SCSS — both run in CI.
-- Never run `git commit` (or `git commit --amend`) yourself, and never create a branch yourself.
-  `master` is protected and does not allow direct commits. Leave changes as uncommitted/staged
-  working-tree edits on whatever branch is currently checked out, and let the user create the
-  branch, commit, push, and open the PR themselves.
+- Never run `git commit` (or `--amend`) or create a branch yourself, even if asked to — unlike
+  base.md's conditional wording, this has no exception here: `master` is protected and does not
+  allow direct commits. Let the user branch, commit, push, and open the PR themselves.

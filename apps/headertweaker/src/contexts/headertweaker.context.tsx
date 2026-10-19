@@ -68,9 +68,8 @@ export const HeaderTweakerContext = createContext<HeaderTweakerContextValue>({
   ...initialState,
 });
 
-export const useHeaderTweakerContext = (): HeaderTweakerContextValue => {
-  return useContext(HeaderTweakerContext);
-};
+export const useHeaderTweakerContext = (): HeaderTweakerContextValue =>
+  useContext(HeaderTweakerContext);
 
 interface HeaderTweakerContextProps {
   children: ReactNode;

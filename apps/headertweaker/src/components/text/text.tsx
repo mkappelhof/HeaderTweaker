@@ -34,10 +34,8 @@ export const Text: FC<TextProps> = ({
   variant = TextVariant.BODY,
   as: Tag = VariantTags[variant],
   ...props
-}: TextProps) => {
-  return (
-    <Tag className={classnames({ [css.secondary]: textStyle === 'secondary' })} {...props}>
-      {children}
-    </Tag>
-  );
-};
+}: TextProps) => (
+  <Tag className={classnames({ [css.secondary]: textStyle === 'secondary' })} {...props}>
+    {children}
+  </Tag>
+);

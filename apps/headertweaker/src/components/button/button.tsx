@@ -18,23 +18,21 @@ export const Button: FC<ButtonProps> = ({
   loading = false,
   variant = 'default',
   ...props
-}: ButtonProps) => {
-  return (
-    <button
-      className={classnames(css.root, className, {
-        [css.ghost]: variant === 'ghost',
-        [css.link]: variant === 'link',
-      })}
-      aria-label={ariaLabel}
-      disabled={loading || disabled}
-      {...props}
-    >
-      {loading && (
-        <div className={css.loading}>
-          <ArrowPathIcon className={css.loadingIcon} />
-        </div>
-      )}
-      {children}
-    </button>
-  );
-};
+}: ButtonProps) => (
+  <button
+    className={classnames(css.root, className, {
+      [css.ghost]: variant === 'ghost',
+      [css.link]: variant === 'link',
+    })}
+    aria-label={ariaLabel}
+    disabled={loading || disabled}
+    {...props}
+  >
+    {loading && (
+      <div className={css.loading}>
+        <ArrowPathIcon className={css.loadingIcon} />
+      </div>
+    )}
+    {children}
+  </button>
+);

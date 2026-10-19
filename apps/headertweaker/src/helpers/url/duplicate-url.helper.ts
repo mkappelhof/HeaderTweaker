@@ -6,8 +6,8 @@ export const isDuplicateUrl = (header: Header | null, index: number) => {
 
   return Boolean(
     url &&
-      header?.urls?.some((value, valueIndex) => {
-        return valueIndex !== index && normalizeUrlRestriction(value) === url;
-      })
+      header?.urls?.some(
+        (value, valueIndex) => valueIndex !== index && normalizeUrlRestriction(value) === url
+      )
   );
 };

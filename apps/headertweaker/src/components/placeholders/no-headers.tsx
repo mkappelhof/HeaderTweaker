@@ -3,10 +3,8 @@ import { Text } from '@components/text/text';
 
 import css from './placeholders.module.scss';
 
-export const NoHeaders: FC<{ message: string }> = ({ message }) => {
-  return (
-    <div className={css.page}>
-      <Text>{message}</Text>
-    </div>
-  );
-};
+export const NoHeaders: FC<{ message: string }> = ({ message }) => (
+  <div className={css.page}>
+    <Text>{message}</Text>
+  </div>
+);

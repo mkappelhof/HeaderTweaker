@@ -14,9 +14,9 @@ type StepsProviderProps = {
   value: StepsContextValue;
 };
 
-export const StepsProvider: FC<PropsWithChildren<StepsProviderProps>> = ({ value, children }) => {
-  return <StepsContext.Provider value={value}>{children}</StepsContext.Provider>;
-};
+export const StepsProvider: FC<PropsWithChildren<StepsProviderProps>> = ({ value, children }) => (
+  <StepsContext.Provider value={value}>{children}</StepsContext.Provider>
+);
 
 export const useStepsContext = (): StepsContextValue => {
   const context = useContext(StepsContext);

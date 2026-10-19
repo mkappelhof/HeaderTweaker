@@ -13,15 +13,13 @@ export const ButtonGroup: FC<ButtonGroupProps> = ({
   children,
   direction = 'horizontal',
   withoutSpacing = false,
-}: ButtonGroupProps) => {
-  return (
-    <div
-      className={classnames(css.group, {
-        [css.withoutSpacing]: withoutSpacing,
-        [css.vertical]: direction === 'vertical',
-      })}
-    >
-      {children}
-    </div>
-  );
-};
+}: ButtonGroupProps) => (
+  <div
+    className={classnames(css.group, {
+      [css.withoutSpacing]: withoutSpacing,
+      [css.vertical]: direction === 'vertical',
+    })}
+  >
+    {children}
+  </div>
+);

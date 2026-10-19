@@ -7,14 +7,12 @@ export const AlertTitle: FC<PropsWithChildren<TextProps>> = ({
   children,
   variant = 'h3',
   ...textProps
-}) => {
-  return (
-    <div className={css.title}>
-      <Text variant={variant} {...textProps}>
-        {children}
-      </Text>
-    </div>
-  );
-};
+}) => (
+  <div className={css.title}>
+    <Text variant={variant} {...textProps}>
+      {children}
+    </Text>
+  </div>
+);
 
 AlertTitle.displayName = 'AlertTitle';
