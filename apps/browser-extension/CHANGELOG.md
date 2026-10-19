@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.6.5
+
+### Patch Changes
+
+- f921de7: Bump the production-dependencies group in /apps/browser-extension with 4 updates
+
 ## 1.6.4
 
 ### Patch Changes
