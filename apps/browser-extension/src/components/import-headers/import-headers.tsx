@@ -16,7 +16,7 @@ export const ImportHeaders: FC<ImportHeadersProps> = () => {
   const [importedHeaders, setImportedHeaders] = useState(0);
   const [dragActive, setDragActive] = useState(false);
 
-  const { importHeaders } = useHeaderTweakerContext();
+  const { importHeaders, useLabels, setUseLabels } = useHeaderTweakerContext();
 
   const handleDrag = (e: React.DragEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,6 +32,11 @@ export const ImportHeaders: FC<ImportHeadersProps> = () => {
     validateHeaderImport(files, {
       onSuccess: async (headers) => {
         setImportedHeaders(headers.length);
+
+        if (!useLabels && headers.some(({ label }) => label)) {
+          setUseLabels(true);
+        }
+
         await importHeaders(headers);
       },
       onError: (error) => console.error('Error importing headers:', error),

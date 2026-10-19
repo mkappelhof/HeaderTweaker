@@ -30,6 +30,7 @@ export const SelectUrls = () => {
           ))}
         </div>
       </div>
+
       <ScopeSelector
         urls={urls}
         selectedHeaders={selectedHeaders.length}
@@ -39,6 +40,7 @@ export const SelectUrls = () => {
           )
         }
       />
+
       {error && (
         <Alert variant="negative">
           <AlertContent>{error}</AlertContent>
