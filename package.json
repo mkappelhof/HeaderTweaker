@@ -48,6 +48,9 @@
     "turbo": "2.9.14"
   },
   "pnpm": {
-    "onlyBuiltDependencies": ["@parcel/watcher", "esbuild", "sharp"]
+    "onlyBuiltDependencies": ["@parcel/watcher", "esbuild", "sharp"],
+    "overrides": {
+      "zod@<4.6.6": ">=4.6.6"
+    }
   }
 }
