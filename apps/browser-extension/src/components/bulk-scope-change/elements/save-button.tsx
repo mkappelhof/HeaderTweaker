@@ -29,13 +29,17 @@ export const SaveButton: FC<SaveButtonProps> = ({ closeModal }) => {
   const saveHeaders = async () => {
     setLoading(true);
 
-    if (hasError) setError('');
+    if (hasError) {
+      setError('');
+    }
 
     try {
       for (const [id, urls] of Object.entries(pendingHeaders)) {
         const header = headers.find((header) => header.id === id);
 
-        if (!header) continue;
+        if (!header) {
+          continue;
+        }
 
         await updateHeader({ header: { ...header, urls }, action: 'update' });
       }

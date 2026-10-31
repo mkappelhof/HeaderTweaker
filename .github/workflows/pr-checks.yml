@@ -2,7 +2,7 @@ name: PR Checks
 
 on:
   pull_request:
-    branches: ["*"]
+    branches: [ "*" ]
 
 env:
   TURBO_TELEMETRY_DISABLED: 1

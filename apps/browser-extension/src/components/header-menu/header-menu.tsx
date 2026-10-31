@@ -31,7 +31,9 @@ export const HeaderMenu: FC<ComponentPropsWithoutRef<'div'>> = ({ className }) =
   // biome-ignore lint/correctness/useExhaustiveDependencies: re-measure when the active tab or its label changes
   useEffect(() => {
     const active = listRef.current?.querySelector<HTMLButtonElement>('[data-active="true"]');
-    if (!active) return;
+    if (!active) {
+      return;
+    }
 
     setIndicator({ left: active.offsetLeft, width: active.offsetWidth });
   }, [scope, currentHost, headers]);

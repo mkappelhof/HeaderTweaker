@@ -1,4 +1,6 @@
-.trigger { display: inline-flex }
+.trigger {
+  display: inline-flex;
+}
 
 .tooltip {
   position: fixed;
@@ -15,9 +17,19 @@
   width: max-content;
   max-width: 250px;
 
-  &.visible { opacity: 1 }
+  &.visible {
+    opacity: 1;
+  }
 
-  &.alignLeft { text-align: left }
-  &.alignCenter { text-align: center }
-  &.alignRight { text-align: right }
+  &.alignLeft {
+    text-align: left;
+  }
+
+  &.alignCenter {
+    text-align: center;
+  }
+
+  &.alignRight {
+    text-align: right;
+  }
 }

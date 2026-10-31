@@ -1,10 +1,10 @@
 .root {
-    overflow-y: auto;
-    
-    label,
-    button {
-        &:not(:last-child) {
-            margin-bottom: vars.$spacing-core-4;
-        }
+  overflow-y: auto;
+
+  label,
+  button {
+    &:not(:last-child) {
+      margin-bottom: vars.$spacing-core-4;
     }
+  }
 }

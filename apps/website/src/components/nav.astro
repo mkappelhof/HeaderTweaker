@@ -60,7 +60,9 @@ links?.querySelectorAll('a').forEach((link) => {
 const indicator = links?.querySelector<HTMLElement>('.nav__indicator');
 
 const moveIndicator = (link: HTMLAnchorElement) => {
-  if (!indicator) return;
+  if (!indicator) {
+    return;
+  }
 
   const isVisible = indicator.classList.contains('nav__indicator--visible');
   indicator.classList.toggle('nav__indicator--instant', !isVisible);
@@ -80,7 +82,9 @@ links?.querySelectorAll('a').forEach((link) => {
 
 links?.addEventListener('pointerleave', hideIndicator);
 links?.addEventListener('focusout', (event) => {
-  if (!links.contains(event.relatedTarget as Node | null)) hideIndicator();
+  if (!links.contains(event.relatedTarget as Node | null)) {
+    hideIndicator();
+  }
 });
 </script>
 

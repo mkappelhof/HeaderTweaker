@@ -5,7 +5,9 @@ import { parseUrlRestriction } from './parse-url-restriction.helper';
 
 export const createChromeUrlRestriction = (restrictionValue: string) => {
   const restriction = parseUrlRestriction(restrictionValue);
-  if (!restriction) return null;
+  if (!restriction) {
+    return null;
+  }
 
   const hostnameExpression = restriction.hostname.includes('*')
     ? createHostnameExpression(restriction.hostname)

@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@fontsource-variable/inter": "^5.3.0",
-    "@types/chrome": "0.3.5",
+    "@types/chrome": "0.3.7",
     "@types/firefox-webext-browser": "143.0.1",
     "@types/node": "26.6.5",
     "@types/react": "19.3.0",
@@ -34,11 +34,11 @@
     "concurrently": "^10.0.6",
     "headertweaker-tokens": "workspace:*",
     "jsdom": "30.1.3",
-    "oxc-transform-react": "^0.154.0",
+    "oxc-transform-react": "^0.156.0",
     "rimraf": "6.1.3",
-    "sass": "1.105.2",
+    "sass": "1.106.1",
     "typescript": "7.0.2",
-    "vite": "8.3.4",
+    "vite": "8.3.5",
     "vite-plugin-svgr": "^5.2.0",
     "vitest": "5.0.5",
     "web-ext": "10.8.0"

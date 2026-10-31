@@ -53,7 +53,9 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
     }));
   };
 
-  if (!header) return null;
+  if (!header) {
+    return null;
+  }
 
   return (
     <div className={css.root}>
@@ -95,7 +97,9 @@ export const EditHeader: FC<EditHeaderProps> = ({ closePanel }) => {
       <Button
         disabled={hasDuplicateUrls}
         onClick={async () => {
-          if (hasDuplicateUrls) return;
+          if (hasDuplicateUrls) {
+            return;
+          }
 
           if (header.label?.trim() && !useLabels) {
             setUseLabels(true);

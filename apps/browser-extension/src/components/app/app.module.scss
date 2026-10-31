@@ -21,8 +21,13 @@
       font-size: 1.5rem;
       line-height: normal;
 
-      .headerName { color: vars.$colors-primary-foreground }
-      .tweakerName { color: vars.$colors-primary-action }
+      .headerName {
+        color: vars.$colors-primary-foreground;
+      }
+
+      .tweakerName {
+        color: vars.$colors-primary-action;
+      }
     }
 
     code {
@@ -33,7 +38,9 @@
     }
   }
 
-  p { font-size: .8rem }
+  p {
+    font-size: 0.8rem;
+  }
 }
 
 .scopes {
@@ -42,8 +49,13 @@
   align-items: center;
   margin-bottom: vars.$spacing-core-1;
 
-  .filters { flex-grow: 1 }
-  .scopeButton { width: auto }
+  .filters {
+    flex-grow: 1;
+  }
+
+  .scopeButton {
+    width: auto;
+  }
 }
 
 .content {
@@ -60,6 +72,11 @@
   height: 72px;
   flex-shrink: 0;
 
-  .inputWrapper { flex-grow: 1 }
-  button { width: auto }
+  .inputWrapper {
+    flex-grow: 1;
+  }
+
+  button {
+    width: auto;
+  }
 }

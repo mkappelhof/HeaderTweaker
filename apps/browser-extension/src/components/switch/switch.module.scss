@@ -6,9 +6,9 @@
   vertical-align: center;
   gap: vars.$spacing-core-2;
 
-  .input { 
-    display: inline-flex; 
-    margin: 0; 
+  .input {
+    display: inline-flex;
+    margin: 0;
   }
 
   input {
@@ -44,9 +44,13 @@
     & + .slider {
       background-color: vars.$colors-primary-success;
 
-      &::before { transform: translateX(20px) }
+      &::before {
+        transform: translateX(20px);
+      }
     }
   }
 
-  &.disabled { cursor: not-allowed }
+  &.disabled {
+    cursor: not-allowed;
+  }
 }

@@ -19,16 +19,22 @@
   padding: 0 vars.$spacing-core-1;
 }
 
-.headerTableHead { min-height: vars.$spacing-core-8; }
+.headerTableHead {
+  min-height: vars.$spacing-core-8;
+}
 
 .headerRow {
   min-height: vars.$spacing-core-12;
   border-radius: vars.$border-radius-primary;
   transition: background-color 0.1s ease-in-out;
 
-  &:hover { background-color: rgb(255 255 255 / 4%); }
+  &:hover {
+    background-color: rgb(255 255 255 / 4%);
+  }
 
-  &.selected { background-color: rgba(vars.$colors-primary-action, 0.12); }
+  &.selected {
+    background-color: rgba(vars.$colors-primary-action, 0.12);
+  }
 }
 
 .headerRowLabel {

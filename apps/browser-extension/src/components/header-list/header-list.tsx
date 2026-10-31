@@ -62,7 +62,9 @@ export const HeaderList: FC<HeaderListProps> = () => {
 
   const moveHeader = async (from: number, insertIndex: number, targetUrls: DropTargetUrls) => {
     const fromIndex = headers.findIndex(({ id }) => id === visibleHeaders[from]?.id);
-    if (fromIndex === -1 || insertIndex === -1) return;
+    if (fromIndex === -1 || insertIndex === -1) {
+      return;
+    }
 
     const newHeaders = [...headers];
     const [moved] = newHeaders.splice(fromIndex, 1);
@@ -86,7 +88,9 @@ export const HeaderList: FC<HeaderListProps> = () => {
     const from = dragIndexRef.current;
     dragIndexRef.current = null;
     setDropIndex(null);
-    if (from === null || from === index) return;
+    if (from === null || from === index) {
+      return;
+    }
 
     const toIndex = headers.findIndex(({ id }) => id === visibleHeaders[index]?.id);
     await moveHeader(from, toIndex, scope === SCOPES.ALL ? targetUrls : undefined);
@@ -99,7 +103,9 @@ export const HeaderList: FC<HeaderListProps> = () => {
     const from = dragIndexRef.current;
     dragIndexRef.current = null;
     setDropIndex(null);
-    if (from === null) return;
+    if (from === null) {
+      return;
+    }
 
     const targetIndexes = targetHeaders.map((header) =>
       headers.findIndex(({ id }) => id === header.id)

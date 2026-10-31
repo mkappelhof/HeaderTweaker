@@ -1,8 +1,8 @@
-@use 'pkg:headertweaker-tokens' as vars;
+@use "pkg:headertweaker-tokens" as vars;
 
-html, 
+html,
 body {
-  font-family: 'Inter Variable', Inter, sans-serif;
+  font-family: "Inter Variable", Inter, sans-serif;
   font-weight: 400;
   font-size: 100%;
   line-height: 1.5;
@@ -11,7 +11,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
 }
-

@@ -19,7 +19,9 @@ const matchHostname = (hostname: string, restriction: ParsedUrlRestriction) => {
 };
 
 const matchPathname = (pathname: string, restrictionPathname: string | undefined) => {
-  if (!restrictionPathname || restrictionPathname === '/') return true;
+  if (!restrictionPathname || restrictionPathname === '/') {
+    return true;
+  }
 
   if (!restrictionPathname.includes('*')) {
     return pathname === restrictionPathname || pathname.startsWith(`${restrictionPathname}/`);
@@ -30,7 +32,9 @@ const matchPathname = (pathname: string, restrictionPathname: string | undefined
 
 export const matchUrlRestriction = (url: string, restrictionValue: string) => {
   const restriction = parseUrlRestriction(restrictionValue);
-  if (!restriction) return false;
+  if (!restriction) {
+    return false;
+  }
 
   try {
     const requestUrl = new URL(url);

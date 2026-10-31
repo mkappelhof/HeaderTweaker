@@ -22,19 +22,19 @@ HeaderTweaker requests the smallest possible set of browser permissions and coll
 
 ### Firefox
 
-| Permission | Purpose |
-| --- | --- |
-| `storage` | Persist header rules and settings locally in the browser. |
-| `webRequest` + `webRequestBlocking` | Modify outgoing request headers before they are sent (Firefox uses the `webRequest` API). |
-| `<all_urls>` | Allow rules to target any site. Rules only run on requests matching the URL targets defined in the extension (localhost is always matched, regardless of a rule's configured URL targets). |
+| Permission                          | Purpose                                                                                                                                                                                    |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `storage`                           | Persist header rules and settings locally in the browser.                                                                                                                                  |
+| `webRequest` + `webRequestBlocking` | Modify outgoing request headers before they are sent (Firefox uses the `webRequest` API).                                                                                                  |
+| `<all_urls>`                        | Allow rules to target any site. Rules only run on requests matching the URL targets defined in the extension (localhost is always matched, regardless of a rule's configured URL targets). |
 
 ### Chrome
 
-| Permission | Purpose |
-| --- | --- |
-| `storage` | Persist header rules and settings locally in the browser. |
+| Permission                            | Purpose                                                                                                                                            |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `storage`                             | Persist header rules and settings locally in the browser.                                                                                          |
 | `declarativeNetRequestWithHostAccess` | Modify outgoing request headers via Chrome's `declarativeNetRequest` API, which changes requests **without** the extension reading their contents. |
-| `<all_urls>` (host access) | Allow rules to target any site. `declarativeNetRequestWithHostAccess` only acts on hosts that have been granted access. |
+| `<all_urls>` (host access)            | Allow rules to target any site. `declarativeNetRequestWithHostAccess` only acts on hosts that have been granted access.                            |
 
 On Chrome, HeaderTweaker deliberately uses `declarativeNetRequestWithHostAccess` instead of the broader `declarativeNetRequest` permission. The declarative approach lets the browser apply rules without the extension inspecting or intercepting request contents.
 

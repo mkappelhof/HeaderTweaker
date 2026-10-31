@@ -35,18 +35,22 @@
   transition: color 0.25s ease;
 
   .icon {
-    color: rgba(vars.$colors-primary-warning, .5);
+    color: rgba(vars.$colors-primary-warning, 0.5);
     width: 20px;
     height: 20px;
     transition: color 0.25s ease;
   }
 
-  &:hover { color: vars.$colors-primary-foreground }
+  &:hover {
+    color: vars.$colors-primary-foreground;
+  }
 
-  &.active { 
+  &.active {
     color: vars.$colors-primary-foreground;
 
-    .icon { color: vars.$colors-primary-warning }
+    .icon {
+      color: vars.$colors-primary-warning;
+    }
   }
 
   &:disabled {
@@ -58,5 +62,7 @@
 .disabled {
   opacity: 0.5;
 
-  .indicator { background-color: transparent }
+  .indicator {
+    background-color: transparent;
+  }
 }

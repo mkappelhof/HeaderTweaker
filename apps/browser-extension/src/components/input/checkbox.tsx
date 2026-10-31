@@ -30,7 +30,9 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
     useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
 
     useEffect(() => {
-      if (inputRef.current) inputRef.current.indeterminate = checked === INTERMEDIATE_INDICATOR;
+      if (inputRef.current) {
+        inputRef.current.indeterminate = checked === INTERMEDIATE_INDICATOR;
+      }
     }, [checked]);
 
     return (

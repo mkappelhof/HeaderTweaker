@@ -12,7 +12,9 @@
 .wrapper {
   opacity: 0;
   transform: translateY(40px);
-  transition: transform 0.3s cubic-bezier(.4, 0, .2, 1), opacity 0.3s cubic-bezier(.4, 0, .2, 1);
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
 
   &.visible {
@@ -44,31 +46,41 @@
     }
   }
 
-  &.notClosable { padding-right: vars.$spacing-core-4 }
+  &.notClosable {
+    padding-right: vars.$spacing-core-4;
+  }
 
   &.positive {
-    border-color: rgba(vars.$colors-primary-success, .5);
+    border-color: rgba(vars.$colors-primary-success, 0.5);
     background-color: vars.$colors-primary-success-shade;
 
-    .icon svg { color: vars.$colors-primary-success; }
+    .icon svg {
+      color: vars.$colors-primary-success;
+    }
   }
 
   &.negative {
-    border-color: rgba(vars.$colors-primary-error, .5);
+    border-color: rgba(vars.$colors-primary-error, 0.5);
     background-color: vars.$colors-primary-error-shade;
 
-    .icon svg { color: vars.$colors-primary-error; }
+    .icon svg {
+      color: vars.$colors-primary-error;
+    }
   }
 
   &.warning {
-    border-color: rgba(vars.$colors-primary-warning, .5);
+    border-color: rgba(vars.$colors-primary-warning, 0.5);
     background-color: vars.$colors-primary-warning-shade;
 
-    .icon svg { color: vars.$colors-primary-warning; }
+    .icon svg {
+      color: vars.$colors-primary-warning;
+    }
   }
 }
 
-.message { flex: 1 1 auto }
+.message {
+  flex: 1 1 auto;
+}
 
 .close {
   flex: 0 0 auto;
