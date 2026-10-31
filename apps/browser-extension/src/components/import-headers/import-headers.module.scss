@@ -15,12 +15,14 @@
     transition: border 0.2s, background 0.2s;
     cursor: pointer;
     outline: none;
-    
+
     &.dragActive {
       border-color: vars.$colors-primary-action-hover;
       background: color.scale(vars.$colors-primary-background, $lightness: -20%);
     }
 
-    span { color: vars.$colors-primary-foreground; }
+    span {
+      color: vars.$colors-primary-foreground;
+    }
   }
 }

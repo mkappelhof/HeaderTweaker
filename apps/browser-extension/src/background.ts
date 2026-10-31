@@ -151,10 +151,14 @@ if (__BROWSER__ === 'chrome') {
 
     if (isEnabled === 'enabled') {
       const headers = await getHeaders();
-      if (!headers.length || !details.requestHeaders) return {};
+      if (!headers.length || !details.requestHeaders) {
+        return {};
+      }
 
       const enabledHeaders = headers.filter(({ enabled }) => enabled);
-      if (!enabledHeaders.length) return {};
+      if (!enabledHeaders.length) {
+        return {};
+      }
 
       const requestHeaders = details.requestHeaders.slice();
       enabledHeaders.forEach(({ name, value, urls }) => {

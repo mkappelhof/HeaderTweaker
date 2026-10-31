@@ -1,20 +1,26 @@
-@use './typography';
-@use './reset';
+@use "./typography";
+@use "./reset";
 
 body {
   background-color: vars.$colors-primary-background;
   width: 800px;
   height: 560px;
-  padding:0;
+  padding: 0;
 }
 
 th {
   text-align: left;
 }
 
-th,td {
+th,
+td {
   padding: vars.$spacing-core-2 vars.$spacing-core-4;
 
-  &:first-child { padding-left: 0 }
-  &:last-child { padding-right: 0 }
+  &:first-child {
+    padding-left: 0;
+  }
+
+  &:last-child {
+    padding-right: 0;
+  }
 }

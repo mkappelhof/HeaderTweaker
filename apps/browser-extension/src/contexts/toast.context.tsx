@@ -41,7 +41,9 @@ export const ToastProvider = ({ children }: PropsWithChildren) => {
 export const useToastContext = (): ToastContextValue => {
   const context = useContext(ToastContext);
 
-  if (!context) throw new Error('useToastContext must be used within a ToastProvider');
+  if (!context) {
+    throw new Error('useToastContext must be used within a ToastProvider');
+  }
 
   return context;
 };

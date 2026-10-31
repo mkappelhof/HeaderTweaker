@@ -68,10 +68,14 @@ export const Select: FC<SelectProps> = ({
     : options;
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      return;
+    }
 
     const closeOnOutsideClick = (event: globalThis.MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setIsOpen(false);
+      if (!rootRef.current?.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
     };
 
     document.addEventListener('mousedown', closeOnOutsideClick);
@@ -116,7 +120,9 @@ export const Select: FC<SelectProps> = ({
         }
 
         const item = items[activeIndex];
-        if (item) selectItem(item);
+        if (item) {
+          selectItem(item);
+        }
         break;
       }
       default:

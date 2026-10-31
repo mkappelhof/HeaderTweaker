@@ -41,17 +41,23 @@ export const ScopeSelector: FC<ScopeSelectorProps> = ({ urls, selectedHeaders, o
       .map((url) => ({ label: url, value: url }));
 
   const addUrl = () => {
-    if (hasEmptyUrl) return;
+    if (hasEmptyUrl) {
+      return;
+    }
 
     setFocusedIndex(urls.length);
     onChange([...urls, '']);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>, index: number) => {
-    if (event.key !== 'Enter') return;
+    if (event.key !== 'Enter') {
+      return;
+    }
 
     event.preventDefault();
-    if (duplicateIndexes.includes(index) || !urls[index]?.trim()) return;
+    if (duplicateIndexes.includes(index) || !urls[index]?.trim()) {
+      return;
+    }
 
     addUrl();
   };

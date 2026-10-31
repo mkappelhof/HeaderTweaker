@@ -14,7 +14,7 @@ body {
   margin: 0;
   background: vars.$colors-primary-background;
   color: vars.$colors-primary-foreground;
-  font-family: 'Inter Variable', Inter, system-ui, sans-serif;
+  font-family: "Inter Variable", Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -80,7 +80,7 @@ img {
   transition: all 0.1s;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     z-index: -2;
@@ -93,7 +93,7 @@ img {
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;

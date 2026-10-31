@@ -8,7 +8,9 @@ export const getKnownUrls = (headers: ReadonlyArray<Header>) => {
     .flatMap((header) => header.urls ?? [])
     .filter((url) => {
       const normalized = normalizeUrlRestriction(url);
-      if (!normalized || seen.has(normalized)) return false;
+      if (!normalized || seen.has(normalized)) {
+        return false;
+      }
 
       seen.add(normalized);
       return true;

@@ -5,7 +5,6 @@ Generic cross-project conventions live in `@mkappelhof/agent-instructions`'s `ba
 per-package `AGENTS.md` files differ, they win.
 
 pnpm workspaces + Turborepo. Four packages:
-
 - **`apps/browser-extension`** — the browser extension (see its own `AGENTS.md` for conventions)
 - **`apps/website`** — the marketing website (see its own `AGENTS.md` for conventions)
 - **`packages/tokens`** — shared SCSS design tokens (`variables.scss`), consumed by both apps via

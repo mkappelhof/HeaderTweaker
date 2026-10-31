@@ -23,7 +23,6 @@
 ### Patch Changes
 
 - a91e422: Changes:
-  
   - Use shared configs
   - Enable labels when an import contains a header with label
   - Don't show header menu on import window
@@ -46,11 +45,11 @@
 ### Minor Changes
 
 - 74d89f8: changes:
-  
+
   ## New features
   - Restructure to monorepo
   - Add website for headertweaker.com
-  
+
   ## Improvements
   - Update logo
   - Redesign the bulk URL target change flow with a new stepper, a selectable header list and a summary of the selected headers
@@ -66,14 +65,12 @@
 ### Minor Changes
 
 - 390cab7: ## New Features
-  
   - **URL filter bar** — Filter the header list by URL scope to quickly find scoped headers
   - **Global tab wizard** — Batch-target multiple headers to a specific URL via a guided flow
   - **Drag & drop URL targeting** — Reassign a header's URL target by dragging it to a new scope
   - **i18n groundwork** — All UI copy is now externalized to `src/i18n` (English only for now, contributions welcome!)
-  
+
   ## Improvements
-  
   - Consistently match scoped headers against domains, subdomains, paths, and wildcards
   - Group headers on the URL-specific tab by their exact scoped URL
   - Reuse previously used URLs via the new `Select` component when targeting a header

@@ -15,7 +15,9 @@ const syncManifest = () => {
   const chromeSrc = path.resolve(import.meta.dirname, 'manifests/chrome.json');
 
   const writeManifest = () => {
-    if (!existsSync(path.dirname(distManifestPath))) return;
+    if (!existsSync(path.dirname(distManifestPath))) {
+      return;
+    }
 
     // Firefox uses the manifest copied from publicDir as-is; Chrome replaces it with its MV3 manifest.
     const manifest =
@@ -31,7 +33,9 @@ const syncManifest = () => {
     // Each watch rebuild re-copies the base (Firefox) manifest from publicDir into the out dir before
     // this hook runs, so overwrite it here to avoid briefly serving an MV2 manifest to Chrome.
     buildStart() {
-      if (BROWSER === 'chrome') writeManifest();
+      if (BROWSER === 'chrome') {
+        writeManifest();
+      }
     },
     writeBundle() {
       writeManifest();
@@ -65,8 +69,9 @@ export default defineConfig({
     rollupOptions: {
       // Suppress warnings coming from dependencies we don't control (e.g. "use no memo" directive).
       onwarn(warning, warn) {
-        if (warning.id?.includes('node_modules') || warning.message.includes('node_modules'))
+        if (warning.id?.includes('node_modules') || warning.message.includes('node_modules')) {
           return;
+        }
         warn(warning);
       },
       input: {
@@ -75,8 +80,14 @@ export default defineConfig({
       },
       output: {
         entryFileNames: (chunk) => {
-          if (chunk.name === 'headertweaker') return 'js/headertweaker.js';
-          if (chunk.name === 'background') return 'js/background.js';
+          if (chunk.name === 'headertweaker') {
+            return 'js/headertweaker.js';
+          }
+
+          if (chunk.name === 'background') {
+            return 'js/background.js';
+          }
+
           return 'js/main.js';
         },
         assetFileNames: (assetInfo) => {

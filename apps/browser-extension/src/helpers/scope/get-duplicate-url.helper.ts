@@ -5,7 +5,9 @@ export const getDuplicateUrlIndexes = (urls: string[]) => {
 
   return urls.reduce<number[]>((duplicates, url, index) => {
     const normalized = normalizeUrlRestriction(url);
-    if (!normalized) return duplicates;
+    if (!normalized) {
+      return duplicates;
+    }
 
     if (seen.has(normalized)) {
       duplicates.push(index);

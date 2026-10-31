@@ -1,6 +1,8 @@
 export const normalizeUrlRestriction = (url: string) => {
   const value = url.trim();
-  if (!value) return '';
+  if (!value) {
+    return '';
+  }
 
   const urlWithProtocol = /^https?:\/\//i.test(value) ? value : `https://${value}`;
 

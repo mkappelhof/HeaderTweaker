@@ -1,7 +1,6 @@
 # Changesets
 
 This directory contains configuration and metadata for the Changesets versioning tool.
-
 - `config.json`: Main configuration for Changesets.
 - Individual markdown files: Each represents a changeset describing a change to be released.
 

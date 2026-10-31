@@ -6,7 +6,9 @@
   overflow-y: auto;
 }
 
-.notFound { text-align: center; }
+.notFound {
+  text-align: center;
+}
 
 .tableWrapper {
   position: relative;
@@ -22,12 +24,16 @@
   user-select: none;
 }
 
-.headerDragHandle { width: 28px; }
+.headerDragHandle {
+  width: 28px;
+}
 
-.headerSwitch { width: 54px; }
+.headerSwitch {
+  width: 54px;
+}
 
-.headerActions { 
-  width: 100px; 
+.headerActions {
+  width: 100px;
   padding-left: 0;
   padding-right: 0;
 }
@@ -53,7 +59,7 @@
   z-index: 2;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     bottom: 0;
@@ -78,7 +84,7 @@
   }
 }
 
-.buttonWrapper { 
+.buttonWrapper {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -88,15 +94,21 @@
 
 .headerList {
   display: flex;
-   flex-direction: column;
-   gap: vars.$spacing-core-6;
+  flex-direction: column;
+  gap: vars.$spacing-core-6;
 }
 
-.disabled { opacity: 0.4 }
+.disabled {
+  opacity: 0.4;
+}
 
-.dragHandleCell { padding-right: 0; }
+.dragHandleCell {
+  padding-right: 0;
+}
 
-.switchCell { padding-left: vars.$spacing-core-2; }
+.switchCell {
+  padding-left: vars.$spacing-core-2;
+}
 
 .dragHandle {
   display: flex;
@@ -105,17 +117,19 @@
   color: vars.$colors-tertiary-foreground;
   cursor: grab;
 
-  svg { 
-    width: 16px; 
-    height: 16px; 
+  svg {
+    width: 16px;
+    height: 16px;
   }
 
-  &:active { cursor: grabbing; }
+  &:active {
+    cursor: grabbing;
+  }
 }
 
-.dragOver { 
-  outline: 2px solid vars.$colors-primary-action; 
-  outline-offset: -1px; 
+.dragOver {
+  outline: 2px solid vars.$colors-primary-action;
+  outline-offset: -1px;
 }
 
 .groupRow {
@@ -126,7 +140,7 @@
 }
 
 .groupItems {
-    display: flex;
-    align-items: center;
-    gap: vars.$spacing-core-2;
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-core-2;
 }

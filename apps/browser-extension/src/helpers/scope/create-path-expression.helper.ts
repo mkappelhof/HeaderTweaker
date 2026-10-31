@@ -12,8 +12,14 @@ export const createPathExpression = (pathname: string) => {
   return pathname
     .split(/(\*\*|\*)/)
     .map((part) => {
-      if (part === '**') return '.*';
-      if (part === '*') return '[^/]*';
+      if (part === '**') {
+        return '.*';
+      }
+
+      if (part === '*') {
+        return '[^/]*';
+      }
+
       return escapeRegularExpression(part);
     })
     .join('');

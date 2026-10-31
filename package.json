@@ -34,7 +34,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.3",
+    "@biomejs/biome": "2.6.2",
     "@changesets/cli": "3.0.3",
     "@mkappelhof/agent-instructions": "^1.1.0",
     "@mkappelhof/biome-config": "^1.1.0",

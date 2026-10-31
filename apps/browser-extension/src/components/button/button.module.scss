@@ -4,7 +4,7 @@
   gap: vars.$spacing-core-2;
   align-items: center;
   color: vars.$colors-primary-foreground;
-  transition: all .1s;
+  transition: all 0.1s;
   overflow: hidden;
   z-index: 1;
   cursor: pointer;
@@ -19,31 +19,31 @@
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: vars.$colors-primary-action-hover;
+    // background: vars.$colors-primary-action-hover;
     background: linear-gradient(
       90deg,
-      rgb(vars.$colors-primary-action-hover, 1) 0%, 
+      rgb(vars.$colors-primary-action-hover, 1) 0%,
       rgb(vars.$colors-primary-action, 1) 50%
     );
     border-radius: 24px;
     z-index: -2;
   }
 
-  &::before{
-    content: '';
+  &::before {
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
     width: 0%;
     height: 100%;
     background-color: vars.$colors-primary-action-hover;
-    transition: all .1s;
+    transition: all 0.1s;
     border-radius: 10rem;
     z-index: -1;
   }
@@ -51,18 +51,6 @@
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
-
-    &:hover {
-      &::before { width: 0; }
-    }
-  }
-
-  &:not(:disabled):hover{
-    color: vars.$colors-primary-foreground;
-
-    &::before{
-      width: 100%;
-    }
   }
 
   &.ghost {
@@ -70,11 +58,17 @@
     border-color: vars.$colors-primary-action;
     color: vars.$colors-primary-foreground;
 
-    &::after { background: transparent }
+    &::after {
+      background: transparent;
+    }
 
-    &::before { background-color: vars.$colors-primary-action-hover }
+    &::before {
+      background-color: vars.$colors-primary-action-hover;
+    }
 
-    &:hover { color: vars.$colors-primary-foreground }
+    &:hover {
+      color: vars.$colors-primary-foreground;
+    }
   }
 
   &.iconButton {
@@ -107,9 +101,13 @@
       }
     }
 
-    &::after { background: transparent; }
+    &::after {
+      background: transparent;
+    }
 
-    &:not(:disabled) { color: vars.$colors-primary-foreground }
+    &:not(:disabled) {
+      color: vars.$colors-primary-foreground;
+    }
   }
 
   &.link {
@@ -117,8 +115,13 @@
     border: none;
     background: none;
 
-     &::after { background: transparent }
-     &::before { background: transparent }
+    &::after {
+      background: transparent;
+    }
+
+    &::before {
+      background: transparent;
+    }
   }
 }
 
@@ -126,7 +129,9 @@
   display: flex;
   gap: vars.$spacing-core-2;
 
-  &.vertical { flex-direction: column; }
+  &.vertical {
+    flex-direction: column;
+  }
 
   &.withoutSpacing {
     gap: 0;
@@ -134,14 +139,18 @@
     button {
       border-radius: 0;
 
-      &:not(.ghost){ border: none }
+      &:not(.ghost) {
+        border: none;
+      }
 
       &::before,
       &::after {
         border-radius: 0;
       }
 
-      &::before{ border: none }
+      &::before {
+        border: none;
+      }
 
       &:first-child {
         &::after,
@@ -150,7 +159,7 @@
           border-bottom-left-radius: 10rem;
         }
       }
-      
+
       &:last-child {
         &::before,
         &::after {
@@ -162,17 +171,30 @@
   }
 }
 
+.root:not(:disabled):hover {
+  color: vars.$colors-primary-foreground;
+
+  /* biome-ignore lint/style/noDescendingSpecificity: only sets width, which no other ::before rule touches */
+  &::before {
+    width: 100%;
+  }
+}
+
 .loading {
   position: absolute;
   inset: 0;
-  background-color: rgb(black, .5);
+  background-color: rgb(black, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
 
-  .loadingIcon { animation: spinner 0.8s linear infinite }
+  .loadingIcon {
+    animation: spinner 0.8s linear infinite;
+  }
 }
 
 @keyframes spinner {
-  to { transform: rotate(360deg) }
+  to {
+    transform: rotate(360deg);
+  }
 }

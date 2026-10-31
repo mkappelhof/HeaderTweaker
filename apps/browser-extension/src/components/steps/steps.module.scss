@@ -27,7 +27,9 @@
   background: vars.$colors-primary-action-disabled;
   transition: background-color 0.2s ease;
 
-  &.completed { background: vars.$colors-primary-action; }
+  &.completed {
+    background: vars.$colors-primary-action;
+  }
 }
 
 .indicator {
@@ -42,7 +44,9 @@
   cursor: pointer;
   white-space: nowrap;
 
-  &:disabled { cursor: default; }
+  &:disabled {
+    cursor: default;
+  }
 }
 
 .indicatorNumber {
@@ -93,7 +97,9 @@
     color: vars.$colors-primary-foreground;
   }
 
-  .indicatorTitle { color: vars.$colors-primary-foreground; }
+  .indicatorTitle {
+    color: vars.$colors-primary-foreground;
+  }
 }
 
 .indicator.completed {
@@ -102,9 +108,13 @@
     color: vars.$colors-primary-foreground;
   }
 
-  .indicatorTitle { color: vars.$colors-primary-foreground; }
+  .indicatorTitle {
+    color: vars.$colors-primary-foreground;
+  }
 
-  &:hover .indicatorNumber { background: vars.$colors-primary-action-hover; }
+  &:hover .indicatorNumber {
+    background: vars.$colors-primary-action-hover;
+  }
 }
 
 .content {

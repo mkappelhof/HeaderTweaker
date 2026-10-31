@@ -8,7 +8,9 @@ import css from './toast.module.scss';
 export const Toast: FC = () => {
   const { toasts, removeToast } = useToastContext();
 
-  if (toasts.length === 0) return null;
+  if (toasts.length === 0) {
+    return null;
+  }
 
   return createPortal(
     <div className={css.root}>

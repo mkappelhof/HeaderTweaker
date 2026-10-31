@@ -16,7 +16,9 @@ export const parseUrlRestriction = (value: string): ParsedUrlRestriction | null 
     .replace(/:\d+$/, '')
     .toLowerCase();
 
-  if (!hostname) return null;
+  if (!hostname) {
+    return null;
+  }
 
   const pathname = slashIndex === -1 ? undefined : withoutQueryOrFragment.slice(slashIndex) || '/';
   const domain = parse(hostname).domain;
