@@ -1,0 +1,108 @@
+---
+import { EXTENSION_META } from '@data/extension-meta';
+import LegalLayout from '@layouts/legal-layout.astro';
+
+const issuesUrl = `${EXTENSION_META.repositoryUrl}/issues`;
+const licenseUrl = `${EXTENSION_META.repositoryUrl}/blob/master/LICENSE.md`;
+---
+
+<LegalLayout
+  title="Terms of Service — HeaderTweaker"
+  description="The terms for using the free, open-source HeaderTweaker browser extension and the headertweaker.com website."
+  heading="Terms of Service"
+  lastUpdated={new Date('2026-11-07')}
+>
+  <p>
+    These terms apply to your use of the {EXTENSION_META.name} browser extension for Firefox and
+    Chrome ("the extension") and the website headertweaker.com ("the website"). By installing or
+    using the extension, or using the website, you agree to these terms. If you don't agree, please
+    don't use them.
+  </p>
+
+  <h2>The software and its license</h2>
+  <p>
+    {EXTENSION_META.name}
+    is free, open-source software maintained by the developers of the HeaderTweaker repository. Its
+    source code is released under the <a href={licenseUrl}>MIT License</a>, which lets you use,
+    copy, modify, merge, publish, distribute, sublicense and sell copies of the software, as long as
+    the copyright and license notice are included. These terms don't restrict any rights the MIT
+    License gives you. If the two ever conflict, the MIT License wins for the source code.
+  </p>
+
+  <h2>Price</h2>
+  <p>
+    The extension is free. There are no paid tiers, subscriptions, in-app purchases or
+    advertisements.
+  </p>
+
+  <h2>Your responsibilities</h2>
+  <p>
+    HeaderTweaker sends the headers you configure to the websites your rules target. You are
+    responsible for the rules you create and for how you use them. In particular, you agree:
+  </p>
+  <ul>
+    <li>
+      to use the extension only in line with applicable laws, and with the terms of the websites and
+      services you send requests to;
+    </li>
+    <li>
+      not to use it to gain unauthorized access to systems, accounts or data, to impersonate other
+      people, or to get around security measures you're not permitted to bypass;
+    </li>
+    <li>
+      to keep sensitive header values, such as API keys and tokens, safe — including in any files
+      you export.
+    </li>
+  </ul>
+
+  <h2>Your data</h2>
+  <p>
+    The extension stores your rules and settings only in your browser and does not send them to us.
+    See the <a href="/privacy-policy">Privacy Policy</a> for details.
+  </p>
+
+  <h2>No warranty</h2>
+  <p>
+    As stated in the MIT License, the software is provided
+    <strong>"as is", without warranty of any kind</strong>, express or implied, including but not
+    limited to the warranties of merchantability, fitness for a particular purpose and
+    non-infringement. Modified headers can change how websites behave; it's up to you to check that
+    the results are what you expect.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    To the fullest extent permitted by law, the authors and copyright holders are not liable for any
+    claim, damages or other liability, whether in an action of contract, tort or otherwise, arising
+    from, out of or in connection with the software, the website, or their use. Nothing in these
+    terms excludes liability that can't be excluded under the law that applies to you.
+  </p>
+
+  <h2>Updates and availability</h2>
+  <p>
+    The extension may be updated, changed or discontinued at any time, and its features may change
+    between versions. Updates are delivered through the Firefox Add-ons and Chrome Web Store
+    listings, whose own terms also apply to downloads from those stores.
+  </p>
+
+  <h2>Website content</h2>
+  <p>
+    The website is provided for information only. The {EXTENSION_META.name} name and logo identify
+    the project; Firefox, Chrome and GitHub are trademarks of their respective owners. Links to
+    third-party sites are provided for convenience, and we are not responsible for their content.
+  </p>
+
+  <h2>Changes to these terms</h2>
+  <p>
+    These terms may be updated from time to time. The "Last updated" date above shows when they last
+    changed, and their history is public in the
+    <a href={EXTENSION_META.repositoryUrl}>source repository</a>. Continuing to use the extension or
+    website after a change means you accept the updated terms.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about these terms? Open an issue on
+    <a href={issuesUrl}>GitHub</a>.
+  </p>
+</LegalLayout>

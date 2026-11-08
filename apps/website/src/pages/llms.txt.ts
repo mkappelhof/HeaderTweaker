@@ -49,6 +49,8 @@ ${permissionLines}
 - Source code: ${EXTENSION_META.repositoryUrl}
 - Firefox Add-ons: ${EXTENSION_META.firefoxUrl}
 - Chrome Web Store: ${EXTENSION_META.chromeUrl}
+- Privacy policy: ${new URL('/privacy-policy', site).toString()}
+- Terms of service: ${new URL('/terms-of-service', site).toString()}
 `;
 
   return new Response(body, {
