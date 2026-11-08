@@ -1,0 +1,134 @@
+---
+import Footer from '@components/footer.astro';
+import Nav from '@components/nav.astro';
+import BaseLayout from '@layouts/base-layout.astro';
+
+type Props = {
+  title: string;
+  description: string;
+  heading: string;
+  lastUpdated: Date;
+};
+
+const props = Astro.props as Props;
+const { title, description, heading, lastUpdated } = props;
+
+const lastUpdatedLabel = lastUpdated.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <Nav />
+  <main id="main" class="legal">
+    <article class="legal__article">
+      <header class="legal__header">
+        <span class="legal__eyebrow">LEGAL</span>
+        <h1 class="legal__title">{heading}</h1>
+        <p class="legal__updated">
+          Last updated:
+          <time datetime={lastUpdated.toISOString().slice(0, 10)}>{lastUpdatedLabel}</time>
+        </p>
+      </header>
+      <div class="legal__body">
+        <slot />
+      </div>
+    </article>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style lang="scss">
+  .legal {
+    padding: vars.$spacing-core-20 vars.$spacing-core-30 vars.$spacing-core-26;
+
+    @media (max-width: 900px) {
+      padding: vars.$spacing-core-12 vars.$spacing-core-5 vars.$spacing-core-14;
+    }
+  }
+
+  .legal__article {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-12;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .legal__header {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-4;
+    padding-bottom: vars.$spacing-core-8;
+    border-bottom: 1px solid vars.$colors-border-subtle;
+  }
+
+  .legal__eyebrow {
+    font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
+    font-size: 14px;
+    color: rgba(vars.$colors-primary-action, .75);
+    letter-spacing: 0.04em;
+  }
+
+  .legal__title {
+    font-weight: 700;
+    font-size: 52px;
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+
+    @media (max-width: 900px) {
+      font-size: 32px;
+    }
+  }
+
+  .legal__updated {
+    font-size: 15px;
+    color: vars.$colors-tertiary-foreground;
+  }
+
+  // Slotted content isn't scoped to this component, so style it through :global().
+  .legal__body {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-core-5;
+    font-size: 17px;
+    line-height: 1.7;
+    color: vars.$colors-tertiary-foreground;
+
+    :global(h2) {
+      margin-top: vars.$spacing-core-6;
+      font-weight: 700;
+      font-size: 26px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: vars.$colors-primary-foreground;
+    }
+
+    :global(strong) {
+      color: vars.$colors-primary-foreground;
+    }
+
+    :global(ul) {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-core-2;
+      padding-left: vars.$spacing-core-6;
+      list-style: disc;
+    }
+
+    :global(a) {
+      color: vars.$colors-primary-foreground;
+      text-decoration-color: vars.$colors-primary-action;
+      text-underline-offset: 3px;
+    }
+
+    :global(code) {
+      font-family: "JetBrains Mono Variable", "JetBrains Mono", monospace;
+      font-size: 0.9em;
+      color: vars.$colors-primary-foreground;
+    }
+  }
+</style>
