@@ -1,29 +1,16 @@
-import { createServer, type Server } from 'node:http';
-import type { AddressInfo } from 'node:net';
-import { expect, test } from './fixtures';
+import { expect, test } from './chrome.fixtures';
+import { SMOKE_HEADER, startEchoServer } from './echo-server';
 
-const SMOKE_HEADER = {
-  id: 'smoke',
-  name: 'X-HeaderTweaker-Smoke',
-  value: 'it-works',
-  enabled: true,
-};
-
-let server: Server;
+let server: Awaited<ReturnType<typeof startEchoServer>>;
 let serverUrl: string;
 
-// Echoes the request headers back as JSON, so tests can assert what the extension sent.
 test.beforeAll(async () => {
-  server = createServer((req, res) => {
-    res.writeHead(200, { 'content-type': 'application/json' });
-    res.end(JSON.stringify(req.headers));
-  });
-  await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', resolve));
-  serverUrl = `http://127.0.0.1:${(server.address() as AddressInfo).port}/`;
+  server = await startEchoServer();
+  serverUrl = server.url;
 });
 
 test.afterAll(async () => {
-  await new Promise((resolve) => server.close(resolve));
+  await server.close();
 });
 
 test('background service worker starts', async ({ serviceWorker }) => {

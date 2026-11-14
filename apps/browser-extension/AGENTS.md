@@ -91,10 +91,17 @@ pnpm format-n-lint:fix     # Auto-fix lint and format issues
 
 ## Smoke tests
 
-`e2e/*.e2e.ts` are Playwright tests that load the built Chrome extension (`dist/chrome`) in Chromium and check the popup renders and headers are really added to requests. They run in PR checks after the build, together with `web-ext lint` on the Firefox build.
+`e2e/*.e2e.ts` are Playwright tests that load the built extensions and check the popup renders and headers are really added to requests. There is one Playwright project per browser:
+
+- **`chrome`** (`chrome.e2e.ts`): loads `dist/chrome` in Chromium via `--load-extension`.
+- **`firefox`** (`firefox.e2e.ts`): Playwright can't load Firefox extensions, so `firefox.fixtures.ts` starts Firefox's devtools server and installs `dist/firefox` as a temporary add-on over the Remote Debugging Protocol (`firefox-rdp.ts`, the same mechanism `web-ext run` uses). The extension UUID is pinned via the `extensions.webextensions.uuids` pref so `moz-extension://` URLs are predictable.
+
+PR checks run each project as its own job (`E2E (Chrome)`, `E2E (Firefox)`) on the build from the `Build, Lint & Format` job. The jobs are reusable workflows (`.github/workflows/e2e-chrome.yml`, `e2e-firefox.yml`) called from `pr-checks.yml`.
 
 ```bash
-pnpm build:chrome
-pnpm exec playwright install chromium   # once
-pnpm test:e2e
+pnpm build:all
+pnpm exec playwright install chromium firefox   # once
+pnpm test:e2e            # both browsers
+pnpm test:e2e:chrome     # or one at a time
+pnpm test:e2e:firefox
 ```

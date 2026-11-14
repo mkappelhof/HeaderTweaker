@@ -76,17 +76,19 @@ jobs:
       - name: Lint Firefox build
         run: pnpm --filter headertweaker lint:firefox
 
-      - name: Install Playwright Chromium
-        run: pnpm --filter headertweaker exec playwright install --with-deps --no-shell chromium
-
-      # Loads the built Chrome extension in a real browser and checks headers are actually sent.
-      - name: Smoke test Chrome build
-        run: pnpm --filter headertweaker test:e2e
-
-      - name: Upload smoke test results
-        if: failure()
+      - name: Upload extension builds
         uses: actions/upload-artifact@v7
         with:
-          name: smoke-test-results
-          path: apps/browser-extension/test-results
-          retention-days: 7
+          name: extension-builds
+          path: apps/browser-extension/dist
+          retention-days: 1
+
+  e2e-chrome:
+    name: E2E (Chrome)
+    needs: build-and-lint
+    uses: ./.github/workflows/e2e-chrome.yml
+
+  e2e-firefox:
+    name: E2E (Firefox)
+    needs: build-and-lint
+    uses: ./.github/workflows/e2e-firefox.yml

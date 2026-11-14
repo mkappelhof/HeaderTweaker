@@ -60,6 +60,8 @@
     "web-ext:run": "web-ext run  --source-dir=dist",
     "web-ext:build": "web-ext build --source-dir=dist",
     "test:e2e": "playwright test",
+    "test:e2e:chrome": "playwright test --project=chrome",
+    "test:e2e:firefox": "playwright test --project=firefox",
     "lint:firefox": "web-ext lint --source-dir=dist/firefox"
   }
 }

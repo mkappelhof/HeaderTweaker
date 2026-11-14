@@ -2,7 +2,7 @@
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "noEmit": true,
-    "types": ["chrome", "node"]
+    "types": ["firefox-webext-browser", "chrome", "node"]
   },
   "include": [".", "../playwright.config.ts"]
 }
