@@ -2,7 +2,7 @@
 
 ## Development
 
-Requirements: Node.js 20+ and pnpm 10+.
+Requirements: Node.js 24+ and pnpm 10+.
 
 ```bash
 pnpm install

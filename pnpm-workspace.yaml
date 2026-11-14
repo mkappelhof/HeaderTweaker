@@ -11,3 +11,6 @@ dedupe-peer-dependents: true
 
 overrides:
   "http-cache-semantics": "^4.3.0"
+
+minimumReleaseAgeExclude:
+  - "@mkappelhof/biome-config"

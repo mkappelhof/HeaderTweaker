@@ -1,0 +1,49 @@
+name: e2e (Chrome)
+
+# Reusable workflow, called from pr-checks.yml once the `extension-builds` artifact has been uploaded.
+on:
+  workflow_call:
+
+env:
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  smoke-test:
+    name: Test Chrome
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download extension builds
+        uses: actions/download-artifact@v8
+        with:
+          name: extension-builds
+          path: apps/browser-extension/dist
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter headertweaker exec playwright install --with-deps --no-shell chromium
+
+      # Loads the built Chrome extension in a real browser and checks headers are actually sent.
+      - name: Smoke test Chrome build
+        run: pnpm --filter headertweaker test:e2e:chrome
+
+      - name: Upload smoke test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: smoke-test-results-chrome
+          path: apps/browser-extension/test-results
+          retention-days: 7

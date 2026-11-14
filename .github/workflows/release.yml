@@ -11,15 +11,26 @@ permissions:
 
 env:
   TURBO_TELEMETRY_DISABLED: 1
+  CHROME_EXTENSION_ID: jhcfgkcenmleehpcpimgmnabjdgmchod
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    # Don't let two quick merges race each other while bumping the version.
+    concurrency:
+      group: release
+      cancel-in-progress: false
+    outputs:
+      released: ${{ steps.check_extension.outputs.changed }}
+      version: ${{ steps.get_version.outputs.version }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
+          # Start from the current tip rather than the triggering SHA, so a run that waited on the
+          # concurrency lock includes the previous run's version bump.
+          ref: master
           fetch-depth: 0
           token: ${{ secrets.RELEASE_PAT }}
 
@@ -51,6 +62,71 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Dependabot PRs don't carry a changeset, so add one here for every Dependabot commit since the
+      # last release that may have changed the extension. Website-only updates are left alone.
+      - name: Add changesets for Dependabot updates of the extension
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BEFORE: ${{ github.event.before }}
+        run: |
+          # Scan from the last release rather than just this push: the concurrency group replaces a
+          # pending run when another push arrives, and its commits must not be lost with it.
+          LAST_TAG="v$(node -p "require('./apps/browser-extension/package.json').version")"
+          if git rev-parse -q --verify "refs/tags/$LAST_TAG" > /dev/null; then
+            RANGE="$LAST_TAG..HEAD"
+          elif [[ -z "$BEFORE" || "$BEFORE" =~ ^0+$ ]]; then
+            echo "::warning::Tag $LAST_TAG not found, only scanning the last commit"
+            RANGE="HEAD~1..HEAD"
+          else
+            echo "::warning::Tag $LAST_TAG not found, only scanning this push"
+            RANGE="$BEFORE..HEAD"
+          fi
+
+          # Root dependencies and lockfile-only (e.g. transitive security) updates can change the
+          # extension too. Every npm update touches the lockfile, so skip commits whose only
+          # manifest change is the website's; the build comparison below filters out the rest.
+          COMMITS=""
+          for SHA in $(git log --author='dependabot\[bot\]' --format='%h' "$RANGE" -- \
+            apps/browser-extension/package.json package.json pnpm-lock.yaml); do
+            FILES=$(git diff-tree --no-commit-id --name-only -r "$SHA")
+            if grep -qx 'apps/website/package.json' <<< "$FILES" \
+              && ! grep -qxE 'apps/browser-extension/package.json|package.json' <<< "$FILES"; then
+              continue
+            fi
+            COMMITS="$COMMITS $SHA"
+          done
+          if [[ -z "$COMMITS" ]]; then
+            echo "No Dependabot updates of the extension in $RANGE"
+            exit 0
+          fi
+
+          # Dev-only updates (types, test tooling, ...) often produce exactly the same extension;
+          # skip the release (and store review) when the build is identical to the last release.
+          pnpm build:all
+          PREVIOUS="$RUNNER_TEMP/previous"
+          if gh release download "$LAST_TAG" --pattern '*.zip' --dir "$PREVIOUS"; then
+            unzip -q "$PREVIOUS"/headertweaker-firefox-*.zip -d "$PREVIOUS/firefox"
+            unzip -q "$PREVIOUS"/headertweaker-chromium-*.zip -d "$PREVIOUS/chrome"
+            if diff -rq "$PREVIOUS/firefox" apps/browser-extension/dist/firefox \
+              && diff -rq "$PREVIOUS/chrome" apps/browser-extension/dist/chrome; then
+              echo "Build is identical to $LAST_TAG, not releasing these updates"
+              exit 0
+            fi
+          else
+            echo "::warning::Could not download the $LAST_TAG release assets, releasing without comparing builds"
+          fi
+
+          for SHA in $COMMITS; do
+            {
+              echo '---'
+              echo '"headertweaker": patch'
+              echo '---'
+              echo
+              git log -1 --format='%s' "$SHA"
+            } > ".changeset/dependabot-$SHA.md"
+            echo "Added .changeset/dependabot-$SHA.md"
+          done
+
       - name: Check for changesets
         id: check_changesets
         run: |
@@ -73,13 +149,17 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit and push version bump
+        id: bump
         if: steps.check_changesets.outputs.has_changesets == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Version Packages v${{ steps.get_version.outputs.version }}"
-          git push
+          # The lock only serializes release runs; absorb merges that landed on master mid-run.
+          git pull --rebase origin master
+          git push origin HEAD:master
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Check if extension version changed
         if: steps.check_changesets.outputs.has_changesets == 'true'
@@ -115,16 +195,132 @@ jobs:
           ZIP=$(find web-ext-artifacts/chrome -name "*.zip" -type f | head -n 1)
           mv "$ZIP" "web-ext-artifacts/headertweaker-chromium-${{ steps.get_version.outputs.version }}.zip"
 
+      # addons.mozilla.org requires the original source of bundled/minified code with each submission.
+      - name: Package source code
+        if: steps.check_extension.outputs.changed == 'true'
+        run: |
+          git archive --format=zip \
+            --output="apps/browser-extension/web-ext-artifacts/headertweaker-source-${{ steps.get_version.outputs.version }}.zip" \
+            HEAD -- . ':(exclude)apps/website'
+
       - name: Create GitHub Release
         if: steps.check_extension.outputs.changed == 'true'
         uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.get_version.outputs.version }}
+          # Without this a new tag is created on master's tip, which may have moved past the bump.
+          target_commitish: ${{ steps.bump.outputs.sha }}
           name: Release v${{ steps.get_version.outputs.version }}
           body: |
             Automated release for version ${{ steps.get_version.outputs.version }}.
           files: |
             apps/browser-extension/web-ext-artifacts/headertweaker-firefox-${{ steps.get_version.outputs.version }}.zip
             apps/browser-extension/web-ext-artifacts/headertweaker-chromium-${{ steps.get_version.outputs.version }}.zip
+            apps/browser-extension/web-ext-artifacts/headertweaker-source-${{ steps.get_version.outputs.version }}.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload extension for store publishing
+        if: steps.check_extension.outputs.changed == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: extension
+          path: |
+            apps/browser-extension/dist/firefox
+            apps/browser-extension/web-ext-artifacts/headertweaker-chromium-${{ steps.get_version.outputs.version }}.zip
+            apps/browser-extension/web-ext-artifacts/headertweaker-source-${{ steps.get_version.outputs.version }}.zip
+          retention-days: 7
+
+  # Both store jobs use the `stores` environment, which requires a manual approval before they run.
+  # Test the zips from the GitHub release first, then approve the pending deployment.
+  publish-firefox:
+    name: Publish to Firefox Add-ons
+    needs: release
+    if: needs.release.outputs.released == 'true'
+    runs-on: ubuntu-latest
+    environment: stores
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout release
+        uses: actions/checkout@v7
+        with:
+          ref: v${{ needs.release.outputs.version }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download extension
+        uses: actions/download-artifact@v8
+        with:
+          name: extension
+          path: apps/browser-extension
+
+      # Submits for review and returns right away; AMO publishes the version once it's approved.
+      - name: Submit to addons.mozilla.org
+        working-directory: apps/browser-extension
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: |
+          pnpm exec web-ext sign \
+            --channel=listed \
+            --source-dir=dist/firefox \
+            --upload-source-code=web-ext-artifacts/headertweaker-source-${{ needs.release.outputs.version }}.zip \
+            --approval-timeout=0
+
+  publish-chrome:
+    name: Publish to Chrome Web Store
+    needs: release
+    if: needs.release.outputs.released == 'true'
+    runs-on: ubuntu-latest
+    environment: stores
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout release
+        uses: actions/checkout@v7
+        with:
+          ref: v${{ needs.release.outputs.version }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Download extension
+        uses: actions/download-artifact@v8
+        with:
+          name: extension
+          path: apps/browser-extension
+
+      # Uploads and submits for review; the Chrome Web Store publishes the version once it's approved.
+      - name: Submit to the Chrome Web Store
+        working-directory: apps/browser-extension
+        env:
+          CLIENT_ID: ${{ secrets.CWS_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CWS_CLIENT_SECRET }}
+          REFRESH_TOKEN: ${{ secrets.CWS_REFRESH_TOKEN }}
+          PUBLISHER_ID: ${{ secrets.CWS_PUBLISHER_ID }}
+        run: |
+          pnpm exec chrome-webstore-upload \
+            --source=web-ext-artifacts/headertweaker-chromium-${{ needs.release.outputs.version }}.zip \
+            --extension-id="$CHROME_EXTENSION_ID"

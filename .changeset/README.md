@@ -7,4 +7,5 @@ This directory contains configuration and metadata for the Changesets versioning
 ## Usage
 
 - Run `pnpm changeset` to create a new changeset after making changes.
-- Merging a PR to `master` will trigger the GitHub Actions workflow to create a release PR with updated version and changelog.
+- Merging a PR to `master` triggers the release workflow, which bumps the version, updates the changelog, commits that to `master` and creates a GitHub release.
+- Dependabot PRs don't need a changeset: the release workflow adds one for every Dependabot commit that touches `apps/browser-extension/package.json`, unless the built extension is identical to the last release.

@@ -174,7 +174,6 @@
 .root:not(:disabled):hover {
   color: vars.$colors-primary-foreground;
 
-  /* biome-ignore lint/style/noDescendingSpecificity: only sets width, which no other ::before rule touches */
   &::before {
     width: 100%;
   }

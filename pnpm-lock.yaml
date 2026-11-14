@@ -21,11 +21,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0
       '@mkappelhof/biome-config':
-        specifier: ^1.1.0
-        version: 1.1.0(@biomejs/biome@2.6.4)
-      '@mkappelhof/stylelint-config':
-        specifier: ^1.0.1
-        version: 1.0.1(postcss@8.5.32)(stylelint@17.16.0(typescript@7.0.2))
+        specifier: ^1.1.1
+        version: 1.1.1(@biomejs/biome@2.6.4)
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -81,6 +78,9 @@ importers:
       '@fontsource-variable/inter':
         specifier: ^5.3.0
         version: 5.3.0
+      '@playwright/test':
+        specifier: 1.64.1
+        version: 1.64.1
       '@types/chrome':
         specifier: 0.3.7
         version: 0.3.7
@@ -102,6 +102,9 @@ importers:
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
+      chrome-webstore-upload-cli:
+        specifier: 4.0.2
+        version: 4.0.2
       concurrently:
         specifier: ^10.0.6
         version: 10.0.6
@@ -1204,15 +1207,10 @@ packages:
   '@mkappelhof/agent-instructions@1.1.0':
     resolution: {integrity: sha512-1QB7VKj/r/0Mv0eqGWWwfrX1N0JcS0oCuHjcWWK9maGd9molwY8mNqAj2DBGgcCs86kJL4YEiKZl8rsxI1rBVg==}
 
-  '@mkappelhof/biome-config@1.1.0':
-    resolution: {integrity: sha512-ks/1SaAM7BHLOVcwZjk7vdR40HMTsjehNk2Wf/NNvEVUtTxULp/yKHHCrGmpzJz803ZTTsoKQAM9hlZrrkl3Vw==}
+  '@mkappelhof/biome-config@1.1.1':
+    resolution: {integrity: sha512-1otKbDMP7WCd7Ja+LxCd9dtSPZuD6nMaQaLjXALz/owrVL97EOAKEHaGFtD/AmcfVLosHIgJ4f122PJMaGOk5w==}
     peerDependencies:
-      '@biomejs/biome': ^2.6.0
-
-  '@mkappelhof/stylelint-config@1.0.1':
-    resolution: {integrity: sha512-dXz8bE1hxrPWD7UOz3nK/WJUOJN6RDnSnfe1mXF8t3Z+lzeB+yc40D1HNDxL5yl4C4FXIQcYDMktzdgS6EQSng==}
-    peerDependencies:
-      stylelint: ^17.0.0
+      '@biomejs/biome': 2.6.4
 
   '@napi-rs/wasm-runtime@1.2.4':
     resolution: {integrity: sha512-AJxoUD2/15ESHbvpcyjU274nsAPLuOtPHCk0vKJM5pj//Fg/B1FXNWjPnXTT9PymCYYiHo4zPj0ZomXBKhoy7g==}
@@ -1455,6 +1453,11 @@ packages:
 
   '@pinojs/redact@0.4.0':
     resolution: {integrity: sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg==}
+
+  '@playwright/test@1.64.1':
+    resolution: {integrity: sha512-IaYGml/nSOiZWROfPtuIL7neuu9qDOZ3TNvNljUIrhDMxiGTgPjzj/g9p9RxpS2tSepPDRY+UwAaEeiKtUvIAg==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   '@pnpm/config.env-replace@1.1.0':
     resolution: {integrity: sha512-htyl8TWnKL7K/ESFa1oW2UB5lVDxuF5DpM7tBi6Hu2LNL3mWkIzNLG6N4zoCUP1lCKNxWy/3iu8mS8MvToGd6w==}
@@ -2278,6 +2281,10 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
 
+  buffer-crc32@1.0.0:
+    resolution: {integrity: sha512-Db1SbgBS/fg/392AblrMJk97KggmvYhr4pB5ZIMTWtaivCPMWLkmb7m21cJvpvgK+J3nsU2CmmixNBZx4vFj/w==}
+    engines: {node: '>=8.0.0'}
+
   buffer-equal-constant-time@1.0.1:
     resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
 
@@ -2349,6 +2356,15 @@ packages:
     resolution: {integrity: sha512-JbuGuBNss258bvGil7FT4HKdC3SC2K7UAEUqiPy3ACS3Yxo3hAW6bvFpCu2HsIJLgTqxgEX6BkujvzZfLpUD0Q==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+
+  chrome-webstore-upload-cli@4.0.2:
+    resolution: {integrity: sha512-QYNV56V5YScHshPbGn6ljbq6zUMDHjutDPH5CtMtb7e3folTUiU4RBftP/yvGpiLsD6QSYGDpZVA9P3ZxFE3/A==}
+    engines: {node: '>=20'}
+    hasBin: true
+
+  chrome-webstore-upload@6.0.1:
+    resolution: {integrity: sha512-0Bi/SODOHPymx682lZsP947LeczSpH0pt72nHCVfwV3lrllmHkPS5P886+os1inQs/CvJLRCfiS5ulHe9mVmhQ==}
+    engines: {node: '>=20'}
 
   ci-info@4.4.0:
     resolution: {integrity: sha512-77PSwercCZU2Fc4sX94eF8k8Pxte6JAwL4/ICZLFjJLqegs7kCuAsqqj/70NQF6TvDpgFjkubQB2FW2ZZddvQg==}
@@ -3216,6 +3232,10 @@ packages:
   jszip@3.10.2:
     resolution: {integrity: sha512-3l+rb15IOWtUhU0H5MFqES/T6Kh7abYwjosBey/vD6hDt8zoEffkSC5Ws5SGtgVw3gBx2NEbhTeSW1+kWkpyTQ==}
 
+  junk@4.0.1:
+    resolution: {integrity: sha512-Qush0uP+G8ZScpGMZvHUiRfI0YBWuB3gVBYlI0v0vvOJt5FLicco+IkP0a50LqTTQhmts/m6tP5SWE+USyIvcQ==}
+    engines: {node: '>=12.20'}
+
   jwa@2.0.1:
     resolution: {integrity: sha512-hRF04fqJIP8Abbkq5NKGN0Bbr3JxlQ+qhZufXVr0DvujKy93ZCbXZMHDL4EOtodSbCWxOqR8MS1tXA5hwqCXDg==}
 
@@ -3401,6 +3421,10 @@ packages:
 
   mdn-data@2.27.1:
     resolution: {integrity: sha512-9Yubnt3e8A0OKwxYSXyhLymGW4sCufcLG6VdiDdUGVkPhpqLxlvP5vl1983gQjJl3tqbrM731mjaZaP68AgosQ==}
+
+  meow@12.1.1:
+    resolution: {integrity: sha512-BhXM0Au22RwUneMPwSCnyhTOizdWoIEPU9sp0Aqa1PnDMR5Wv2FGXYDjuzJEIX+Eo2Rb8xuYe5jrnm5QowQFkw==}
+    engines: {node: '>=16.10'}
 
   meow@14.1.0:
     resolution: {integrity: sha512-EDYo6VlmtnumlcBCbh1gLJ//9jvM/ndXHfVXIFrZVr6fGcwTUyCTFNTLCKuY3ffbK8L/+3Mzqnd58RojiZqHVw==}
@@ -3644,6 +3668,16 @@ packages:
 
   pino@10.4.0:
     resolution: {integrity: sha512-bk1ZMTwG/Vymx+zPoa28MhNzucFvXJWp3csrSuxuHPSMeUettaCoQ5Jvg07mtC4JGNpcfTwz41oVCnNgBK9+vA==}
+    hasBin: true
+
+  playwright-core@1.64.1:
+    resolution: {integrity: sha512-BC4s8y6SEVA6Q1rSxZTto8hI1KUI3xXlHGZgvGqP4IqPdI/a6FX9H29IDNz7vKo9l21b6LfYosScPL6M3xxyDQ==}
+    engines: {node: '>=20'}
+    hasBin: true
+
+  playwright@1.64.1:
+    resolution: {integrity: sha512-HCrVhHr5QQuwYoswEUGTb7gGp522yflbv/ST8nF4sFWGuLjQCt17Q/EubpGGSNKYn1tsTCPZxqHhHCfVURu7UA==}
+    engines: {node: '>=20'}
     hasBin: true
 
   postcss-media-query-parser@0.2.3:
@@ -4063,12 +4097,6 @@ packages:
     engines: {node: '>=20.19.0'}
     peerDependencies:
       stylelint: ^17.0.0
-
-  stylelint-scss@7.3.0:
-    resolution: {integrity: sha512-FBz075AUFoEJ1WQKsgsRr6EJKcjy7jxQjV8xsAqbPcnhNiXnJ7C489vqUyDZccBy1GorewlshERkaMuCyOKXaw==}
-    engines: {node: '>=20.19.0'}
-    peerDependencies:
-      stylelint: ^16.8.2 || ^17.0.0
 
   stylelint-scss@7.4.0:
     resolution: {integrity: sha512-OvN+AestcvtB/IFvde1kpFLq2mpIsPaeB8E+Cjlxu7qjf0ja7NCoTrDW97tuNeXFlYGUdwqGq5cXaByLpNwuxA==}
@@ -4723,6 +4751,9 @@ packages:
   yauzl@3.4.0:
     resolution: {integrity: sha512-jIH9yLR9wqr0wOS0TpBvo/g/2UgZH5qePVbjgRliiF0BYvOZyaBknKsF+x9Iht0O6sqgnB93rCICdOZFecJuDw==}
     engines: {node: '>=12'}
+
+  yazl@3.3.1:
+    resolution: {integrity: sha512-BbETDVWG+VcMUle37k5Fqp//7SDOK2/1+T7X8TD96M3D9G8jK5VLUdQVdVjGi8im7FGkazX7kk5hkU8X4L5Bng==}
 
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
@@ -5726,18 +5757,9 @@ snapshots:
 
   '@mkappelhof/agent-instructions@1.1.0': {}
 
-  '@mkappelhof/biome-config@1.1.0(@biomejs/biome@2.6.4)':
+  '@mkappelhof/biome-config@1.1.1(@biomejs/biome@2.6.4)':
     dependencies:
       '@biomejs/biome': 2.6.4
-
-  '@mkappelhof/stylelint-config@1.0.1(postcss@8.5.32)(stylelint@17.16.0(typescript@7.0.2))':
-    dependencies:
-      stylelint: 17.16.0(typescript@7.0.2)
-      stylelint-config-recommended-scss: 17.0.1(postcss@8.5.32)(stylelint@17.16.0(typescript@7.0.2))
-      stylelint-config-standard: 40.0.0(stylelint@17.16.0(typescript@7.0.2))
-      stylelint-scss: 7.3.0(stylelint@17.16.0(typescript@7.0.2))
-    transitivePeerDependencies:
-      - postcss
 
   '@napi-rs/wasm-runtime@1.2.4(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)':
     dependencies:
@@ -5892,6 +5914,10 @@ snapshots:
     optional: true
 
   '@pinojs/redact@0.4.0': {}
+
+  '@playwright/test@1.64.1':
+    dependencies:
+      playwright: 1.64.1
 
   '@pnpm/config.env-replace@1.1.0': {}
 
@@ -6632,6 +6658,8 @@ snapshots:
       update-browserslist-db: 1.3.4(browserslist@4.29.5)
     optional: true
 
+  buffer-crc32@1.0.0: {}
+
   buffer-equal-constant-time@1.0.1: {}
 
   buffer-from@1.1.2: {}
@@ -6711,6 +6739,16 @@ snapshots:
       lighthouse-logger: 2.0.2
     transitivePeerDependencies:
       - supports-color
+
+  chrome-webstore-upload-cli@4.0.2:
+    dependencies:
+      chrome-webstore-upload: 6.0.1
+      meow: 12.1.1
+
+  chrome-webstore-upload@6.0.1:
+    dependencies:
+      junk: 4.0.1
+      yazl: 3.3.1
 
   ci-info@4.4.0: {}
 
@@ -7540,6 +7578,8 @@ snapshots:
       readable-stream: 2.3.8
       setimmediate: 1.0.5
 
+  junk@4.0.1: {}
+
   jwa@2.0.1:
     dependencies:
       buffer-equal-constant-time: 1.0.1
@@ -7706,6 +7746,8 @@ snapshots:
   mdn-data@2.0.28: {}
 
   mdn-data@2.27.1: {}
+
+  meow@12.1.1: {}
 
   meow@14.1.0: {}
 
@@ -7979,6 +8021,12 @@ snapshots:
       safe-stable-stringify: 2.5.0
       sonic-boom: 4.2.1
       thread-stream: 4.2.0
+
+  playwright-core@1.64.1: {}
+
+  playwright@1.64.1:
+    dependencies:
+      playwright-core: 1.64.1
 
   postcss-media-query-parser@0.2.3: {}
 
@@ -8411,21 +8459,6 @@ snapshots:
     dependencies:
       stylelint: 17.16.0(typescript@7.0.2)
       stylelint-config-recommended: 18.0.0(stylelint@17.16.0(typescript@7.0.2))
-
-  stylelint-scss@7.3.0(stylelint@17.16.0(typescript@7.0.2)):
-    dependencies:
-      '@csstools/css-calc': 3.4.3(@csstools/css-parser-algorithms@4.0.2(@csstools/css-tokenizer@4.0.2))(@csstools/css-tokenizer@4.0.2)
-      '@csstools/css-parser-algorithms': 4.0.2(@csstools/css-tokenizer@4.0.2)
-      '@csstools/css-syntax-patches-for-csstree': 1.1.15(css-tree@3.2.1)
-      '@csstools/css-tokenizer': 4.0.2
-      css-tree: 3.2.1
-      is-plain-object: 5.1.0
-      known-css-properties: 0.37.0
-      postcss-media-query-parser: 0.2.3
-      postcss-resolve-nested-selector: 0.1.7
-      postcss-selector-parser: 7.1.7
-      postcss-value-parser: 4.2.0
-      stylelint: 17.16.0(typescript@7.0.2)
 
   stylelint-scss@7.4.0(stylelint@17.16.0(typescript@7.0.2)):
     dependencies:
@@ -9079,6 +9112,10 @@ snapshots:
   yauzl@3.4.0:
     dependencies:
       pend: 1.2.0
+
+  yazl@3.3.1:
+    dependencies:
+      buffer-crc32: 1.0.0
 
   yocto-queue@0.1.0: {}
 

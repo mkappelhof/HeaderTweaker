@@ -85,4 +85,23 @@ pnpm format-n-lint:fix     # Auto-fix lint and format issues
   pnpm change   # interactive prompt to create a changeset
   ```
 
-- Merging to `master` automatically bumps the version, creates a git tag, and publishes a GitHub release with Firefox and Chrome `.zip` artifacts
+- Merging to `master` automatically bumps the version, creates a git tag, and publishes a GitHub release with Firefox and Chrome `.zip` artifacts (plus a source `.zip` for AMO)
+- After the release, the `publish-firefox` and `publish-chrome` jobs submit it to addons.mozilla.org and the Chrome Web Store. Both wait for manual approval of the `stores` GitHub environment.
+- Dependabot PRs are exempt from the changeset check; `release.yml` adds a patch changeset for each Dependabot commit since the last release tag that touches this package's `package.json`, the root `package.json`, or `pnpm-lock.yaml` (website-only updates excluded), unless the build is identical to the last release
+
+## Smoke tests
+
+`e2e/*.e2e.ts` are Playwright tests that load the built extensions and check the popup renders and headers are really added to requests. There is one Playwright project per browser:
+
+- **`chrome`** (`chrome.e2e.ts`): loads `dist/chrome` in Chromium via `--load-extension`.
+- **`firefox`** (`firefox.e2e.ts`): Playwright can't load Firefox extensions, so `firefox.fixtures.ts` starts Firefox's devtools server and installs `dist/firefox` as a temporary add-on over the Remote Debugging Protocol (`firefox-rdp.ts`, the same mechanism `web-ext run` uses). Playwright can't drive `moz-extension://` pages either (they run in Firefox's separate extension process), so the `extension` fixture runs code in the background page over the same connection — the tests use it to seed `browser.storage` and to render the popup in an iframe.
+
+PR checks run each project as its own job (`E2E (Chrome)`, `E2E (Firefox)`) on the build from the `Build, Lint & Format` job. The jobs are reusable workflows (`.github/workflows/e2e-chrome.yml`, `e2e-firefox.yml`) called from `pr-checks.yml`.
+
+```bash
+pnpm build:all
+pnpm exec playwright install chromium firefox   # once
+pnpm test:e2e            # both browsers
+pnpm test:e2e:chrome     # or one at a time
+pnpm test:e2e:firefox
+```

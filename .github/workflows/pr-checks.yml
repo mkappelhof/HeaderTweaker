@@ -71,3 +71,24 @@ jobs:
 
       - name: Build
         run: pnpm build:all
+
+      # Same validator addons.mozilla.org runs on submission, only fails on errors (not warnings).
+      - name: Lint Firefox build
+        run: pnpm --filter headertweaker lint:firefox
+
+      - name: Upload extension builds
+        uses: actions/upload-artifact@v7
+        with:
+          name: extension-builds
+          path: apps/browser-extension/dist
+          retention-days: 1
+
+  e2e-chrome:
+    name: E2E (Chrome)
+    needs: build-and-lint
+    uses: ./.github/workflows/e2e-chrome.yml
+
+  e2e-firefox:
+    name: E2E (Firefox)
+    needs: build-and-lint
+    uses: ./.github/workflows/e2e-firefox.yml
