@@ -95,7 +95,8 @@ const createRdpSession = (socket: Socket) => {
   const request = (message: { to: string; type: string } & Record<string, unknown>) => {
     const json = JSON.stringify(message);
     socket.write(`${Buffer.byteLength(json)}:${json}`);
-    return receive(({ from }) => from === message.to);
+    // Events (e.g. `target-available-form`) come from the same actor but carry a `type`; replies don't.
+    return receive(({ from, type }) => from === message.to && type === undefined);
   };
 
   return { receive, request, close: () => socket.destroy() };
@@ -128,9 +129,17 @@ export const installTemporaryAddon = async (
     if (!addon) {
       throw new Error(`Add-on ${addonId} is not installed`);
     }
-    // The add-on's target; its console actor evaluates code in the background page.
-    const { form } = await session.request({ to: addon.actor, type: 'getTarget' });
-    const { consoleActor } = form as { consoleActor: string };
+    // Targets come from a watcher: it emits a `target-available-form` event for every document the
+    // add-on has open. The background page's console actor evaluates code in the background page.
+    const { actor: watcherActor } = await session.request({ to: addon.actor, type: 'getWatcher' });
+    await session.request({ to: String(watcherActor), type: 'watchTargets', targetType: 'frame' });
+    const { target } = await session.receive(
+      ({ from, type, target }) =>
+        from === watcherActor &&
+        type === 'target-available-form' &&
+        /\/background\.html$/.test(String((target as { url?: string })?.url))
+    );
+    const { consoleActor } = target as { consoleActor: string };
 
     const evaluate: FirefoxExtension['evaluate'] = async (fn, arg) => {
       // Wrapping in an async function and asking the server to await it supports async `fn`s;
