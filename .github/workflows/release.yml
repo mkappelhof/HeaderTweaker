@@ -28,6 +28,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
+          # Start from the current tip rather than the triggering SHA, so a run that waited on the
+          # concurrency lock includes the previous run's version bump.
+          ref: master
           fetch-depth: 0
           token: ${{ secrets.RELEASE_PAT }}
 
@@ -59,20 +62,39 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Dependabot PRs don't carry a changeset, so add one here for every Dependabot commit in this
-      # push that touched the extension's dependencies. Website-only updates are left alone.
+      # Dependabot PRs don't carry a changeset, so add one here for every Dependabot commit since the
+      # last release that may have changed the extension. Website-only updates are left alone.
       - name: Add changesets for Dependabot updates of the extension
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BEFORE: ${{ github.event.before }}
         run: |
-          if [[ -z "$BEFORE" || "$BEFORE" =~ ^0+$ ]]; then
+          # Scan from the last release rather than just this push: the concurrency group replaces a
+          # pending run when another push arrives, and its commits must not be lost with it.
+          LAST_TAG="v$(node -p "require('./apps/browser-extension/package.json').version")"
+          if git rev-parse -q --verify "refs/tags/$LAST_TAG" > /dev/null; then
+            RANGE="$LAST_TAG..HEAD"
+          elif [[ -z "$BEFORE" || "$BEFORE" =~ ^0+$ ]]; then
+            echo "::warning::Tag $LAST_TAG not found, only scanning the last commit"
             RANGE="HEAD~1..HEAD"
           else
+            echo "::warning::Tag $LAST_TAG not found, only scanning this push"
             RANGE="$BEFORE..HEAD"
           fi
 
-          COMMITS=$(git log --author='dependabot\[bot\]' --format='%h' "$RANGE" -- apps/browser-extension/package.json)
+          # Root dependencies and lockfile-only (e.g. transitive security) updates can change the
+          # extension too. Every npm update touches the lockfile, so skip commits whose only
+          # manifest change is the website's; the build comparison below filters out the rest.
+          COMMITS=""
+          for SHA in $(git log --author='dependabot\[bot\]' --format='%h' "$RANGE" -- \
+            apps/browser-extension/package.json package.json pnpm-lock.yaml); do
+            FILES=$(git diff-tree --no-commit-id --name-only -r "$SHA")
+            if grep -qx 'apps/website/package.json' <<< "$FILES" \
+              && ! grep -qxE 'apps/browser-extension/package.json|package.json' <<< "$FILES"; then
+              continue
+            fi
+            COMMITS="$COMMITS $SHA"
+          done
           if [[ -z "$COMMITS" ]]; then
             echo "No Dependabot updates of the extension in $RANGE"
             exit 0
@@ -81,7 +103,6 @@ jobs:
           # Dev-only updates (types, test tooling, ...) often produce exactly the same extension;
           # skip the release (and store review) when the build is identical to the last release.
           pnpm build:all
-          LAST_TAG="v$(node -p "require('./apps/browser-extension/package.json').version")"
           PREVIOUS="$RUNNER_TEMP/previous"
           if gh release download "$LAST_TAG" --pattern '*.zip' --dir "$PREVIOUS"; then
             unzip -q "$PREVIOUS"/headertweaker-firefox-*.zip -d "$PREVIOUS/firefox"
@@ -128,13 +149,17 @@ jobs:
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
       - name: Commit and push version bump
+        id: bump
         if: steps.check_changesets.outputs.has_changesets == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
           git commit -m "Version Packages v${{ steps.get_version.outputs.version }}"
-          git push
+          # The lock only serializes release runs; absorb merges that landed on master mid-run.
+          git pull --rebase origin master
+          git push origin HEAD:master
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Check if extension version changed
         if: steps.check_changesets.outputs.has_changesets == 'true'
@@ -183,6 +208,8 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: v${{ steps.get_version.outputs.version }}
+          # Without this a new tag is created on master's tip, which may have moved past the bump.
+          target_commitish: ${{ steps.bump.outputs.sha }}
           name: Release v${{ steps.get_version.outputs.version }}
           body: |
             Automated release for version ${{ steps.get_version.outputs.version }}.

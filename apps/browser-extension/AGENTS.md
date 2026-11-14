@@ -87,7 +87,7 @@ pnpm format-n-lint:fix     # Auto-fix lint and format issues
 
 - Merging to `master` automatically bumps the version, creates a git tag, and publishes a GitHub release with Firefox and Chrome `.zip` artifacts (plus a source `.zip` for AMO)
 - After the release, the `publish-firefox` and `publish-chrome` jobs submit it to addons.mozilla.org and the Chrome Web Store. Both wait for manual approval of the `stores` GitHub environment.
-- Dependabot PRs are exempt from the changeset check; `release.yml` adds a patch changeset for each Dependabot commit that touches this package's `package.json`, unless the build is identical to the last release
+- Dependabot PRs are exempt from the changeset check; `release.yml` adds a patch changeset for each Dependabot commit since the last release tag that touches this package's `package.json`, the root `package.json`, or `pnpm-lock.yaml` (website-only updates excluded), unless the build is identical to the last release
 
 ## Smoke tests
 

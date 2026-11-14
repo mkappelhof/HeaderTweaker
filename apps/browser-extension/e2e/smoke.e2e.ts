@@ -72,13 +72,18 @@ test('enabled headers are added to outgoing requests', async ({ context, service
 });
 
 test('no headers are added while HeaderTweaker is disabled', async ({ context, serviceWorker }) => {
+  const getDynamicRules = () =>
+    serviceWorker.evaluate(() => chrome.declarativeNetRequest.getDynamicRules());
+
+  // A fresh profile has no rules yet, so first install an active rule for disabling to remove.
   await serviceWorker.evaluate(
-    (header) => chrome.storage.local.set({ headers: [header], isDisabled: true }),
+    (header) => chrome.storage.local.set({ headers: [header] }),
     SMOKE_HEADER
   );
-  await expect
-    .poll(() => serviceWorker.evaluate(() => chrome.declarativeNetRequest.getDynamicRules()))
-    .toHaveLength(0);
+  await expect.poll(getDynamicRules).toHaveLength(1);
+
+  await serviceWorker.evaluate(() => chrome.storage.local.set({ isDisabled: true }));
+  await expect.poll(getDynamicRules).toHaveLength(0);
 
   const page = await context.newPage();
   const response = await page.goto(serverUrl);
