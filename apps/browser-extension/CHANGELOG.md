@@ -1,5 +1,23 @@
 # HeaderTweaker
 
+## 1.6.7
+
+### Patch Changes
+
+- Bump react-i18next from 17.1.0 to 17.1.9 (#112)
+- Bump i18next from 26.5.4 to 26.5.11 (#110)
+- Bump @biomejs/biome from 2.6.2 to 2.6.3 in the dev-dependencies group (#117)
+- Bump the dev-dependencies group across 1 directory with 7 updates (#122)
+- Bump i18next from 26.5.2 to 26.5.4 (#100)
+- Bump i18next from 26.5.11 to 26.7.1 (#123)
+- Bump react-dom from 19.3.0 to 19.3.1 (#103)
+- Bump tldts from 7.4.18 to 7.4.19 (#113)
+- Bump the dev-dependencies group across 1 directory with 12 updates (#114)
+- Bump astro from 7.3.8 to 7.4.1 (#101)
+- Bump react-i18next from 17.1.9 to 17.1.12 (#125)
+- Bump react from 19.3.0 to 19.3.1 (#102)
+- 621e853: Update deploy settings and bump dependencies
+
 ## 1.6.6
 
 ### Patch Changes
