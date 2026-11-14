@@ -34,14 +34,12 @@ const issuesUrl = `${EXTENSION_META.repositoryUrl}/issues`;
   </p>
   <ul>
     <li>
-      <strong>Your header rules</strong>&nbsp;
-      — each rule's name, value, optional label, the URLs it is scoped to, and whether it is
-      enabled.
+      <strong>Your header rules</strong>&nbsp; — each rule's name, value, optional label, the URLs
+      it is scoped to, and whether it is enabled.
     </li>
     <li>
-      <strong>Your settings</strong>&nbsp;
-      — whether the extension is switched on, whether labels are shown, and the column widths of the
-      header list.
+      <strong>Your settings</strong>&nbsp; — whether the extension is switched on, whether labels
+      are shown, and the column widths of the header list.
     </li>
   </ul>
   <p>
@@ -62,15 +60,14 @@ const issuesUrl = `${EXTENSION_META.repositoryUrl}/issues`;
   </p>
   <ul>
     <li>
-      <strong>Chrome</strong>&nbsp;
-      uses the <code>declarativeNetRequestWithHostAccess</code> API. The extension hands your rules
-      to the browser, and Chrome applies them itself — the extension never sees the requests.
+      <strong>Chrome</strong>&nbsp; uses the <code>declarativeNetRequestWithHostAccess</code> API.
+      The extension hands your rules to the browser, and Chrome applies them itself — the extension
+      never sees the requests.
     </li>
     <li>
-      <strong>Firefox</strong>&nbsp;
-      uses the <code>webRequest</code> API. The extension sees an outgoing request's URL and headers
-      just long enough to apply your rules, in memory, before the request is sent. Nothing is
-      recorded.
+      <strong>Firefox</strong>&nbsp; uses the <code>webRequest</code> API. The extension sees an
+      outgoing request's URL and headers just long enough to apply your rules, in memory, before the
+      request is sent. Nothing is recorded.
     </li>
   </ul>
   <p>
