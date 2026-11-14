@@ -6,3 +6,5 @@ web-ext-artifacts
 .astro
 .vercel
 .turbo
+test-results
+playwright-report

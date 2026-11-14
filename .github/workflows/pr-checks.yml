@@ -71,3 +71,22 @@ jobs:
 
       - name: Build
         run: pnpm build:all
+
+      # Same validator addons.mozilla.org runs on submission, only fails on errors (not warnings).
+      - name: Lint Firefox build
+        run: pnpm --filter headertweaker lint:firefox
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter headertweaker exec playwright install --with-deps --no-shell chromium
+
+      # Loads the built Chrome extension in a real browser and checks headers are actually sent.
+      - name: Smoke test Chrome build
+        run: pnpm --filter headertweaker test:e2e
+
+      - name: Upload smoke test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: smoke-test-results
+          path: apps/browser-extension/test-results
+          retention-days: 7

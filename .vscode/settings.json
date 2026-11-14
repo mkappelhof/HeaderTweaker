@@ -1,6 +1,6 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.preferences.includePackageJsonAutoImports": "on",
   "files.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
@@ -18,11 +18,6 @@
   "explorer.fileNesting.patterns": {
     "*.js": "${capture}.test.js, ${capture}.spec.js",
     "*.ts": "${capture}.test.ts, ${capture}.test.tsx, ${capture}.spec.ts, ${capture}.spec.tsx"
-  },
-  "markdownlint.config": {
-    "MD024": {
-      "siblings_only": true
-    }
   },
   "[javascript]": {
     "editor.defaultFormatter": "biomejs.biome"

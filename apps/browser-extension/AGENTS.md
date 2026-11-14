@@ -85,4 +85,16 @@ pnpm format-n-lint:fix     # Auto-fix lint and format issues
   pnpm change   # interactive prompt to create a changeset
   ```
 
-- Merging to `master` automatically bumps the version, creates a git tag, and publishes a GitHub release with Firefox and Chrome `.zip` artifacts
+- Merging to `master` automatically bumps the version, creates a git tag, and publishes a GitHub release with Firefox and Chrome `.zip` artifacts (plus a source `.zip` for AMO)
+- After the release, the `publish-firefox` and `publish-chrome` jobs submit it to addons.mozilla.org and the Chrome Web Store. Both wait for manual approval of the `stores` GitHub environment.
+- Dependabot PRs are exempt from the changeset check; `release.yml` adds a patch changeset for each Dependabot commit that touches this package's `package.json`, unless the build is identical to the last release
+
+## Smoke tests
+
+`e2e/*.e2e.ts` are Playwright tests that load the built Chrome extension (`dist/chrome`) in Chromium and check the popup renders and headers are really added to requests. They run in PR checks after the build, together with `web-ext lint` on the Firefox build.
+
+```bash
+pnpm build:chrome
+pnpm exec playwright install chromium   # once
+pnpm test:e2e
+```
