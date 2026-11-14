@@ -13,39 +13,59 @@ test.afterAll(async () => {
   await server.close();
 });
 
-test('background page starts', async ({ extensionPage }) => {
-  const hasBackgroundPage = await extensionPage.evaluate(async () =>
-    Boolean(await browser.runtime.getBackgroundPage())
-  );
+// Playwright can't open extension pages in Firefox, so this runs in the background page: it loads the
+// popup in an iframe and waits until an element with exactly `text` appears. Self-contained, because
+// `extension.evaluate` serializes it.
+const renderPopupUntil = async (text: string) => {
+  const frame = document.createElement('iframe');
+  frame.src = '/headertweaker.html';
+  document.body.append(frame);
+  await new Promise((resolve) => frame.addEventListener('load', resolve, { once: true }));
 
-  expect(hasBackgroundPage).toBe(true);
+  const errors: string[] = [];
+  frame.contentWindow?.addEventListener('error', (event) => errors.push(String(event.message)));
+
+  let found = false;
+  const deadline = Date.now() + 10_000;
+  while (!found && Date.now() < deadline) {
+    const elements = frame.contentDocument?.body.querySelectorAll('*') ?? [];
+    found = [...elements].some((element) => element.textContent?.trim() === text);
+    if (!found) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+  }
+  frame.remove();
+
+  return { found, errors };
+};
+
+test('background page starts', async ({ extension }) => {
+  const backgroundUrl = await extension.evaluate(() => location.href);
+
+  expect(backgroundUrl).toMatch(/^moz-extension:\/\/[0-9a-f-]{36}\/background\.html$/);
 });
 
-test('popup renders without errors', async ({ context, extensionUrl }) => {
-  const page = await context.newPage();
-  const errors: Error[] = [];
-  page.on('pageerror', (error) => errors.push(error));
-
-  await page.goto(`${extensionUrl}/headertweaker.html`);
-
-  await expect(page.getByText('HeaderTweaker', { exact: true })).toBeVisible();
-  expect(errors).toEqual([]);
+test('popup renders without errors', async ({ extension }) => {
+  expect(await extension.evaluate(renderPopupUntil, 'HeaderTweaker')).toEqual({
+    found: true,
+    errors: [],
+  });
 });
 
-test('popup lists stored headers', async ({ extensionPage }) => {
-  await extensionPage.evaluate(
+test('popup lists stored headers', async ({ extension }) => {
+  await extension.evaluate(
     (header) => browser.storage.local.set({ headers: [header] }),
     SMOKE_HEADER
   );
 
-  await extensionPage.reload();
-
-  await expect(extensionPage.getByText(SMOKE_HEADER.name)).toBeVisible();
+  expect(await extension.evaluate(renderPopupUntil, SMOKE_HEADER.name)).toMatchObject({
+    found: true,
+  });
 });
 
 // The Firefox background reads storage on every request, so there are no rules to wait for.
-test('enabled headers are added to outgoing requests', async ({ context, extensionPage }) => {
-  await extensionPage.evaluate(
+test('enabled headers are added to outgoing requests', async ({ context, extension }) => {
+  await extension.evaluate(
     (header) => browser.storage.local.set({ headers: [header] }),
     SMOKE_HEADER
   );
@@ -58,8 +78,8 @@ test('enabled headers are added to outgoing requests', async ({ context, extensi
   });
 });
 
-test('no headers are added while HeaderTweaker is disabled', async ({ context, extensionPage }) => {
-  await extensionPage.evaluate(
+test('no headers are added while HeaderTweaker is disabled', async ({ context, extension }) => {
+  await extension.evaluate(
     (header) => browser.storage.local.set({ headers: [header], isDisabled: true }),
     SMOKE_HEADER
   );
