@@ -14,7 +14,9 @@
   bottom: vars.$spacing-core-1;
   border-radius: 999px;
   background-color: vars.$colors-primary-action-disabled;
-  transition: transform 0.25s ease, width 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    width 0.25s ease;
   pointer-events: none;
 }
 

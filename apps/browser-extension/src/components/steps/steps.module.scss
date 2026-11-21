@@ -63,7 +63,10 @@
   color: vars.$colors-tertiary-foreground;
   font-size: 0.8125rem;
   font-weight: 700;
-  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 
   svg {
     width: vars.$spacing-core-4;
