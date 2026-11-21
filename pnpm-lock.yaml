@@ -69,8 +69,8 @@ importers:
         specifier: ^18.0.2
         version: 18.0.2(@types/react@19.3.0)(i18next@26.7.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       tldts:
-        specifier: ^7.4.19
-        version: 7.4.19
+        specifier: ^7.5.4
+        version: 7.5.4
       uuid:
         specifier: 14.0.3
         version: 14.0.3
@@ -4210,11 +4210,11 @@ packages:
   tinyps@0.5.1:
     resolution: {integrity: sha512-B6Ykif5HflC3AdDkS4Zst/2muYVfeXoVMy+KorqH80s/1x4vunIORpNySH681X7fjj+dFM9MDKD6/Hsccjb87Q==}
 
-  tldts-core@7.4.19:
-    resolution: {integrity: sha512-goNXV6Ho9TIOfpJZanTd6CKG5DyYgYAL+k+22T0SLh8l6+KHIfBUPFuePuSZv05UttIaaLmI9tb7TmGIdK5AkQ==}
+  tldts-core@7.5.4:
+    resolution: {integrity: sha512-9+4zWtKEDZ3V3FoZ1B97rv+5z5oqp7yeXGVze3CxgQ+CJro9do9DCPD00wxstYZDXDMXsurkBerFfiB6GYtPbA==}
 
-  tldts@7.4.19:
-    resolution: {integrity: sha512-48dH6aSpQnpbzDUc4vIQZ1VjB8tkK+e8c1yx05/SZK+rkssgjEOlxDd/yU8/a4vGYQ9vRgJr9dwMq9TJ0b3X2Q==}
+  tldts@7.5.4:
+    resolution: {integrity: sha512-Rn2ABgjHZrA+jzqom5zhxA0hLohzYrIgfCPyhpTUxqsUrcsBYuab49LseR9waB9Jr8/MxdodvMHA91oRiGLO3Q==}
     hasBin: true
 
   tmp@0.2.7:
@@ -8664,11 +8664,11 @@ snapshots:
 
   tinyps@0.5.1: {}
 
-  tldts-core@7.4.19: {}
+  tldts-core@7.5.4: {}
 
-  tldts@7.4.19:
+  tldts@7.5.4:
     dependencies:
-      tldts-core: 7.4.19
+      tldts-core: 7.5.4
 
   tmp@0.2.7: {}
 
@@ -8678,7 +8678,7 @@ snapshots:
 
   tough-cookie@6.0.2:
     dependencies:
-      tldts: 7.4.19
+      tldts: 7.5.4
 
   tr46@7.0.0:
     dependencies:
