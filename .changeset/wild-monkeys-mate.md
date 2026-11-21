@@ -1,5 +1,0 @@
----
-"headertweaker": patch
----
-
-Update dependencies

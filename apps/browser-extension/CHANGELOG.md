@@ -1,5 +1,12 @@
 # HeaderTweaker
 
+## 1.6.8
+
+### Patch Changes
+
+- Bump the dev-dependencies group across 1 directory with 10 updates (#146)
+- bdd2495: Update dependencies
+
 ## 1.6.7
 
 ### Patch Changes
