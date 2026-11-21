@@ -21,8 +21,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1
       '@mkappelhof/biome-config':
-        specifier: ^1.1.1
-        version: 1.1.1(@biomejs/biome@2.6.8)
+        specifier: ^1.1.6
+        version: 1.1.6(@biomejs/biome@2.6.8)
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -1241,10 +1241,10 @@ packages:
   '@mkappelhof/agent-instructions@1.1.1':
     resolution: {integrity: sha512-ddzRV5VcqnD/AEmMoqjkWcd7/9HdMMWg/GwIJhaCffrN05XyHz3rEUa76cUJmChsVl/C5U43u5XsrQ1tg8lKUg==}
 
-  '@mkappelhof/biome-config@1.1.1':
-    resolution: {integrity: sha512-1otKbDMP7WCd7Ja+LxCd9dtSPZuD6nMaQaLjXALz/owrVL97EOAKEHaGFtD/AmcfVLosHIgJ4f122PJMaGOk5w==}
+  '@mkappelhof/biome-config@1.1.6':
+    resolution: {integrity: sha512-RDrg17F66ZnlnxD/gcNWhNvy/zMWgAiejfpNbETnNI7WMeJujhu9qIdL/lFZLrkIN55XSuzyAfDBVDhd96YtHA==}
     peerDependencies:
-      '@biomejs/biome': 2.6.4
+      '@biomejs/biome': 2.6.8
 
   '@napi-rs/wasm-runtime@1.2.4':
     resolution: {integrity: sha512-AJxoUD2/15ESHbvpcyjU274nsAPLuOtPHCk0vKJM5pj//Fg/B1FXNWjPnXTT9PymCYYiHo4zPj0ZomXBKhoy7g==}
@@ -5840,7 +5840,7 @@ snapshots:
 
   '@mkappelhof/agent-instructions@1.1.1': {}
 
-  '@mkappelhof/biome-config@1.1.1(@biomejs/biome@2.6.8)':
+  '@mkappelhof/biome-config@1.1.6(@biomejs/biome@2.6.8)':
     dependencies:
       '@biomejs/biome': 2.6.8
 

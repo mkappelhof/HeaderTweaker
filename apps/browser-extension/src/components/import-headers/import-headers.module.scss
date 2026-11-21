@@ -12,7 +12,9 @@
     background: color.scale(vars.$colors-primary-background, $lightness: -10%);
     text-align: center;
     width: 100%;
-    transition: border 0.2s, background 0.2s;
+    transition:
+      border 0.2s,
+      background 0.2s;
     cursor: pointer;
     outline: none;
 

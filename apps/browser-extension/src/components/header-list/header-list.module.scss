@@ -68,7 +68,9 @@
     background: vars.$colors-tertiary-foreground;
     opacity: 0.35;
     border-radius: 1px;
-    transition: opacity 0.15s, background-color 0.15s;
+    transition:
+      opacity 0.15s,
+      background-color 0.15s;
   }
 
   &:hover::before {

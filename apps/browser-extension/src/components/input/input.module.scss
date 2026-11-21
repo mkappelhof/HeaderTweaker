@@ -88,7 +88,9 @@
     border-radius: vars.$border-radius-primary;
     background-color: vars.$colors-primary-action-disabled;
     cursor: pointer;
-    transition: background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+    transition:
+      background-color 0.1s ease-in-out,
+      border-color 0.1s ease-in-out;
 
     &:checked {
       border-color: vars.$colors-primary-action;
