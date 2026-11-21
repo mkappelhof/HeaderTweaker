@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.6.11
+
+### Patch Changes
+
+- Bump vitest from 5.1.0 to 5.1.1 in /apps/browser-extension in the dev-dependencies group across 1 directory (#147)
+
 ## 1.6.10
 
 ### Patch Changes
