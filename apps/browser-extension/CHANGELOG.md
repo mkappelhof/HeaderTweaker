@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.6.9
+
+### Patch Changes
+
+- Bump react-i18next from 17.1.12 to 18.0.2 (#139)
+
 ## 1.6.8
 
 ### Patch Changes
