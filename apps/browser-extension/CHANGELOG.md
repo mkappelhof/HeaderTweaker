@@ -1,5 +1,11 @@
 # HeaderTweaker
 
+## 1.6.10
+
+### Patch Changes
+
+- Bump tldts from 7.4.19 to 7.5.4 (#138)
+
 ## 1.6.9
 
 ### Patch Changes
