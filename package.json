@@ -34,7 +34,7 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.8",
+    "@biomejs/biome": "2.6.9",
     "@changesets/cli": "3.0.3",
     "@mkappelhof/agent-instructions": "^1.1.1",
     "@mkappelhof/biome-config": "^1.1.6",
@@ -44,7 +44,7 @@
     "stylelint-config-recommended-scss": "17.0.1",
     "stylelint-config-standard": "40.0.0",
     "stylelint-scss": "7.5.0",
-    "turbo": "2.11.12"
+    "turbo": "2.11.13"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["@parcel/watcher", "esbuild", "sharp"],
